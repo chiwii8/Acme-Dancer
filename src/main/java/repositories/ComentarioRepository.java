@@ -1,6 +1,7 @@
 package repositories;
 
-import java.sql.Date;
+import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +14,5 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
     Comentario findById(@Param("id") int id);
 
     @Query("select c from Comentario c where DATE(c.fechaRealización)=DATE(:fechaRealizacion)")
-    public Comentario findByFechaRealizacion(@Param("fechaRealizacion") Date fechaRealizacion);
+    public Collection<Comentario> findByFechaRealizacion(@Param("fechaRealizacion") Date fechaRealizacion);
 }

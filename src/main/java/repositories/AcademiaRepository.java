@@ -13,10 +13,10 @@ import domain.Actores.Academia;
 public interface AcademiaRepository extends JpaRepository<Academia, Integer> {
 
     @Query("select a from Academia a where a.id=:id")
-    Academia findById(@Param("id") int id);
+    public Academia findById(@Param("id") int id);
 
     @Query("select a from Academia a where a.nombre=:nombre")
-    Academia findByNombre(@Param("nombre") String nombre);
+    public Collection<Academia> findByNombre(@Param("nombre") String nombre);
 
     @Query("select a from Academia a where a.nombreComercial=:nombreComercial")
     public Academia findByNombreComercial(@Param("nombreComercial") String nombreComercial);

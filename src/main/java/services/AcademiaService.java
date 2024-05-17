@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,26 @@ public class AcademiaService {
         super();
     }
 
-    /// Operaciones de Guardado y Borrado
+    /// Operaciones basicas
+    public Collection<Academia> findAll() {
+        Collection<Academia> result;
+
+        result = academiaRepository.findAll();
+        Assert.notEmpty(result);
+
+        return result;
+    }
+
+    public Academia findById(int id) {
+        Assert.isTrue(id != 0);
+        Assert.isTrue(academiaRepository.exists(id));
+        Academia result;
+
+        result = academiaRepository.findById(id);
+
+        return result;
+    }
+
     public Academia save(Academia academia) {
         Assert.notNull(academia);
         Academia result;
@@ -45,4 +66,35 @@ public class AcademiaService {
 
         academiaRepository.delete(academia);
     }
+
+    /// Otros
+    public Academia findByNombreComercial(String nombreComercial) {
+        Assert.hasLength(nombreComercial);
+        Academia result;
+
+        result = academiaRepository.findByNombreComercial(nombreComercial);
+
+        return result;
+    }
+
+    public Collection<Academia> findByParcialNombreComercial(String nombreComercial) {
+        Assert.hasLength(nombreComercial);
+        Collection<Academia> result;
+
+        result = academiaRepository.findByParcialNombreComercial(nombreComercial);
+
+        return result;
+    }
+
+    public Collection<Academia> findByNombre(String nombre) {
+        Assert.hasText(nombre);
+        Collection<Academia> result;
+
+        result = academiaRepository.findByNombre(nombre);
+
+        return result;
+    }
+
+    //// TODO: Faltan por implementar todos los servicios derivados
+    /// curso y tutorial
 }
