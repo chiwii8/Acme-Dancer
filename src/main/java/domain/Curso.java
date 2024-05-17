@@ -5,14 +5,23 @@
 package domain;
 
 import domain.Enumeraciones.CursoNivel;
+
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -20,12 +29,12 @@ import org.hibernate.validator.constraints.Range;
  */
 @Entity
 @Access(AccessType.PROPERTY)
-public class Curso extends DomainEntity{
-    public Curso(){
+public class Curso extends DomainEntity {
+
+    public Curso() {
         super();
     }
-    
-    private String idAcademia;
+
     private String titulo;
     private Date fechaInicio;
     private Date fechaFin;
@@ -34,79 +43,94 @@ public class Curso extends DomainEntity{
     private int minuto;
     private CursoNivel nivel;
 
-    public void setIdAcademia(String idAcademia) {
-        this.idAcademia = idAcademia;
-    }
-
-    public void setTitulo(String titulo) {
+    public void setTitulo(final String titulo) {
         this.titulo = titulo;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(final Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(final Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(final String diaSemana) {
         this.diaSemana = diaSemana;
     }
 
-    public void setHora(int hora) {
+    public void setHora(final int hora) {
         this.hora = hora;
     }
 
-    public void setMinuto(int minuto) {
+    public void setMinuto(final int minuto) {
         this.minuto = minuto;
     }
 
-    public void setNivel(CursoNivel nivel) {
+    public void setNivel(final CursoNivel nivel) {
         this.nivel = nivel;
     }
 
     @NotBlank
-    public String getIdAcademia() {
-        return idAcademia;
-    }
-
-    @NotBlank
     public String getTitulo() {
-        return titulo;
+        return this.titulo;
     }
 
     @NotNull
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     public Date getFechaInicio() {
-        return fechaInicio;
+        return this.fechaInicio;
     }
 
     @NotNull
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     public Date getFechaFin() {
-        return fechaFin;
+        return this.fechaFin;
     }
 
     @NotBlank
     public String getDiaSemana() {
-        return diaSemana;
+        return this.diaSemana;
     }
 
     @Range(min = 0, max = 23)
     public int getHora() {
-        return hora;
+        return this.hora;
     }
 
     @Range(min = 0, max = 59)
     public int getMinuto() {
-        return minuto;
+        return this.minuto;
     }
 
     @NotNull
-    @Valid
+    @Enumerated(EnumType.STRING)
     public CursoNivel getNivel() {
-        return nivel;
+        return this.nivel;
     }
-    
-    
-    
+
+    /// Relaciones -----------------------------------------
+    private Estilo estilo;
+    private Collection<Solicitud> solicitudes;
+
+    public void setEstilo(final Estilo estilo) {
+        this.estilo = estilo;
+    }
+
+    public void setSolicitudes(final Collection<Solicitud> solicitudes) {
+        this.solicitudes = solicitudes;
+    }
+
+    @ManyToOne(optional = false)
+    public Estilo getEstilo() {
+        return this.estilo;
+    }
+
+    @OneToMany(mappedBy = "curso")
+    public Collection<Solicitud> getSolicitudes() {
+        return this.solicitudes;
+    }
+
 }

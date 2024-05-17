@@ -1,12 +1,21 @@
 package domain.Actores;
 
+import domain.Comentario;
 import domain.DomainEntity;
+import security.UserAccount;
+
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -17,59 +26,102 @@ public abstract class Actor extends DomainEntity {
     private String correo;
     private String telefono;
     private String codigoPostal;
-    
-    public Actor(){
+
+    public Actor() {
         super();
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(final String nombre) {
         this.nombre = nombre;
     }
 
-    public void setApellidos(String apellidos) {
+    public void setApellidos(final String apellidos) {
         this.apellidos = apellidos;
     }
 
-    public void setCorreo(String correo) {
+    public void setCorreo(final String correo) {
         this.correo = correo;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(final String telefono) {
         this.telefono = telefono;
     }
 
-    public void setCodigoPostal(String codigoPostal) {
+    public void setCodigoPostal(final String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
     @NotBlank
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     @NotBlank
     public String getApellidos() {
-        return apellidos;
+        return this.apellidos;
     }
 
     @Email
     public String getCorreo() {
-        return correo;
+        return this.correo;
     }
 
     @NotBlank
-    @Pattern(regexp="^(\\+\\d+\\s+)?(\\(\\d+\\)\\s+)?\\d{4,}")
+    @Pattern(regexp = "^(\\+\\d+\\s+)?(\\(\\d+\\)\\s+)?\\d{4,}")
     public String getTelefono() {
-        return telefono;
+        return this.telefono;
     }
 
     @NotBlank
-    @Pattern(regexp="\\w{5}")
+    @Pattern(regexp = "\\w{5}")
     public String getCodigoPostal() {
-        return codigoPostal;
+        return this.codigoPostal;
     }
 
-    
-    
+    // Relaciones -------------------------------------------------------
+    private UserAccount userAccount;
+
+    // TODO: Revisar las relaciones
+    private Collection<Comentario> comentarios;
+    private Collection<Actor> suscriptores;
+    private Collection<Actor> seguidores;
+
+    public void setUserAccount(final UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public void setSuscriptores(final Collection<Actor> suscriptores) {
+        this.suscriptores = suscriptores;
+    }
+
+    public void setSeguidores(final Collection<Actor> seguidores) {
+        this.seguidores = seguidores;
+    }
+
+    public void setComentarios(final Collection<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    @NotNull
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    public UserAccount getUserAccount() {
+        return this.userAccount;
+    }
+
+    @OneToMany
+    public Collection<Comentario> getComentarios() {
+        return this.comentarios;
+    }
+
+    @ManyToMany
+    public Collection<Actor> getSuscriptores() {
+        return this.suscriptores;
+    }
+
+    @ManyToMany
+    public Collection<Actor> getSeguidores() {
+        return this.seguidores;
+    }
 
 }

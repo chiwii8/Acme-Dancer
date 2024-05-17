@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -21,35 +22,34 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Access(AccessType.PROPERTY)
-public class Comentario extends DomainEntity{
-    public Comentario(){
+public class Comentario extends DomainEntity {
+
+    public Comentario() {
         super();
     }
-    
+
     private Date fechaRealizacion;
     private String texto;
 
-    public void setFechaRealizacion(Date fechaRealizacion) {
+    public void setFechaRealizacion(final Date fechaRealizacion) {
         this.fechaRealizacion = fechaRealizacion;
     }
 
-    public void setTexto(String texto) {
+    public void setTexto(final String texto) {
         this.texto = texto;
     }
 
     @NotNull
-    //@Temporal(TemporalType.DATE)
     @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
     public Date getFechaRealizacion() {
-        return fechaRealizacion;
+        return this.fechaRealizacion;
     }
 
     @NotBlank
     @Length(min = 0, max = 140)
     public String getTexto() {
-        return texto;
+        return this.texto;
     }
-    
-    
-    
+
 }

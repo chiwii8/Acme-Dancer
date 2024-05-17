@@ -17,51 +17,52 @@ import org.hibernate.validator.constraints.URL;
  */
 @Entity
 @Access(AccessType.PROPERTY)
-public class Tutorial extends DomainEntity{
-    public Tutorial(){
+public class Tutorial extends DomainEntity {
+
+    public Tutorial() {
         super();
     }
-    
-    private String tutorial;
+
+    private String nombre;
     private String descripcion;
     private int visualizaciones;
     private String video;
 
-    public void setTutorial(String tutorial) {
-        this.tutorial = tutorial;
+    public void setNombre(final String tutorial) {
+        this.nombre = tutorial;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion(final String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public void setVisualizaciones(int visualizaciones) {
+    public void setVisualizaciones(final int visualizaciones) {
         this.visualizaciones = visualizaciones;
     }
 
-    public void setVideo(String video) {
+    public void setVideo(final String video) {
         this.video = video;
     }
 
     @NotBlank
-    public String getTutorial() {
-        return tutorial;
+    public String getNombre() {
+        return this.nombre;
     }
 
     @NotBlank
     public String getDescripcion() {
-        return descripcion;
+        return this.descripcion;
     }
 
     @Min(0)
     public int getVisualizaciones() {
-        return visualizaciones;
+        return this.visualizaciones;
     }
 
+    @NotBlank
     @URL
     public String getVideo() {
-        return video;
+        return this.video;
     }
-    
-    
+
 }

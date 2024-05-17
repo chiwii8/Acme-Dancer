@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -18,54 +19,51 @@ import org.hibernate.validator.constraints.URL;
  */
 @Entity
 @Access(AccessType.PROPERTY)
-public class Estilo extends DomainEntity{
-    public Estilo(){
+public class Estilo extends DomainEntity {
+
+    public Estilo() {
         super();
-        
-        imagenes = new HashSet<String>();
-        videos = new HashSet<String>();
     }
-    
+
     private String nombre;
     private String descripcion;
     private Collection<String> imagenes;
     private Collection<String> videos;
 
-    public void setNombre(String nombre) {
+    public void setNombre(final String nombre) {
         this.nombre = nombre;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion(final String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public void setImagenes(Collection<String> imagenes) {
+    public void setImagenes(final Collection<String> imagenes) {
         this.imagenes = imagenes;
     }
 
-    public void setVideos(Collection<String> videos) {
+    public void setVideos(final Collection<String> videos) {
         this.videos = videos;
     }
 
     @NotBlank
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     @NotBlank
     public String getDescripcion() {
-        return descripcion;
+        return this.descripcion;
     }
 
-    @URL
+    @ElementCollection
     public Collection<String> getImagenes() {
-        return imagenes;
+        return this.imagenes;
     }
 
-    @URL
+    @ElementCollection
     public Collection<String> getVideos() {
-        return videos;
+        return this.videos;
     }
-    
-    
+
 }
