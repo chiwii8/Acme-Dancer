@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import domain.Actores.Academia;
@@ -11,15 +12,15 @@ import domain.Actores.Academia;
 @Repository
 public interface AcademiaRepository extends JpaRepository<Academia, Integer> {
 
-    @Query("select a from Academia a where a.id=?1")
-    Academia findById(int id);
+    @Query("select a from Academia a where a.id=:id")
+    Academia findById(@Param("id") int id);
 
-    @Query("select a from Academia a where a.nombre=?1")
-    Academia findByNombre(String nombre);
+    @Query("select a from Academia a where a.nombre=:nombre")
+    Academia findByNombre(@Param("nombre") String nombre);
 
-    @Query("select a from Academia a where a.nombreComercial=?1")
-    public Academia findByNombreComercial(String nombreComercial);
+    @Query("select a from Academia a where a.nombreComercial=:nombreComercial")
+    public Academia findByNombreComercial(@Param("nombreComercial") String nombreComercial);
 
-    @Query("Select a from Academia a where a.nombreComercial like '?1'")
-    public Collection<Academia> findByParcialNombreComercial(String nombreComercial);
+    @Query("Select a from Academia a where a.nombreComercial like '%:nombreComercial%'")
+    public Collection<Academia> findByParcialNombreComercial(@Param("nombreComercial") String nombreComercial);
 }
