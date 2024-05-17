@@ -5,6 +5,7 @@
 package domain;
 
 import domain.Enumeraciones.CursoNivel;
+import domain.Enumeraciones.DiaSemana;
 
 import java.util.Collection;
 import java.util.Date;
@@ -17,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -38,7 +38,7 @@ public class Curso extends DomainEntity {
     private String titulo;
     private Date fechaInicio;
     private Date fechaFin;
-    private String diaSemana;
+    private DiaSemana diaSemana;
     private int hora;
     private int minuto;
     private CursoNivel nivel;
@@ -55,7 +55,7 @@ public class Curso extends DomainEntity {
         this.fechaFin = fechaFin;
     }
 
-    public void setDiaSemana(final String diaSemana) {
+    public void setDiaSemana(final DiaSemana diaSemana) {
         this.diaSemana = diaSemana;
     }
 
@@ -91,7 +91,8 @@ public class Curso extends DomainEntity {
     }
 
     @NotBlank
-    public String getDiaSemana() {
+    @Enumerated(EnumType.STRING)
+    public DiaSemana getDiaSemana() {
         return this.diaSemana;
     }
 
