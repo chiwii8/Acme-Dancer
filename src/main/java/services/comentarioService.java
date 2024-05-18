@@ -3,23 +3,27 @@ package services;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.transaction.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Comentario;
-import domain.Actores.Actor;
 import repositories.ComentarioRepository;
 
 @Service
 @Transactional
 public class ComentarioService {
     /// Repositorio propio
-    ComentarioRepository comentarioRepository;
+    private ComentarioRepository comentarioRepository;
 
-    public ComentarioService() {
-        super();
+    /// Servicio apoyo
+    private ActorService actorService;
+
+    @Autowired
+    public ComentarioService(ComentarioRepository comentarioRepository, ActorService actorService) {
+        this.comentarioRepository = comentarioRepository;
+        this.actorService = actorService;
     }
 
     /// Métodos base
@@ -63,6 +67,18 @@ public class ComentarioService {
 
         Collection<Comentario> result;
         result = comentarioRepository.findByFechaRealizacion(fechaRealizacion);
+        Assert.notNull(result);
+
+        return result;
+    }
+
+    public Collection<Comentario> findAllComentariosByActorId(int idActor) {
+        Assert.isTrue(idActor != 0);
+
+        /// Realizamos una búsqueda por id para verificar que existe dicho cliente
+        actorService.findById(idActor);
+
+        Collection<Comentario> result = comentarioRepository.findAllComentariosByActorId(idActor);
         Assert.notNull(result);
 
         return result;

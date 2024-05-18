@@ -2,10 +2,9 @@ package services;
 
 import java.util.Collection;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actores.Administrador;
@@ -19,13 +18,10 @@ public class AdministradorService {
     AdministradorRepository administradorRepository;
 
     /// Servicios de apoyo
-    @Autowired
-    TutorialService tutorialService;
-    @Autowired
-    EstiloService estiloService;
 
-    public AdministradorService() {
-        super();
+    @Autowired
+    public AdministradorService(AdministradorRepository administradorRepository) {
+        this.administradorRepository = administradorRepository;
     }
 
     /// Métodos base

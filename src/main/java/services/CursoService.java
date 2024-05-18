@@ -8,24 +8,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Curso;
-import domain.Actores.Actor;
 import repositories.CursoRepository;
 
 @Service
 @Transactional
 public class CursoService {
     /// Repositorio propio
-    @Autowired
     CursoRepository cursoRepository;
 
     /// Servicio de apoyo
-    @Autowired
-    SolicitudService solicitudService;
-    @Autowired
-    EstiloService estiloService;
 
-    public CursoService() {
-        super();
+    @Autowired
+    public CursoService(CursoRepository cursoRepository) {
+        this.cursoRepository = cursoRepository;
     }
 
     /// Metodos base

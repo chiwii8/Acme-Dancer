@@ -10,11 +10,11 @@ import domain.Tutorial;
 
 public interface TutorialRepository extends JpaRepository<Tutorial, Integer> {
     @Query("select t from Tutorial t where t.id=:id")
-    Tutorial findById(@Param("id") int id);
+    public Tutorial findById(@Param("id") int id);
 
     @Query("select t from Tutorial t where t.nombre=:nombre")
-    Tutorial findByNombre(@Param("nombre") String nombre);
+    public Tutorial findByNombre(@Param("nombre") String nombre);
 
     @Query("select t from Tutorial t where t.descripcion like '%:descripcion%'")
-    Collection<Tutorial> findByParcialDescripcion(@Param("descripcion") String descripcion);
+    public Collection<Tutorial> findByParcialDescripcion(@Param("descripcion") String descripcion);
 }

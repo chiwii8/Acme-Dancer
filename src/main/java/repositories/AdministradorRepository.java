@@ -11,8 +11,8 @@ import domain.Actores.Administrador;
 public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
 
     @Query("select a from Administrador a where a.id=:id")
-    Administrador findById(@Param("id") int id);
+    public Administrador findById(@Param("id") int id);
 
     @Query("select a from Administrador a where a.nombre=:nombre")
-    Administrador findByNombre(@Param("nombre") String nombre);
+    public Administrador findByNombre(@Param("nombre") String nombre);
 }

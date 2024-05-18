@@ -15,17 +15,13 @@ import repositories.SolicitudRepository;
 public class SolicitudService {
 
     /// Repositorio propio
-    @Autowired
     SolicitudRepository solicitudRepository;
 
     /// Servicios de apoyo
-    @Autowired
-    AlumnoService alumnoService;
-    @Autowired
-    CursoService cursoService;
 
-    public SolicitudService() {
-        super();
+    @Autowired
+    public SolicitudService(SolicitudRepository solicitudRepository) {
+        this.solicitudRepository = solicitudRepository;
     }
 
     /// Metodos base

@@ -11,8 +11,12 @@ import domain.Comentario;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Integer> {
     @Query("select c from Comentario c where c.id=:id")
-    Comentario findById(@Param("id") int id);
+    public Comentario findById(@Param("id") int id);
 
     @Query("select c from Comentario c where DATE(c.fechaRealización)=DATE(:fechaRealizacion)")
     public Collection<Comentario> findByFechaRealizacion(@Param("fechaRealizacion") Date fechaRealizacion);
+
+    /// Extra
+    @Query("select distinct a.comentarios from Actor a where a.id=:id")
+    public Collection<Comentario> findAllComentariosByActorId(@Param("id") int id);
 }

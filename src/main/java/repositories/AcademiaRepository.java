@@ -23,4 +23,5 @@ public interface AcademiaRepository extends JpaRepository<Academia, Integer> {
 
     @Query("Select a from Academia a where a.nombreComercial like '%:nombreComercial%'")
     public Collection<Academia> findByParcialNombreComercial(@Param("nombreComercial") String nombreComercial);
+
 }

@@ -11,9 +11,9 @@ import domain.Estilo;
 public interface EstiloRepository extends JpaRepository<Estilo, Integer> {
 
     @Query("select e from Estilo e where e.id=:id")
-    Estilo findById(@Param("id") int id);
+    public Estilo findById(@Param("id") int id);
 
     @Query("select e from Estilo e where e.nombre=:nombre")
-    Estilo findByNombre(@Param("nombre") String nombre);
+    public Estilo findByNombre(@Param("nombre") String nombre);
 
 }

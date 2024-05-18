@@ -2,10 +2,9 @@ package services;
 
 import java.util.Collection;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actores.Academia;
@@ -16,18 +15,11 @@ import repositories.AcademiaRepository;
 public class AcademiaService {
 
     // Repositorio propio
-    @Autowired
     AcademiaRepository academiaRepository;
 
-    /// Servicios de apoyo
     @Autowired
-    CursoService cursoService;
-
-    @Autowired
-    TutorialService tutorialService;
-
-    public AcademiaService() {
-        super();
+    public AcademiaService(AcademiaRepository academiaRepository) {
+        this.academiaRepository = academiaRepository;
     }
 
     /// Operaciones basicas
@@ -95,6 +87,4 @@ public class AcademiaService {
         return result;
     }
 
-    //// TODO: Faltan por implementar todos los servicios derivados
-    /// curso y tutorial
 }

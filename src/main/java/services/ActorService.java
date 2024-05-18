@@ -1,12 +1,12 @@
 package services;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
+
 import domain.Actores.Actor;
 import repositories.ActorRepository;
 import security.UserAccount;
@@ -16,15 +16,15 @@ import security.UserAccountService;
 @Transactional
 public class ActorService {
     /// Repositorio propio
-    @Autowired
     private ActorRepository actorRepository;
 
     /// Servicios de apoyo
-    @Autowired
     private UserAccountService userAccountService;
 
-    public ActorService() {
-        super();
+    @Autowired
+    public ActorService(ActorRepository actorRepository, UserAccountService userAccountService) {
+        this.actorRepository = actorRepository;
+        this.userAccountService = userAccountService;
     }
 
     public Collection<Actor> findAll() {
@@ -97,4 +97,5 @@ public class ActorService {
         Assert.notEmpty(result);
         return result;
     }
+
 }

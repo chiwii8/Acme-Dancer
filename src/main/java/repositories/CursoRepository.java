@@ -13,18 +13,22 @@ import domain.Enumeraciones.DiaSemana;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
     @Query("select c from Curso where c.id=:id")
-    Curso findById(@Param("id") int id);
+    public Curso findById(@Param("id") int id);
 
     @Query("select c from Curso where c.titulo=:titulo")
-    Curso findByTitulo(@Param("titulo") String titulo);
+    public Curso findByTitulo(@Param("titulo") String titulo);
 
     @Query("select c from Curso where DATE(c.fechaInicio)=DATE(:fechaInicio)")
-    Collection<Curso> findByFechaInicio(@Param("fechaInicio") Date fechaInicio);
+    public Collection<Curso> findByFechaInicio(@Param("fechaInicio") Date fechaInicio);
 
     @Query("select c from Curso where c.diaSemana=:diaSemana")
-    Collection<Curso> findByDiaSemana(@Param("diaSemana") DiaSemana diaSemana);
+    public Collection<Curso> findByDiaSemana(@Param("diaSemana") DiaSemana diaSemana);
 
     @Query("select c from Curso c.nivel=:nivel")
-    Collection<Curso> findByNivel(@Param("nivel") CursoNivel nivel);
+    public Collection<Curso> findByNivel(@Param("nivel") CursoNivel nivel);
+
+    /// Extras
+    @Query("select a.cursos from Academia a where a.id=:id")
+    public Collection<Curso> findAllByAcademiaId(@Param("id") int id);
 
 }

@@ -13,14 +13,15 @@ import domain.Actores.Actor;
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
     @Query("select a from Actor a where a.id=:id")
-    Actor findById(@Param("id") int id);
+    public Actor findById(@Param("id") int id);
 
     @Query("select a from Actor a where a.nombre=:nombre")
-    Collection<Actor> findByNombre(@Param("nombre") String nombre);
+    public Collection<Actor> findByNombre(@Param("nombre") String nombre);
 
     @Query("select a from Actor a where a.nombre=:nombre and a.apellidos=:apellidos")
-    Collection<Actor> findByNombreyApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
+    public Collection<Actor> findByNombreyApellidos(@Param("nombre") String nombre,
+            @Param("apellidos") String apellidos);
 
     @Query("select a from Actor a where a.codigoPostal=:codigoPostal")
-    Collection<Actor> findByCodigoPostal(@Param("codigoPostal") String codigoPostal);
+    public Collection<Actor> findByCodigoPostal(@Param("codigoPostal") String codigoPostal);
 }

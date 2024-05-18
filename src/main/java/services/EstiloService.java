@@ -15,11 +15,13 @@ import repositories.EstiloRepository;
 public class EstiloService {
 
     /// Repositorio propio
-    @Autowired
     EstiloRepository estiloRepository;
 
-    public EstiloService() {
-        super();
+    /// Servicio apoyo
+
+    @Autowired
+    public EstiloService(EstiloRepository estiloRepository) {
+        this.estiloRepository = estiloRepository;
     }
 
     public Collection<Estilo> findAll() {

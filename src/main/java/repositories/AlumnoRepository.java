@@ -12,8 +12,8 @@ import domain.Actores.Alumno;
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 
     @Query("select a from Alumno a where a.id=:id")
-    Alumno findById(@Param("id") int id);
+    public Alumno findById(@Param("id") int id);
 
     @Query("select a from Alumno a where a.nombre=:nombre")
-    Collection<Alumno> findByNombre(@Param("nombre") String nombre);
+    public Collection<Alumno> findByNombre(@Param("nombre") String nombre);
 }

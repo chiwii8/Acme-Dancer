@@ -11,9 +11,9 @@ import domain.Enumeraciones.SolicitudEstado;
 
 public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
     @Query("select s from Solicitud s where s.id=:id")
-    Solicitud findById(@Param("id") int id);
+    public Solicitud findById(@Param("id") int id);
 
     @Query("select s from Solicitud s where s.estado=:estado")
-    Collection<Solicitud> findByEstado(@Param("estado") SolicitudEstado estado);
+    public Collection<Solicitud> findByEstado(@Param("estado") SolicitudEstado estado);
 
 }
