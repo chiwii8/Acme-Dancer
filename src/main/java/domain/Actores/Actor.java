@@ -1,10 +1,11 @@
-package domain.Actores;
+package domain.actores;
 
 import domain.Comentario;
 import domain.DomainEntity;
 import security.UserAccount;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -27,8 +28,11 @@ public abstract class Actor extends DomainEntity {
     private String telefono;
     private String codigoPostal;
 
-    public Actor() {
+    protected Actor() {
         super();
+        comentarios = new HashSet<>();
+        seguidores = new HashSet<>();
+        suscriptores = new HashSet<>();
     }
 
     public void setNombre(final String nombre) {

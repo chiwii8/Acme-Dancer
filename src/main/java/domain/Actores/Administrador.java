@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package domain.Actores;
+package domain.actores;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -15,8 +15,8 @@ import javax.persistence.Entity;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Administrador extends Actor {
-    public Administrador(){
+    public Administrador() {
         super();
     }
-    
+
 }

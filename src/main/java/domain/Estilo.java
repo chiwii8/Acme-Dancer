@@ -4,7 +4,9 @@
  */
 package domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
@@ -21,6 +23,8 @@ public class Estilo extends DomainEntity {
 
     public Estilo() {
         super();
+        imagenes = new ArrayList<>();
+        videos = new ArrayList<>();
     }
 
     private String nombre;

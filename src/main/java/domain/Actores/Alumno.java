@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package domain.Actores;
+package domain.actores;
 
 import domain.Solicitud;
-import domain.DataType.TarjetaDeCredito;
+import domain.dataType.TarjetaDeCredito;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -24,6 +25,7 @@ public class Alumno extends Actor {
 
     public Alumno() {
         super();
+        solicitudes = new HashSet<>();
     }
 
     private TarjetaDeCredito tarjetaDeCredito;

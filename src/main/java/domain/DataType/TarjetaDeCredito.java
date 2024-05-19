@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package domain.DataType;
+package domain.dataType;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -17,11 +17,11 @@ import org.hibernate.validator.constraints.*;
  */
 @Embeddable
 @Access(AccessType.PROPERTY)
-public class TarjetaDeCredito{
-    public TarjetaDeCredito(){
+public class TarjetaDeCredito {
+    public TarjetaDeCredito() {
         super();
     }
-    
+
     private String titular;
     private String marca;
     private String numero;
@@ -69,11 +69,11 @@ public class TarjetaDeCredito{
         return numero;
     }
 
-    @Range(min = 1,max = 12)
+    @Range(min = 1, max = 12)
     public int getMesCaducidad() {
         return mesCaducidad;
     }
-    
+
     @Min(2024)
     public int getAnioCaducidad() {
         return anioCaducidad;
@@ -83,6 +83,5 @@ public class TarjetaDeCredito{
     public int getCvv() {
         return cvv;
     }
-    
-    
+
 }

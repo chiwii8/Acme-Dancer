@@ -4,8 +4,9 @@
  */
 package domain;
 
-import domain.Actores.Alumno;
-import domain.Enumeraciones.SolicitudEstado;
+import domain.actores.Alumno;
+import domain.enumeraciones.SolicitudEstado;
+
 import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;

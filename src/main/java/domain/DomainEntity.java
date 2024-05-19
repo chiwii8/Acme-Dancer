@@ -27,16 +27,14 @@ public abstract class DomainEntity {
 
 	// Constructors -----------------------------------------------------------
 
-	public DomainEntity() {
+	protected DomainEntity() {
 		super();
 	}
 
-
 	// Identification ---------------------------------------------------------
 
-	private int	id;
-	private int	version;
-
+	private int id;
+	private int version;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

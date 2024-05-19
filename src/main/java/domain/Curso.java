@@ -4,11 +4,10 @@
  */
 package domain;
 
-import domain.Enumeraciones.CursoNivel;
-import domain.Enumeraciones.DiaSemana;
-
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -23,6 +22,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import domain.enumeraciones.CursoNivel;
+import domain.enumeraciones.DiaSemana;
+
 /**
  *
  * @author alejandro
@@ -33,6 +35,7 @@ public class Curso extends DomainEntity {
 
     public Curso() {
         super();
+        solicitudes = new HashSet<>();
     }
 
     private String titulo;
