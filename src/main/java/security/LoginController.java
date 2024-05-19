@@ -28,20 +28,20 @@ public class LoginController extends AbstractController {
 
 	// Supporting services ----------------------------------------------------
 
-	@Autowired
-	LoginService	service;
-
+	LoginService service;
 
 	// Constructors -----------------------------------------------------------
-
-	public LoginController() {
+	@Autowired
+	public LoginController(LoginService service) {
 		super();
+		this.service = service;
 	}
 
 	// Login ------------------------------------------------------------------
 
 	@RequestMapping("/login")
-	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) final boolean showError) {
+	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult,
+			@RequestParam(required = false) final boolean showError) {
 		Assert.notNull(credentials);
 		Assert.notNull(bindingResult);
 
