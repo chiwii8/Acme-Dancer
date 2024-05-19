@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import domain.Actores.Academia;
+import domain.actores.Academia;
 
 @Repository
 public interface AcademiaRepository extends JpaRepository<Academia, Integer> {

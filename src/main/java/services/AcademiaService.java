@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Actores.Academia;
+import domain.actores.Academia;
 import repositories.AcademiaRepository;
 
 @Service
@@ -23,6 +23,14 @@ public class AcademiaService {
     }
 
     /// Operaciones basicas
+    public Academia create() {
+        Academia result;
+
+        result = new Academia();
+
+        return result;
+    }
+
     public Collection<Academia> findAll() {
         Collection<Academia> result;
 

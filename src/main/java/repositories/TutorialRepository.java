@@ -13,8 +13,12 @@ public interface TutorialRepository extends JpaRepository<Tutorial, Integer> {
     public Tutorial findById(@Param("id") int id);
 
     @Query("select t from Tutorial t where t.nombre=:nombre")
-    public Tutorial findByNombre(@Param("nombre") String nombre);
+    public Collection<Tutorial> findByNombre(@Param("nombre") String nombre);
 
     @Query("select t from Tutorial t where t.descripcion like '%:descripcion%'")
     public Collection<Tutorial> findByParcialDescripcion(@Param("descripcion") String descripcion);
+
+    @Query("select a.cursos from Academia a where a.id=:id")
+    public Collection<Tutorial> findAllTutorialByIdAcademia(@Param("id") int id);
+
 }

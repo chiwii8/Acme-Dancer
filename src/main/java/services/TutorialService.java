@@ -57,4 +57,13 @@ public class TutorialService {
 
         tutorialRepository.delete(tutorial);
     }
+
+    /// otros
+    public Collection<Tutorial> findByNombre(String nombre) {
+        Assert.hasText(nombre);
+        Collection<Tutorial> result = tutorialRepository.findByNombre(nombre);
+        Assert.notEmpty(result);
+
+        return result;
+    }
 }

@@ -24,6 +24,14 @@ public class EstiloService {
         this.estiloRepository = estiloRepository;
     }
 
+    public Estilo create() {
+        Estilo result;
+
+        result = new Estilo();
+
+        return result;
+    }
+
     public Collection<Estilo> findAll() {
         Collection<Estilo> result;
 
@@ -38,6 +46,17 @@ public class EstiloService {
         Estilo result;
 
         result = estiloRepository.findById(id);
+
+        return result;
+    }
+
+    public Estilo findByNombre(String nombre) {
+        Assert.hasText(nombre);
+        Estilo result;
+
+        result = estiloRepository.findByNombre(nombre);
+
+        Assert.notNull(result);
 
         return result;
     }

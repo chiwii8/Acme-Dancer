@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Curso;
 import domain.Solicitud;
+import domain.actores.Alumno;
 import repositories.SolicitudRepository;
 
 @Service
@@ -18,10 +20,15 @@ public class SolicitudService {
     SolicitudRepository solicitudRepository;
 
     /// Servicios de apoyo
+    AlumnoService alumnoService;
+    CursoService cursoService;
 
     @Autowired
-    public SolicitudService(SolicitudRepository solicitudRepository) {
+    public SolicitudService(SolicitudRepository solicitudRepository, AlumnoService alumnoService,
+            CursoService cursoService) {
         this.solicitudRepository = solicitudRepository;
+        this.alumnoService = alumnoService;
+        this.cursoService = cursoService;
     }
 
     /// Metodos base
@@ -57,5 +64,27 @@ public class SolicitudService {
         Assert.isTrue(solicitudRepository.exists(solicitud.getId()));
 
         solicitudRepository.delete(solicitud);
+    }
+
+    /// Otros
+    public Collection<Solicitud> findAllByAlumnoId(int id) {
+        Alumno alumno = alumnoService.findById(id);
+
+        Collection<Solicitud> result;
+        result = solicitudRepository.findAllByAlumnoId(alumno.getId());
+
+        Assert.notNull(result);
+
+        return result;
+    }
+
+    public Collection<Solicitud> findAllByCursoId(int id) {
+        Curso curso = cursoService.findById(id);
+
+        Collection<Solicitud> result;
+        result = solicitudRepository.findAllByCursoId(curso.getId());
+
+        Assert.notNull(result);
+        return result;
     }
 }

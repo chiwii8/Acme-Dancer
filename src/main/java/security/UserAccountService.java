@@ -24,7 +24,7 @@ public class UserAccountService {
 
     // Simple CRUD methods ----------------------------------------------------
 
-    public UserAccount findByActor(final domain.Actores.Actor actor) {
+    public UserAccount findByActor(final domain.actores.Actor actor) {
         Assert.notNull(actor);
 
         UserAccount result;

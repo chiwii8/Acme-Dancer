@@ -8,15 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import domain.Curso;
-import domain.Enumeraciones.CursoNivel;
-import domain.Enumeraciones.DiaSemana;
+import domain.enumeraciones.CursoNivel;
+import domain.enumeraciones.DiaSemana;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
     @Query("select c from Curso where c.id=:id")
     public Curso findById(@Param("id") int id);
 
     @Query("select c from Curso where c.titulo=:titulo")
-    public Curso findByTitulo(@Param("titulo") String titulo);
+    public Collection<Curso> findByTitulo(@Param("titulo") String titulo);
 
     @Query("select c from Curso where DATE(c.fechaInicio)=DATE(:fechaInicio)")
     public Collection<Curso> findByFechaInicio(@Param("fechaInicio") Date fechaInicio);

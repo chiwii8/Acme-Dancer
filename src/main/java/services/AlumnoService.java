@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Actores.Alumno;
+import domain.actores.Alumno;
 import repositories.AlumnoRepository;
 
 @Service
@@ -24,6 +24,14 @@ public class AlumnoService {
     }
 
     /// Métodos base
+    public Alumno create() {
+        Alumno result;
+
+        result = new Alumno();
+
+        return result;
+    }
+
     public Collection<Alumno> findAll() {
         Collection<Alumno> result;
 
