@@ -20,10 +20,14 @@ public class CursoService {
     private CursoRepository cursoRepository;
 
     /// Servicio de apoyo
+    EstiloService estiloService;
+    AcademiaService academiaService;
 
     @Autowired
-    public CursoService(CursoRepository cursoRepository) {
+    public CursoService(CursoRepository cursoRepository, EstiloService estiloService, AcademiaService academiaService) {
         this.cursoRepository = cursoRepository;
+        this.estiloService = estiloService;
+        this.academiaService = academiaService;
     }
 
     /// Metodos base
@@ -112,6 +116,17 @@ public class CursoService {
         Collection<Curso> result;
 
         result = cursoRepository.findAllByAcademiaId(id);
+        Assert.notNull(result);
+
+        return result;
+    }
+
+    public Collection<Curso> findAllByEstiloId(int id) {
+        Assert.isTrue(id != 0);
+
+        Collection<Curso> result;
+
+        result = cursoRepository.findAllByEstiloId(id);
         Assert.notNull(result);
 
         return result;
