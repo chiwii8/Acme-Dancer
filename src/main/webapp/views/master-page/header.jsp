@@ -30,12 +30,22 @@
 			</li>
 		</security:authorize>
 		
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
+		<security:authorize access="hasRole('ACADEMIA')">
+			<li><a class="fNiv"><spring:message	code="master.page.academy"/></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
+					<li><a href="academy/action-1.do"><spring:message code="master.page.academy.action.1" /></a></li>
+					<li><a href="academy/action-2.do"><spring:message code="master.page.academy.action.2" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('ALUMNO')">
+			<li><a class="fNiv"><spring:message	code="master.page.student"/></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="student/action-1.do"><spring:message code="master.page.student.action.1" /></a></li>
+					<li><a href="student/action-2.do"><spring:message code="master.page.student.action.2" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>

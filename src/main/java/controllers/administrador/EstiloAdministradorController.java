@@ -90,18 +90,18 @@ public class EstiloAdministradorController extends AbstractController {
     protected ModelAndView createEditModelAndView(final Estilo estilo) {
         ModelAndView result;
 
-        result = createEditModelAndView(estilo);
+        result = new ModelAndView("estilo/edit");
+
+        result.addObject("estilo", estilo);
 
         return result;
     }
 
     protected ModelAndView createEditModelAndView(final Estilo estilo, final String mensaje) {
         ModelAndView result;
-        /// Collection<Estilo> estilos;
-
-        /// estilos = estiloService.findAll();
 
         result = new ModelAndView("estilo/edit");
+
         result.addObject("estilo", estilo);
         result.addObject("mensaje", mensaje);
 
