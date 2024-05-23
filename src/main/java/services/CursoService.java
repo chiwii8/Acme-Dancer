@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -16,120 +17,122 @@ import repositories.CursoRepository;
 @Service
 @Transactional
 public class CursoService {
-    /// Repositorio propio
-    private CursoRepository cursoRepository;
 
-    /// Servicio de apoyo
-    EstiloService estiloService;
-    AcademiaService academiaService;
+	/// Repositorio propio
+	private final CursoRepository	cursoRepository;
 
-    @Autowired
-    public CursoService(CursoRepository cursoRepository, EstiloService estiloService, AcademiaService academiaService) {
-        this.cursoRepository = cursoRepository;
-        this.estiloService = estiloService;
-        this.academiaService = academiaService;
-    }
+	/// Servicio de apoyo
+	private final EstiloService		estiloService;
+	private final AcademiaService	academiaService;
 
-    /// Metodos base
-    public Collection<Curso> findAll() {
-        Collection<Curso> result;
 
-        result = cursoRepository.findAll();
-        Assert.notNull(result);
-        return result;
-    }
+	@Autowired
+	public CursoService(final CursoRepository cursoRepository, final EstiloService estiloService, final AcademiaService academiaService) {
+		this.cursoRepository = cursoRepository;
+		this.estiloService = estiloService;
+		this.academiaService = academiaService;
+	}
 
-    public Curso findById(int id) {
-        Assert.isTrue(id != 0);
+	/// Metodos base
+	public Collection<Curso> findAll() {
+		Collection<Curso> result;
 
-        Curso result;
+		result = this.cursoRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
 
-        result = cursoRepository.findById(id);
+	public Curso findById(final int id) {
+		Assert.isTrue(id != 0);
 
-        return result;
-    }
+		Curso result;
 
-    public Curso save(Curso curso) {
-        Assert.notNull(curso);
-        Curso result;
-        result = cursoRepository.save(curso);
+		result = this.cursoRepository.findById(id);
 
-        return result;
-    }
+		return result;
+	}
 
-    public void delete(Curso curso) {
-        Assert.notNull(curso);
-        Assert.isTrue(curso.getId() != 0);
-        Assert.isTrue(cursoRepository.exists(curso.getId()));
+	public Curso save(final Curso curso) {
+		Assert.notNull(curso);
+		Curso result;
+		result = this.cursoRepository.save(curso);
 
-        cursoRepository.delete(curso);
-    }
+		return result;
+	}
 
-    /// Otros métodos
-    public Collection<Curso> findByTitulo(String titulo) {
-        Assert.hasText(titulo);
+	public void delete(final Curso curso) {
+		Assert.notNull(curso);
+		Assert.isTrue(curso.getId() != 0);
+		Assert.isTrue(this.cursoRepository.exists(curso.getId()));
 
-        Collection<Curso> result;
+		this.cursoRepository.delete(curso);
+	}
 
-        result = cursoRepository.findByTitulo(titulo);
-        Assert.notNull(result);
+	/// Otros metodos
+	public Collection<Curso> findByTitulo(final String titulo) {
+		Assert.hasText(titulo);
 
-        return result;
-    }
+		Collection<Curso> result;
 
-    public Collection<Curso> findByFechaInicio(Date fechaInicio) {
-        Assert.notNull(fechaInicio);
+		result = this.cursoRepository.findByTitulo(titulo);
+		Assert.notNull(result);
 
-        Collection<Curso> result;
+		return result;
+	}
 
-        result = cursoRepository.findByFechaInicio(fechaInicio);
-        Assert.notNull(result);
+	public Collection<Curso> findByFechaInicio(final Date fechaInicio) {
+		Assert.notNull(fechaInicio);
 
-        return result;
-    }
+		Collection<Curso> result;
 
-    public Collection<Curso> findByDiaSemana(DiaSemana diaSemana) {
-        Assert.notNull(diaSemana);
+		result = this.cursoRepository.findByFechaInicio(fechaInicio);
+		Assert.notNull(result);
 
-        Collection<Curso> result;
+		return result;
+	}
 
-        result = cursoRepository.findByDiaSemana(diaSemana);
-        Assert.notNull(result);
+	public Collection<Curso> findByDiaSemana(final String diaSemana) {
+		Assert.hasText(diaSemana);
 
-        return result;
-    }
+		Collection<Curso> result;
+		final DiaSemana dia = DiaSemana.valueOf(diaSemana);
+		result = this.cursoRepository.findByDiaSemana(dia);
+		Assert.notNull(result);
 
-    public Collection<Curso> findByNivel(CursoNivel nivel) {
-        Assert.notNull(nivel);
+		return result;
+	}
 
-        Collection<Curso> result;
+	public Collection<Curso> findByNivel(final String nivel) {
+		Assert.hasText(nivel);
 
-        result = cursoRepository.findByNivel(nivel);
-        Assert.notNull(result);
+		Collection<Curso> result;
+		final CursoNivel cursonivel = CursoNivel.valueOf(nivel);
+		result = this.cursoRepository.findByNivel(cursonivel);
+		Assert.notNull(result);
 
-        return result;
-    }
+		return result;
+	}
 
-    public Collection<Curso> findAllByAcademiaId(int id) {
-        Assert.isTrue(id != 0);
+	public Collection<Curso> findAllByAcademiaId(final int id) {
+		Assert.isTrue(id != 0);
 
-        Collection<Curso> result;
+		Collection<Curso> result;
 
-        result = cursoRepository.findAllByAcademiaId(id);
-        Assert.notNull(result);
+		result = this.cursoRepository.findAllByAcademiaId(id);
+		Assert.notNull(result);
 
-        return result;
-    }
+		return result;
+	}
 
-    public Collection<Curso> findAllByEstiloId(int id) {
-        Assert.isTrue(id != 0);
+	public Collection<Curso> findAllByEstiloId(final int id) {
+		Assert.isTrue(id != 0);
 
-        Collection<Curso> result;
+		Collection<Curso> result;
 
-        result = cursoRepository.findAllByEstiloId(id);
-        Assert.notNull(result);
+		result = this.cursoRepository.findAllByEstiloId(id);
+		Assert.notNull(result);
 
-        return result;
-    }
+		return result;
+	}
 
 }

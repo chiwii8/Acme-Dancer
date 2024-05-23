@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -25,382 +26,374 @@ import repositories.AdministradorRepository;
 @Transactional
 public class AdministradorService {
 
-    /// Metricas que realiza
-    private enum Metrica {
-        MAXIMO, MINIMO, MEDIA, DESVIACION_TIPICA
-    }
+	/// Metricas que realiza
+	private enum Metrica {
+		MAXIMO, MINIMO, MEDIA, DESVIACION_TIPICA
+	}
 
-    /// Repositorio propio
-    AdministradorRepository administradorRepository;
 
-    /// Servicios de apoyo
-    AcademiaService academiaService;
-    CursoService cursoService;
-    TutorialService tutorialService;
-    ActorService actorService;
+	/// Repositorio propio
+	AdministradorRepository	administradorRepository;
 
-    @Autowired
-    public AdministradorService(AdministradorRepository administradorRepository, AcademiaService academiaService,
-            CursoService cursoService, TutorialService tutorialService, ActorService actorService) {
-        this.administradorRepository = administradorRepository;
-        this.academiaService = academiaService;
-        this.cursoService = cursoService;
-        this.tutorialService = tutorialService;
-        this.actorService = actorService;
-    }
+	/// Servicios de apoyo
+	@Autowired
+	AcademiaService			academiaService;
+	@Autowired
+	CursoService			cursoService;
+	@Autowired
+	TutorialService			tutorialService;
+	@Autowired
+	ActorService			actorService;
 
-    /// METODOS BASICOS
-    public Administrador create() {
-        Administrador result;
 
-        result = new Administrador();
+	public AdministradorService() {
+		super();
+	}
+	/*
+	 * @Autowired
+	 * public AdministradorService(AdministradorRepository administradorRepository, AcademiaService academiaService,
+	 * CursoService cursoService, TutorialService tutorialService, ActorService actorService) {
+	 * this.administradorRepository = administradorRepository;
+	 * this.academiaService = academiaService;
+	 * this.cursoService = cursoService;
+	 * this.tutorialService = tutorialService;
+	 * this.actorService = actorService;
+	 * }
+	 */
 
-        return result;
-    }
+	/// METODOS BASICOS
+	public Administrador create() {
+		Administrador result;
 
-    public Collection<Administrador> findAll() {
-        Collection<Administrador> result;
+		result = new Administrador();
 
-        result = administradorRepository.findAll();
+		return result;
+	}
 
-        Assert.notEmpty(result);
+	public Collection<Administrador> findAll() {
+		Collection<Administrador> result;
 
-        return result;
-    }
+		result = this.administradorRepository.findAll();
 
-    public Administrador findById(int id) {
-        Assert.isTrue(id != 0);
-        Assert.isTrue(administradorRepository.exists(id));
+		Assert.notEmpty(result);
 
-        Administrador result;
+		return result;
+	}
 
-        result = administradorRepository.findById(id);
-        Assert.notNull(result);
+	public Administrador findById(final int id) {
+		Assert.isTrue(id != 0);
+		Assert.isTrue(this.administradorRepository.exists(id));
 
-        return result;
-    }
+		Administrador result;
 
-    public Administrador save(Administrador administrador) {
-        Assert.notNull(administrador);
-        Administrador result;
+		result = this.administradorRepository.findById(id);
+		Assert.notNull(result);
 
-        result = administradorRepository.save(administrador);
+		return result;
+	}
 
-        return result;
-    }
+	public Administrador save(final Administrador administrador) {
+		Assert.notNull(administrador);
+		Administrador result;
+
+		result = this.administradorRepository.save(administrador);
 
-    public void delete(Administrador administrador) {
-        Assert.notNull(administrador);
-        Assert.isTrue(administrador.getId() != 0);
-        Assert.isTrue(administradorRepository.exists(administrador.getId()));
-
-        administradorRepository.delete(administrador);
-    }
-
-    /// METODOS EXTRAS
-
-    public Map<String, Map<String, Double>> calcularEstadisticas() {
-        Map<String, Map<String, Double>> result = new HashMap<>();
+		return result;
+	}
+
+	public void delete(final Administrador administrador) {
+		Assert.notNull(administrador);
+		Assert.isTrue(administrador.getId() != 0);
+		Assert.isTrue(this.administradorRepository.exists(administrador.getId()));
 
-        /// Tier C
-        result.put("CursoPorAcademia", calcularCursosPorAcademia());
-        result.put("SolicitudesPorCurso", calcularSolicitudesPorCurso());
+		this.administradorRepository.delete(administrador);
+	}
 
-        /// Tier B
-        result.put("TutorialesPorAcademia", calcularTutorialesPorAcademia());
-        result.put("TutorialesMostrados", calcularTutorialesMostrados());
+	/// METODOS EXTRAS
 
-        /// Tier C
-        result.put("ComentariosPorActor", calcularNumeroMedioComentariosPorActor());
-        result.put("SuscriptoresPorActor", calcularNumeroMedioComentariosPorSuscriptor());
+	public Map<String, Map<String, Double>> calcularEstadisticas() {
+		final Map<String, Map<String, Double>> result = new HashMap<>();
 
-        return result;
-    }
-
-    /// METODOS PARA EL CALCULO DE ESTADISTICAS
-
-    // ********************************** TIER C **********************************
-
-    private Map<String, Double> calcularCursosPorAcademia() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Academia> academias;
-        List<Integer> conteoCursos = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas las academias
-        academias = academiaService.findAll();
-
-        /// Verificamos si es nulo o esta vacio
-        if (academias == null || academias.isEmpty()) {
-            return result;
-        }
-
-        /// Realizamos un conteo del número de cursos
-        for (Academia academia : academias) {
-            Collection<Curso> cursos = academia.getCursos();
-            if (cursos != null) {
-                conteoCursos.add(cursos.size());
-            } else {
-                conteoCursos.add(0);
-            }
-        }
-
-        /// Realizamos los cálculos necesarios
-        double media = calcularMedia(conteoCursos);
-        double max = calcularMaximo(conteoCursos);
-        double min = calcularMinimo(conteoCursos);
-        double desviacionTipica = calcularDesviacionTipica(conteoCursos);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-        result.put(Metrica.MAXIMO.toString(), max);
-        result.put(Metrica.MINIMO.toString(), min);
-        result.put(Metrica.DESVIACION_TIPICA.toString(), desviacionTipica);
-
-        return result;
-
-    }
-
-    private Map<String, Double> calcularSolicitudesPorCurso() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Curso> cursos;
-        List<Integer> conteoSolicitudes = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas los cursos
-        cursos = cursoService.findAll();
-
-        /// Verificamos si es nulo o esta vacio
-        if (cursos == null || cursos.isEmpty()) {
-            return result;
-        }
-
-        for (Curso curso : cursos) {
-            Collection<Solicitud> solicitudes = curso.getSolicitudes();
-            if (solicitudes != null) {
-                conteoSolicitudes.add(solicitudes.size());
-            } else {
-                conteoSolicitudes.add(0);
-            }
-        }
-
-        /// Realizamos los cálculos necesarios
-        double media = calcularMedia(conteoSolicitudes);
-        double max = calcularMaximo(conteoSolicitudes);
-        double min = calcularMinimo(conteoSolicitudes);
-        double desviacionTipica = calcularDesviacionTipica(conteoSolicitudes);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-        result.put(Metrica.MAXIMO.toString(), max);
-        result.put(Metrica.MINIMO.toString(), min);
-        result.put(Metrica.DESVIACION_TIPICA.toString(), desviacionTipica);
-
-        return result;
-    }
-
-    // ********************************** TIER B **********************************
-
-    private Map<String, Double> calcularTutorialesPorAcademia() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Academia> academias;
-        List<Integer> conteoTutoriales = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas los cursos
-        academias = academiaService.findAll();
-
-        /// Verificamos si es nulo o no hay academias
-        if (academias == null || academias.isEmpty()) {
-            return result;
-        }
-
-        /// Verificamos si es null o esta vacio
-        for (Academia academia : academias) {
-            Collection<Tutorial> tutoriales = academia.getTutoriales();
-            if (tutoriales != null) {
-                conteoTutoriales.add(tutoriales.size());
-            } else {
-                conteoTutoriales.add(0);
-            }
-        }
-
-        /// Realizamos los calculos necesarios
-        double media = calcularMedia(conteoTutoriales);
-        double max = calcularMaximo(conteoTutoriales);
-        double min = calcularMinimo(conteoTutoriales);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-        result.put(Metrica.MAXIMO.toString(), max);
-        result.put(Metrica.MINIMO.toString(), min);
-
-        return result;
-    }
-
-    private Map<String, Double> calcularTutorialesMostrados() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Tutorial> tutoriales;
-        List<Integer> visualizacionesTutorial = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas los cursos
-        tutoriales = tutorialService.findAll();
-
-        /// Verificamos si es nulo o esta vacio
-        if (tutoriales == null || tutoriales.isEmpty()) {
-            return result;
-        }
-
-        /// Verificamos si es null o esta vacio
-        for (Tutorial tutorial : tutoriales) {
-            int visualizaciones = tutorial.getVisualizaciones();
-            visualizacionesTutorial.add(visualizaciones);
-        }
-
-        /// Realizamos los calculos necesarios
-        double media = calcularMedia(visualizacionesTutorial);
-        double max = calcularMaximo(visualizacionesTutorial);
-        double min = calcularMinimo(visualizacionesTutorial);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-        result.put(Metrica.MAXIMO.toString(), max);
-        result.put(Metrica.MINIMO.toString(), min);
-
-        return result;
-    }
-
-    // ********************************** TIER A **********************************
-
-    private Map<String, Double> calcularNumeroMedioComentariosPorActor() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Actor> actores;
-        List<Integer> conteoComentarios = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas los cursos
-        actores = actorService.findAll();
-
-        /// Verificamos si es nulo o esta vacio
-        if (actores == null || actores.isEmpty()) {
-            return result;
-        }
-
-        /// Verificamos si es null o esta vacio
-        for (Actor actor : actores) {
-            Collection<Comentario> comentarios = actor.getComentarios();
-            if (comentarios != null) {
-                conteoComentarios.add(comentarios.size());
-            } else {
-                conteoComentarios.add(0);
-            }
-
-        }
-
-        /// Realizamos los calculos necesarios
-        double media = (int) calcularMedia(conteoComentarios);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-
-        return result;
-    }
-
-    private Map<String, Double> calcularNumeroMedioComentariosPorSuscriptor() {
-        Map<String, Double> result = new HashMap<>();
-        Collection<Actor> actores;
-        List<Integer> conteoSuscriptores = Collections.synchronizedList(new ArrayList<>());
-
-        /// Obtenemos todas los cursos
-        actores = actorService.findAll();
-
-        /// Verificamos si es nulo o esta vacio
-        if (actores == null || actores.isEmpty()) {
-            return result;
-        }
-
-        /// Verificamos si es null o esta vacio
-        for (Actor actor : actores) {
-            Collection<Actor> suscriptores = actor.getSuscriptores();
-            if (suscriptores != null) {
-                conteoSuscriptores.add(suscriptores.size());
-            } else {
-                conteoSuscriptores.add(0);
-            }
-
-        }
-
-        /// Realizamos los calculos necesarios
-        double media = (int) calcularMedia(conteoSuscriptores);
-
-        /// Los insertamos en el diccionario correspondiente
-        result.put(Metrica.MEDIA.toString(), media);
-
-        return result;
-    }
-
-    // CALCULO DE METRICAS
-    private double calcularMedia(List<Integer> conteo) {
-        double result;
-
-        double sum = conteo.stream()
-                .mapToInt(Integer::intValue)
-                .sum();
-        double numElementos = conteo.size();
-
-        try {
-            result = sum / numElementos;
-        } catch (Exception e) {
-            result = 0;
-        }
-        return result;
-    }
-
-    private int calcularMinimo(List<Integer> conteo) {
-        int result;
-
-        result = conteo.stream()
-                .mapToInt(Integer::intValue)
-                .min()
-                .getAsInt();
-
-        return result;
-    }
-
-    private int calcularMaximo(List<Integer> conteo) {
-        int result;
-
-        result = conteo.stream()
-                .mapToInt(Integer::intValue)
-                .max()
-                .getAsInt();
-
-        return result;
-    }
-
-    @SuppressWarnings("unused")
-    private double calcularDesviacionTipica(List<Integer> conteo, double media) {
-        double sumaDiferenciasCuadrado = 0;
-        int numElementos = conteo.size();
-
-        for (int elemento : conteo) {
-            double calculoaux = elemento - media;
-            sumaDiferenciasCuadrado += Math.pow(calculoaux, 2);
-        }
-
-        double varianza = sumaDiferenciasCuadrado / numElementos;
-
-        return Math.sqrt(varianza);
-    }
-
-    private double calcularDesviacionTipica(List<Integer> conteo) {
-        double media = calcularMedia(conteo);
-        double sumaDiferenciasCuadrado = 0;
-        int numElementos = conteo.size();
-
-        for (int elemento : conteo) {
-            double calculoaux = elemento - media;
-            sumaDiferenciasCuadrado += Math.pow(calculoaux, 2);
-        }
-
-        double varianza = sumaDiferenciasCuadrado / numElementos;
-
-        return Math.sqrt(varianza);
-    }
+		/// Tier C
+		result.put("CursoPorAcademia", this.calcularCursosPorAcademia());
+		result.put("SolicitudesPorCurso", this.calcularSolicitudesPorCurso());
+
+		/// Tier B
+		result.put("TutorialesPorAcademia", this.calcularTutorialesPorAcademia());
+		result.put("TutorialesMostrados", this.calcularTutorialesMostrados());
+
+		/// Tier C
+		result.put("ComentariosPorActor", this.calcularNumeroMedioComentariosPorActor());
+		result.put("SuscriptoresPorActor", this.calcularNumeroMedioComentariosPorSuscriptor());
+
+		return result;
+	}
+
+	/// METODOS PARA EL CALCULO DE ESTADISTICAS
+
+	// ********************************** TIER C **********************************
+
+	private Map<String, Double> calcularCursosPorAcademia() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Academia> academias;
+		final List<Integer> conteoCursos = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas las academias
+		academias = this.academiaService.findAll();
+
+		/// Verificamos si es nulo o esta vacio
+		if (academias == null || academias.isEmpty())
+			return result;
+
+		/// Realizamos un conteo del número de cursos
+		for (final Academia academia : academias) {
+			final Collection<Curso> cursos = academia.getCursos();
+			if (cursos != null)
+				conteoCursos.add(cursos.size());
+			else
+				conteoCursos.add(0);
+		}
+
+		/// Realizamos los cálculos necesarios
+		final double media = this.calcularMedia(conteoCursos);
+		final double max = this.calcularMaximo(conteoCursos);
+		final double min = this.calcularMinimo(conteoCursos);
+		final double desviacionTipica = this.calcularDesviacionTipica(conteoCursos);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+		result.put(Metrica.MAXIMO.toString(), max);
+		result.put(Metrica.MINIMO.toString(), min);
+		result.put(Metrica.DESVIACION_TIPICA.toString(), desviacionTipica);
+
+		return result;
+
+	}
+
+	private Map<String, Double> calcularSolicitudesPorCurso() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Curso> cursos;
+		final List<Integer> conteoSolicitudes = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas los cursos
+		cursos = this.cursoService.findAll();
+
+		/// Verificamos si es nulo o esta vacio
+		if (cursos == null || cursos.isEmpty())
+			return result;
+
+		for (final Curso curso : cursos) {
+			final Collection<Solicitud> solicitudes = curso.getSolicitudes();
+			if (solicitudes != null)
+				conteoSolicitudes.add(solicitudes.size());
+			else
+				conteoSolicitudes.add(0);
+		}
+
+		/// Realizamos los cálculos necesarios
+		final double media = this.calcularMedia(conteoSolicitudes);
+		final double max = this.calcularMaximo(conteoSolicitudes);
+		final double min = this.calcularMinimo(conteoSolicitudes);
+		final double desviacionTipica = this.calcularDesviacionTipica(conteoSolicitudes);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+		result.put(Metrica.MAXIMO.toString(), max);
+		result.put(Metrica.MINIMO.toString(), min);
+		result.put(Metrica.DESVIACION_TIPICA.toString(), desviacionTipica);
+
+		return result;
+	}
+
+	// ********************************** TIER B **********************************
+
+	private Map<String, Double> calcularTutorialesPorAcademia() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Academia> academias;
+		final List<Integer> conteoTutoriales = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas los cursos
+		academias = this.academiaService.findAll();
+
+		/// Verificamos si es nulo o no hay academias
+		if (academias == null || academias.isEmpty())
+			return result;
+
+		/// Verificamos si es null o esta vacio
+		for (final Academia academia : academias) {
+			final Collection<Tutorial> tutoriales = academia.getTutoriales();
+			if (tutoriales != null)
+				conteoTutoriales.add(tutoriales.size());
+			else
+				conteoTutoriales.add(0);
+		}
+
+		/// Realizamos los calculos necesarios
+		final double media = this.calcularMedia(conteoTutoriales);
+		final double max = this.calcularMaximo(conteoTutoriales);
+		final double min = this.calcularMinimo(conteoTutoriales);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+		result.put(Metrica.MAXIMO.toString(), max);
+		result.put(Metrica.MINIMO.toString(), min);
+
+		return result;
+	}
+
+	private Map<String, Double> calcularTutorialesMostrados() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Tutorial> tutoriales;
+		final List<Integer> visualizacionesTutorial = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas los cursos
+		tutoriales = this.tutorialService.findAll();
+
+		/// Verificamos si es nulo o esta vacio
+		if (tutoriales == null || tutoriales.isEmpty())
+			return result;
+
+		/// Verificamos si es null o esta vacio
+		for (final Tutorial tutorial : tutoriales) {
+			final int visualizaciones = tutorial.getVisualizaciones();
+			visualizacionesTutorial.add(visualizaciones);
+		}
+
+		/// Realizamos los calculos necesarios
+		final double media = this.calcularMedia(visualizacionesTutorial);
+		final double max = this.calcularMaximo(visualizacionesTutorial);
+		final double min = this.calcularMinimo(visualizacionesTutorial);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+		result.put(Metrica.MAXIMO.toString(), max);
+		result.put(Metrica.MINIMO.toString(), min);
+
+		return result;
+	}
+
+	// ********************************** TIER A **********************************
+
+	private Map<String, Double> calcularNumeroMedioComentariosPorActor() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Actor> actores;
+		final List<Integer> conteoComentarios = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas los cursos
+		actores = this.actorService.findAll();
+
+		/// Verificamos si es nulo o esta vacio
+		if (actores == null || actores.isEmpty())
+			return result;
+
+		/// Verificamos si es null o esta vacio
+		for (final Actor actor : actores) {
+			final Collection<Comentario> comentarios = actor.getComentarios();
+			if (comentarios != null)
+				conteoComentarios.add(comentarios.size());
+			else
+				conteoComentarios.add(0);
+
+		}
+
+		/// Realizamos los calculos necesarios
+		final double media = (int) this.calcularMedia(conteoComentarios);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+
+		return result;
+	}
+
+	private Map<String, Double> calcularNumeroMedioComentariosPorSuscriptor() {
+		final Map<String, Double> result = new HashMap<>();
+		Collection<Actor> actores;
+		final List<Integer> conteoSuscriptores = Collections.synchronizedList(new ArrayList<>());
+
+		/// Obtenemos todas los cursos
+		actores = this.actorService.findAll();
+
+		/// Verificamos si es nulo o esta vacio
+		if (actores == null || actores.isEmpty())
+			return result;
+
+		/// Verificamos si es null o esta vacio
+		for (final Actor actor : actores) {
+			final Collection<Actor> suscriptores = actor.getSuscriptores();
+			if (suscriptores != null)
+				conteoSuscriptores.add(suscriptores.size());
+			else
+				conteoSuscriptores.add(0);
+
+		}
+
+		/// Realizamos los calculos necesarios
+		final double media = (int) this.calcularMedia(conteoSuscriptores);
+
+		/// Los insertamos en el diccionario correspondiente
+		result.put(Metrica.MEDIA.toString(), media);
+
+		return result;
+	}
+
+	// CALCULO DE METRICAS
+	private double calcularMedia(final List<Integer> conteo) {
+		double result;
+
+		final double sum = conteo.stream().mapToInt(Integer::intValue).sum();
+		final double numElementos = conteo.size();
+
+		try {
+			result = sum / numElementos;
+		} catch (final Exception e) {
+			result = 0;
+		}
+		return result;
+	}
+
+	private int calcularMinimo(final List<Integer> conteo) {
+		int result;
+
+		result = conteo.stream().mapToInt(Integer::intValue).min().getAsInt();
+
+		return result;
+	}
+
+	private int calcularMaximo(final List<Integer> conteo) {
+		int result;
+
+		result = conteo.stream().mapToInt(Integer::intValue).max().getAsInt();
+
+		return result;
+	}
+
+	@SuppressWarnings("unused")
+	private double calcularDesviacionTipica(final List<Integer> conteo, final double media) {
+		double sumaDiferenciasCuadrado = 0;
+		final int numElementos = conteo.size();
+
+		for (final int elemento : conteo) {
+			final double calculoaux = elemento - media;
+			sumaDiferenciasCuadrado += Math.pow(calculoaux, 2);
+		}
+
+		final double varianza = sumaDiferenciasCuadrado / numElementos;
+
+		return Math.sqrt(varianza);
+	}
+
+	private double calcularDesviacionTipica(final List<Integer> conteo) {
+		final double media = this.calcularMedia(conteo);
+		double sumaDiferenciasCuadrado = 0;
+		final int numElementos = conteo.size();
+
+		for (final int elemento : conteo) {
+			final double calculoaux = elemento - media;
+			sumaDiferenciasCuadrado += Math.pow(calculoaux, 2);
+		}
+
+		final double varianza = sumaDiferenciasCuadrado / numElementos;
+
+		return Math.sqrt(varianza);
+	}
 }

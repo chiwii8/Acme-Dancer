@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package domain;
 
 import java.util.Collection;
@@ -18,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,108 +35,112 @@ import domain.enumeraciones.DiaSemana;
 @Access(AccessType.PROPERTY)
 public class Curso extends DomainEntity {
 
-    public Curso() {
-        super();
-        solicitudes = new HashSet<>();
-    }
+	public Curso() {
+		super();
+		this.solicitudes = new HashSet<>();
+	}
 
-    private String titulo;
-    private Date fechaInicio;
-    private Date fechaFin;
-    private DiaSemana diaSemana;
-    private int hora;
-    private int minuto;
-    private CursoNivel nivel;
 
-    public void setTitulo(final String titulo) {
-        this.titulo = titulo;
-    }
+	private String		titulo;
+	private Date		fechaInicio;
+	private Date		fechaFin;
+	private DiaSemana	diaSemana;
+	private int			hora;
+	private int			minuto;
+	private CursoNivel	nivel;
 
-    public void setFechaInicio(final Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
 
-    public void setFechaFin(final Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+	public void setTitulo(final String titulo) {
+		this.titulo = titulo;
+	}
 
-    public void setDiaSemana(final DiaSemana diaSemana) {
-        this.diaSemana = diaSemana;
-    }
+	public void setFechaInicio(final Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
 
-    public void setHora(final int hora) {
-        this.hora = hora;
-    }
+	public void setFechaFin(final Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
 
-    public void setMinuto(final int minuto) {
-        this.minuto = minuto;
-    }
+	public void setDiaSemana(final DiaSemana diaSemana) {
+		this.diaSemana = diaSemana;
+	}
 
-    public void setNivel(final CursoNivel nivel) {
-        this.nivel = nivel;
-    }
+	public void setHora(final int hora) {
+		this.hora = hora;
+	}
 
-    @NotBlank
-    public String getTitulo() {
-        return this.titulo;
-    }
+	public void setMinuto(final int minuto) {
+		this.minuto = minuto;
+	}
 
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    public Date getFechaInicio() {
-        return this.fechaInicio;
-    }
+	public void setNivel(final CursoNivel nivel) {
+		this.nivel = nivel;
+	}
 
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    public Date getFechaFin() {
-        return this.fechaFin;
-    }
+	@NotBlank
+	public String getTitulo() {
+		return this.titulo;
+	}
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    public DiaSemana getDiaSemana() {
-        return this.diaSemana;
-    }
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaInicio() {
+		return this.fechaInicio;
+	}
 
-    @Range(min = 0, max = 23)
-    public int getHora() {
-        return this.hora;
-    }
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getFechaFin() {
+		return this.fechaFin;
+	}
 
-    @Range(min = 0, max = 59)
-    public int getMinuto() {
-        return this.minuto;
-    }
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	public DiaSemana getDiaSemana() {
+		return this.diaSemana;
+	}
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    public CursoNivel getNivel() {
-        return this.nivel;
-    }
+	@Range(min = 0, max = 23)
+	public int getHora() {
+		return this.hora;
+	}
 
-    /// Relaciones -----------------------------------------
-    private Estilo estilo;
-    private Collection<Solicitud> solicitudes;
+	@Range(min = 0, max = 59)
+	public int getMinuto() {
+		return this.minuto;
+	}
 
-    public void setEstilo(final Estilo estilo) {
-        this.estilo = estilo;
-    }
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	public CursoNivel getNivel() {
+		return this.nivel;
+	}
 
-    public void setSolicitudes(final Collection<Solicitud> solicitudes) {
-        this.solicitudes = solicitudes;
-    }
 
-    @ManyToOne(optional = false)
-    public Estilo getEstilo() {
-        return this.estilo;
-    }
+	/// Relaciones -----------------------------------------
+	private Estilo					estilo;
+	private Collection<Solicitud>	solicitudes;
 
-    @OneToMany(mappedBy = "curso")
-    public Collection<Solicitud> getSolicitudes() {
-        return this.solicitudes;
-    }
+
+	public void setEstilo(final Estilo estilo) {
+		this.estilo = estilo;
+	}
+
+	public void setSolicitudes(final Collection<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
+	}
+
+	@ManyToOne(optional = false)
+	public Estilo getEstilo() {
+		return this.estilo;
+	}
+
+	@OneToMany(mappedBy = "curso")
+	public Collection<Solicitud> getSolicitudes() {
+		return this.solicitudes;
+	}
 
 }

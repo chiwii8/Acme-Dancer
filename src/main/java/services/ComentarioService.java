@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -14,73 +15,75 @@ import repositories.ComentarioRepository;
 @Service
 @Transactional
 public class ComentarioService {
-    /// Repositorio propio
-    private ComentarioRepository comentarioRepository;
 
-    /// Servicio apoyo
-    private ActorService actorService;
+	/// Repositorio propio
+	private final ComentarioRepository	comentarioRepository;
 
-    @Autowired
-    public ComentarioService(ComentarioRepository comentarioRepository, ActorService actorService) {
-        this.comentarioRepository = comentarioRepository;
-        this.actorService = actorService;
-    }
+	/// Servicio apoyo
+	private final ActorService			actorService;
 
-    /// Métodos base
-    public Collection<Comentario> findAll() {
-        Collection<Comentario> result;
 
-        result = comentarioRepository.findAll();
-        Assert.notNull(result);
-        return result;
-    }
+	@Autowired
+	public ComentarioService(final ComentarioRepository comentarioRepository, final ActorService actorService) {
+		this.comentarioRepository = comentarioRepository;
+		this.actorService = actorService;
+	}
 
-    public Comentario findById(int id) {
-        Assert.isTrue(id != 0);
+	/// Métodos base
+	public Collection<Comentario> findAll() {
+		Collection<Comentario> result;
 
-        Comentario result;
+		result = this.comentarioRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
 
-        result = comentarioRepository.findById(id);
+	public Comentario findById(final int id) {
+		Assert.isTrue(id != 0);
 
-        return result;
-    }
+		Comentario result;
 
-    public Comentario save(Comentario comentario) {
-        Assert.notNull(comentario);
-        Comentario result;
-        result = comentarioRepository.save(comentario);
+		result = this.comentarioRepository.findById(id);
 
-        return result;
-    }
+		return result;
+	}
 
-    public void delete(Comentario comentario) {
-        Assert.notNull(comentario);
-        Assert.isTrue(comentario.getId() != 0);
-        Assert.isTrue(comentarioRepository.exists(comentario.getId()));
+	public Comentario save(final Comentario comentario) {
+		Assert.notNull(comentario);
+		Comentario result;
+		result = this.comentarioRepository.save(comentario);
 
-        comentarioRepository.delete(comentario);
-    }
+		return result;
+	}
 
-    //// Otros métodos
-    public Collection<Comentario> findByFechaRealizacion(Date fechaRealizacion) {
-        Assert.notNull(fechaRealizacion);
+	public void delete(final Comentario comentario) {
+		Assert.notNull(comentario);
+		Assert.isTrue(comentario.getId() != 0);
+		Assert.isTrue(this.comentarioRepository.exists(comentario.getId()));
 
-        Collection<Comentario> result;
-        result = comentarioRepository.findByFechaRealizacion(fechaRealizacion);
-        Assert.notNull(result);
+		this.comentarioRepository.delete(comentario);
+	}
 
-        return result;
-    }
+	//// Otros metodos
+	public Collection<Comentario> findByFechaRealizacion(final Date fechaRealizacion) {
+		Assert.notNull(fechaRealizacion);
 
-    public Collection<Comentario> findAllComentariosByActorId(int idActor) {
-        Assert.isTrue(idActor != 0);
+		Collection<Comentario> result;
+		result = this.comentarioRepository.findByFechaRealizacion(fechaRealizacion);
+		Assert.notNull(result);
 
-        /// Realizamos una búsqueda por id para verificar que existe dicho cliente
-        actorService.findById(idActor);
+		return result;
+	}
 
-        Collection<Comentario> result = comentarioRepository.findAllComentariosByActorId(idActor);
-        Assert.notNull(result);
+	public Collection<Comentario> findAllComentariosByActorId(final int idActor) {
+		Assert.isTrue(idActor != 0);
 
-        return result;
-    }
+		/// Realizamos una busqueda por id para verificar que existe dicho cliente
+		this.actorService.findById(idActor);
+
+		final Collection<Comentario> result = this.comentarioRepository.findAllComentariosByActorId(idActor);
+		Assert.notNull(result);
+
+		return result;
+	}
 }
