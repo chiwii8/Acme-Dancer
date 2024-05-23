@@ -49,7 +49,7 @@
     </bean>
 
     <!-- Administradores -->
-    <bean id="administrador1" class="domain.Actores.Administrador">
+    <bean id="administrador1" class="domain.actores.Administrador">
         <!--Heredados-->
         <property name ="nombre" value="Antonio"/>
         <property name ="apellidos" value="Medina"/>
@@ -75,7 +75,7 @@
 
 
     <!-- Academias -->
-    <bean id="academia1" class ="domain.Actores.Academia">
+    <bean id="academia1" class ="domain.actores.Academia">
         <!--Heredados-->
         <property name ="nombre" value="Fernando"/>
         <property name ="apellidos" value="Perez"/>
@@ -115,7 +115,7 @@
 
     <!-- Alumnos-->
 
-    <bean id="alumno1" class="domain.Actores.Alumno">
+    <bean id="alumno1" class="domain.actores.Alumno">
         <!--Heredados-->
         <property name ="nombre" value="Alex"/>
         <property name ="apellidos" value="Gonzalez"/>
@@ -167,7 +167,7 @@
         <property name ="titulo" value="Barchata"/>
         <property name ="fechaInicio" value="18/05/2024"/>
         <property name ="fechaFin" value="25/05/2024"/>
-        <property name ="diaSemana" value="Lunes"/>
+        <property name ="diaSemana" value="LUNES"/>
         <property name ="hora" value="12"/>
         <property name ="minuto" value="20"/>
         <property name ="nivel" value="PRINCIPIANTE"/>
@@ -185,7 +185,7 @@
     <!-- Tutoriales-->
     
     <bean id="tutorial1" class="domain.Tutorial">
-        <property name ="tutorial" value="Aprender a bailar"/>
+        <property name ="nombre" value="Aprender a bailar"/>
         <property name ="descripcion" value="tutorial que te muestra lo que debes saber para bailar"/>
         <property name ="visualizaciones" value="0"/>
         <property name ="video" value="https://www.youtube.com/watch?v=lGCo8ILvauI"/>
@@ -196,7 +196,7 @@
     
     <!-- Tarjetas -->
     
-    <bean id="tarjeta1" class="domain.DataType.TarjetaDeCredito">
+    <bean id="tarjeta1" class="domain.dataType.TarjetaDeCredito">
         <property name ="titular" value="Juan perez"/>
         <property name ="marca" value="XML"/>
         <property name ="numero" value="4444333322221111"/>
