@@ -1,5 +1,106 @@
 package controllers.alumno;
 
+import java.util.Collection;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import domain.Solicitud;
+import services.SolicitudService;
+
+@Controller
+@RequestMapping("alumno/solicitud")
 public class SolicitudAlumnoController {
+
+    /// Servicios
+    SolicitudService solicitudService;
+
+    public SolicitudAlumnoController(SolicitudService solicitudService) {
+
+        this.solicitudService = solicitudService;
+    }
+
+    /// Listar
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ModelAndView list() {
+        ModelAndView result;
+        Collection<Solicitud> solicitudes;
+
+        solicitudes = this.solicitudService.findAll();
+        result = new ModelAndView("solicitud/list");
+        result.addObject("solicitudes", solicitudes);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public ModelAndView create() {
+        ModelAndView result;
+        Solicitud solicitud;
+
+        solicitud = this.solicitudService.create();
+        result = this.createEditModelAndView(solicitud);
+
+        return result;
+    }
+
+    ///
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam int solicitudId) {
+        ModelAndView result;
+        Solicitud solicitud;
+
+        solicitud = this.solicitudService.findById(solicitudId);
+        Assert.notNull(solicitud);
+        result = createEditModelAndView(solicitud);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    public ModelAndView save(@Valid Solicitud solicitud, BindingResult binding) {
+        ModelAndView result;
+
+        if (binding.hasErrors()) {
+            result = createEditModelAndView(solicitud, "No se ha producido realizar la operacion");
+        } else {
+            try {
+                solicitudService.save(solicitud);
+                result = new ModelAndView("redirect:list.do");
+            } catch (Throwable e) {
+                result = createEditModelAndView(solicitud, "solicitud.commit.error");
+            }
+        }
+
+        return result;
+    }
+
+    protected ModelAndView createEditModelAndView(final Solicitud solicitud) {
+        ModelAndView result;
+
+        result = new ModelAndView("solicitud/edit");
+
+        result.addObject("solicitud", solicitud);
+
+        return result;
+    }
+
+    protected ModelAndView createEditModelAndView(final Solicitud solicitud, String mensaje) {
+        ModelAndView result;
+
+        result = new ModelAndView("solicitud/edit");
+
+        result.addObject("solicitud", solicitud);
+        result.addObject("mensaje", mensaje);
+
+        return result;
+    }
 
 }

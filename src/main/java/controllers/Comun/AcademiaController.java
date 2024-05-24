@@ -1,7 +1,9 @@
 
-package controllers.Comun;
+package controllers.comun;
 
 import java.util.Collection;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Curso;
 import domain.actores.Academia;
 import services.AcademiaService;
 
 @Controller
-@RequestMapping("/comun")
+@RequestMapping("/academia")
 public class AcademiaController extends AbstractController {
 
 	/// Cargamos los servicios que emplea la vista
@@ -39,5 +42,18 @@ public class AcademiaController extends AbstractController {
 		result.addObject("academias", academias);
 		return result;
 
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@Valid Curso curso) {
+		ModelAndView result;
+		Academia academia;
+
+		academia = this.academiaService.findByCursoId(curso.getId());
+
+		result = new ModelAndView("academia/list");
+		result.addObject("academia", academia);
+
+		return result;
 	}
 }

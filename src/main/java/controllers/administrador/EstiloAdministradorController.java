@@ -18,6 +18,7 @@ import domain.Estilo;
 import services.EstiloService;
 
 @Controller
+@RequestMapping("/administrador/estilo")
 public class EstiloAdministradorController extends AbstractController {
 
     /// Cargamos los servicios que emplea la vista
@@ -69,6 +70,7 @@ public class EstiloAdministradorController extends AbstractController {
     }
 
     /// Guardar
+    /// TODO: Cambiar
     @RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
     public ModelAndView save(@Valid Estilo estilo, BindingResult binding) {
         ModelAndView result;
