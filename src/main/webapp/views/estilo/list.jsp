@@ -18,7 +18,7 @@ uri="http://displaytag.sf.net"%>
 
   <security:authorize access="hasRole('ADMIN')">
     <display:column>
-      <a href="estilo/administrador/edit.do?announcementId=${row.id}">
+      <a href="estilo/administrador/edit.do?estiloId=${row.id}">
         <spring:message code="estilo.editar" />
       </a>
     </display:column>
