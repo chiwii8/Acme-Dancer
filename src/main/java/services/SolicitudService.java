@@ -50,6 +50,14 @@ public class SolicitudService {
         return result;
     }
 
+    public Solicitud create() {
+        Solicitud result;
+
+        result = new Solicitud();
+
+        return result;
+    }
+
     public Solicitud save(Solicitud solicitud) {
         Assert.notNull(solicitud);
         Solicitud result;

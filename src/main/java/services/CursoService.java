@@ -135,4 +135,15 @@ public class CursoService {
 		return result;
 	}
 
+	public Collection<Curso> findByString(final String buscar) {
+		Assert.hasText(buscar);
+
+		Collection<Curso> result;
+
+		result = this.cursoRepository.findByString(buscar);
+		Assert.notNull(result);
+
+		return result;
+	}
+
 }

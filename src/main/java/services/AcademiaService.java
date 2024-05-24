@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 import domain.actores.Academia;
 import repositories.AcademiaRepository;
+import repositories.CursoRepository;
 
 @Service
 @Transactional
@@ -17,9 +18,13 @@ public class AcademiaService {
     // Repositorio propio
     AcademiaRepository academiaRepository;
 
+    /// Repositorios de apoyo
+    CursoRepository cursoRepository;
+
     @Autowired
-    public AcademiaService(AcademiaRepository academiaRepository) {
+    public AcademiaService(AcademiaRepository academiaRepository, CursoRepository cursoRepository) {
         this.academiaRepository = academiaRepository;
+        this.cursoRepository = cursoRepository;
     }
 
     /// Operaciones basicas
@@ -91,6 +96,18 @@ public class AcademiaService {
         Collection<Academia> result;
 
         result = academiaRepository.findByNombre(nombre);
+
+        return result;
+    }
+
+    public Academia findByCursoId(int id) {
+        Assert.isTrue(id != 0);
+        Assert.isTrue(this.cursoRepository.exists(id));
+        Academia result;
+
+        result = this.academiaRepository.findByCursoId(id);
+
+        Assert.notNull(result);
 
         return result;
     }

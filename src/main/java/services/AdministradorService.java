@@ -31,35 +31,24 @@ public class AdministradorService {
 		MAXIMO, MINIMO, MEDIA, DESVIACION_TIPICA
 	}
 
-
 	/// Repositorio propio
-	AdministradorRepository	administradorRepository;
+	AdministradorRepository administradorRepository;
 
 	/// Servicios de apoyo
-	@Autowired
-	AcademiaService			academiaService;
-	@Autowired
-	CursoService			cursoService;
-	@Autowired
-	TutorialService			tutorialService;
-	@Autowired
-	ActorService			actorService;
+	AcademiaService academiaService;
+	CursoService cursoService;
+	TutorialService tutorialService;
+	ActorService actorService;
 
-
-	public AdministradorService() {
-		super();
+	@Autowired
+	public AdministradorService(AdministradorRepository administradorRepository, AcademiaService academiaService,
+			CursoService cursoService, TutorialService tutorialService, ActorService actorService) {
+		this.administradorRepository = administradorRepository;
+		this.academiaService = academiaService;
+		this.cursoService = cursoService;
+		this.tutorialService = tutorialService;
+		this.actorService = actorService;
 	}
-	/*
-	 * @Autowired
-	 * public AdministradorService(AdministradorRepository administradorRepository, AcademiaService academiaService,
-	 * CursoService cursoService, TutorialService tutorialService, ActorService actorService) {
-	 * this.administradorRepository = administradorRepository;
-	 * this.academiaService = academiaService;
-	 * this.cursoService = cursoService;
-	 * this.tutorialService = tutorialService;
-	 * this.actorService = actorService;
-	 * }
-	 */
 
 	/// METODOS BASICOS
 	public Administrador create() {
@@ -133,7 +122,7 @@ public class AdministradorService {
 
 	// ********************************** TIER C **********************************
 
-	private Map<String, Double> calcularCursosPorAcademia() {
+	public Map<String, Double> calcularCursosPorAcademia() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Academia> academias;
 		final List<Integer> conteoCursos = Collections.synchronizedList(new ArrayList<>());
@@ -170,7 +159,7 @@ public class AdministradorService {
 
 	}
 
-	private Map<String, Double> calcularSolicitudesPorCurso() {
+	public Map<String, Double> calcularSolicitudesPorCurso() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Curso> cursos;
 		final List<Integer> conteoSolicitudes = Collections.synchronizedList(new ArrayList<>());
@@ -207,7 +196,7 @@ public class AdministradorService {
 
 	// ********************************** TIER B **********************************
 
-	private Map<String, Double> calcularTutorialesPorAcademia() {
+	public Map<String, Double> calcularTutorialesPorAcademia() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Academia> academias;
 		final List<Integer> conteoTutoriales = Collections.synchronizedList(new ArrayList<>());
@@ -241,7 +230,7 @@ public class AdministradorService {
 		return result;
 	}
 
-	private Map<String, Double> calcularTutorialesMostrados() {
+	public Map<String, Double> calcularTutorialesMostrados() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Tutorial> tutoriales;
 		final List<Integer> visualizacionesTutorial = Collections.synchronizedList(new ArrayList<>());
@@ -274,7 +263,7 @@ public class AdministradorService {
 
 	// ********************************** TIER A **********************************
 
-	private Map<String, Double> calcularNumeroMedioComentariosPorActor() {
+	public Map<String, Double> calcularNumeroMedioComentariosPorActor() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Actor> actores;
 		final List<Integer> conteoComentarios = Collections.synchronizedList(new ArrayList<>());
@@ -305,7 +294,7 @@ public class AdministradorService {
 		return result;
 	}
 
-	private Map<String, Double> calcularNumeroMedioComentariosPorSuscriptor() {
+	public Map<String, Double> calcularNumeroMedioComentariosPorSuscriptor() {
 		final Map<String, Double> result = new HashMap<>();
 		Collection<Actor> actores;
 		final List<Integer> conteoSuscriptores = Collections.synchronizedList(new ArrayList<>());

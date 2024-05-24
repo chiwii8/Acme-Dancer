@@ -37,4 +37,7 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
 
 	@Query("select c from Curso c where c.estilo.id=:id")
 	public Collection<Curso> findAllByEstiloId(@Param("id") int id);
+
+	@Query("select distinct c from Curso c where c.titulo like '%:buscar%' OR c.nombre like '%:buscar%' OR c.descripcion= like'%:buscar%'")
+	public Collection<Curso> findByString(@Param("buscar") String buscar);
 }
