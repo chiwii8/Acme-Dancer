@@ -1,9 +1,11 @@
+
 package controllers.alumno;
 
 import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -19,88 +21,89 @@ import services.SolicitudService;
 @RequestMapping("alumno/solicitud")
 public class SolicitudAlumnoController {
 
-    /// Servicios
-    SolicitudService solicitudService;
+	/// Servicios
+	SolicitudService solicitudService;
 
-    public SolicitudAlumnoController(SolicitudService solicitudService) {
 
-        this.solicitudService = solicitudService;
-    }
+	@Autowired
+	public SolicitudAlumnoController(final SolicitudService solicitudService) {
 
-    /// Listar
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list() {
-        ModelAndView result;
-        Collection<Solicitud> solicitudes;
+		this.solicitudService = solicitudService;
+	}
 
-        solicitudes = this.solicitudService.findAll();
-        result = new ModelAndView("solicitud/list");
-        result.addObject("solicitudes", solicitudes);
+	/// Listar
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Solicitud> solicitudes;
 
-        return result;
-    }
+		solicitudes = this.solicitudService.findAll();
+		result = new ModelAndView("solicitud/list");
+		result.addObject("solicitudes", solicitudes);
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView create() {
-        ModelAndView result;
-        Solicitud solicitud;
+		return result;
+	}
 
-        solicitud = this.solicitudService.create();
-        result = this.createEditModelAndView(solicitud);
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		Solicitud solicitud;
 
-        return result;
-    }
+		solicitud = this.solicitudService.create();
+		result = this.createEditModelAndView(solicitud);
 
-    ///
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView edit(@RequestParam int solicitudId) {
-        ModelAndView result;
-        Solicitud solicitud;
+		return result;
+	}
 
-        solicitud = this.solicitudService.findById(solicitudId);
-        Assert.notNull(solicitud);
-        result = createEditModelAndView(solicitud);
+	///
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int solicitudId) {
+		ModelAndView result;
+		Solicitud solicitud;
 
-        return result;
-    }
+		solicitud = this.solicitudService.findById(solicitudId);
+		Assert.notNull(solicitud);
+		result = this.createEditModelAndView(solicitud);
 
-    @RequestMapping(value = "/save", method = RequestMethod.GET)
-    public ModelAndView save(@Valid Solicitud solicitud, BindingResult binding) {
-        ModelAndView result;
+		return result;
+	}
 
-        if (binding.hasErrors()) {
-            result = createEditModelAndView(solicitud, "No se ha producido realizar la operacion");
-        } else {
-            try {
-                solicitudService.save(solicitud);
-                result = new ModelAndView("redirect:list.do");
-            } catch (Throwable e) {
-                result = createEditModelAndView(solicitud, "solicitud.commit.error");
-            }
-        }
+	@RequestMapping(value = "/save", method = RequestMethod.GET)
+	public ModelAndView save(@Valid final Solicitud solicitud, final BindingResult binding) {
+		ModelAndView result;
 
-        return result;
-    }
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(solicitud, "No se ha producido realizar la operacion");
+		else
+			try {
+				this.solicitudService.save(solicitud);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable e) {
+				result = this.createEditModelAndView(solicitud, "solicitud.commit.error");
+			}
 
-    protected ModelAndView createEditModelAndView(final Solicitud solicitud) {
-        ModelAndView result;
+		return result;
+	}
 
-        result = new ModelAndView("solicitud/edit");
+	protected ModelAndView createEditModelAndView(final Solicitud solicitud) {
+		ModelAndView result;
 
-        result.addObject("solicitud", solicitud);
+		result = new ModelAndView("solicitud/edit");
 
-        return result;
-    }
+		result.addObject("solicitud", solicitud);
 
-    protected ModelAndView createEditModelAndView(final Solicitud solicitud, String mensaje) {
-        ModelAndView result;
+		return result;
+	}
 
-        result = new ModelAndView("solicitud/edit");
+	protected ModelAndView createEditModelAndView(final Solicitud solicitud, final String mensaje) {
+		ModelAndView result;
 
-        result.addObject("solicitud", solicitud);
-        result.addObject("mensaje", mensaje);
+		result = new ModelAndView("solicitud/edit");
 
-        return result;
-    }
+		result.addObject("solicitud", solicitud);
+		result.addObject("mensaje", mensaje);
+
+		return result;
+	}
 
 }

@@ -44,8 +44,8 @@ public class AcademiaController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@Valid Curso curso) {
+	@RequestMapping(value = "/listByCurso", method = RequestMethod.GET)
+	public ModelAndView listByCursoId(@Valid final Curso curso) {
 		ModelAndView result;
 		Academia academia;
 
