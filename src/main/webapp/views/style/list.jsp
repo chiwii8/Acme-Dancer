@@ -10,8 +10,8 @@ uri="http://displaytag.sf.net"%>
   pagesize="5"
   class="displaytag"
   keepStatus="true"
-  name="estilos"
-  requestURI="${requestURI}"
+  name="styles"
+  requestURI="/list.do"
   id="row"
 >
   <!-- Action links -->
@@ -19,15 +19,15 @@ uri="http://displaytag.sf.net"%>
   <security:authorize access="hasRole('ADMIN')">
     <display:column>
       <a href="estilo/administrador/edit.do?estiloId=${row.id}">
-        <spring:message code="estilo.editar" />
+        <spring:message code="estilo.edit" />
       </a>
     </display:column>
   </security:authorize>
 
-  <spring:message code="estilo.nombre" var="nombreHeader" />
-  <display:column property="nombre" title="${nombreHeader}" sortable="true" />
+  <spring:message code="style.name" var="nameHeader" />
+  <display:column property="nombre" title="${nameHeader}" sortable="false" />
 
-  <spring:message code="estilo.descripcion" var="descripcionHeader" />
+  <spring:message code="style.description" var="descripcionHeader" />
   <display:column
     property="descripcion"
     title="${descripcionHeader}"
@@ -39,8 +39,8 @@ uri="http://displaytag.sf.net"%>
 
 <security:authorize access="hasRole('ADMIN')">
   <div>
-    <a href="estilo/administrator/create.do">
-      <spring:message code="estilo.create" />
+    <a href="style/administrator/create.do">
+      <spring:message code="style.create" />
     </a>
   </div>
 </security:authorize>

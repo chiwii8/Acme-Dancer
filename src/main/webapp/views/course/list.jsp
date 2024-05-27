@@ -25,6 +25,6 @@
 	<spring:message code="course.Name" var="nameHeader" />
 	<display:column property="name" title="${nameHeader}" sortable="true" />
 
-    ////TODO: Añadir un botón que nos permita entrar dentro de la academia para ver los
-    /// datos y demás
+    ////TODO: Anadir un boton que nos permita entrar dentro de la academia para ver los
+    /// datos y demas
 </display:table>

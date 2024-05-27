@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * tiles_es.xml
+ * tiles.xml
  *
  * Copyright (C) 2018 Universidad de Sevilla
  * 
@@ -16,9 +16,14 @@
        
 <tiles-definitions>
 
-	<definition name="actor/list" extends="master.page">
-		<put-attribute name="title" value="Actor list" />
-		<put-attribute name="body" value="/views/actor/list.jsp" />
+<definition name="style/list" extends="master.page">
+		<put-attribute name="title" value="style list" />
+		<put-attribute name="body" value="/views/style/list.jsp" />
+</definition>
+
+	<definition name="style/edit" extends="master.page">
+		<put-attribute name="title" value="Edit Style"/>
+		<put-attribute name="body" value="/views/style/edit.jsp"/>
 	</definition>
 
 </tiles-definitions>
