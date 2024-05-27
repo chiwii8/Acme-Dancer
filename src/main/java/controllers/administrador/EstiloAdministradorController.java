@@ -1,3 +1,4 @@
+
 package controllers.administrador;
 
 import java.util.Collection;
@@ -21,93 +22,107 @@ import services.EstiloService;
 @RequestMapping("/administrador/estilo")
 public class EstiloAdministradorController extends AbstractController {
 
-    /// Cargamos los servicios que emplea la vista
-    EstiloService estiloService;
+	/// Cargamos los servicios que emplea la vista
+	EstiloService estiloService;
 
-    @Autowired
-    public EstiloAdministradorController(EstiloService estiloService) {
-        this.estiloService = estiloService;
 
-    }
+	@Autowired
+	public EstiloAdministradorController(final EstiloService estiloService) {
+		this.estiloService = estiloService;
 
-    /// Listado
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list() {
-        ModelAndView result;
-        Collection<Estilo> estilos;
+	}
 
-        estilos = estiloService.findAll();
-        result = new ModelAndView("estilo/list");
-        result.addObject("estilos", estilos);
+	/// Listado
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Estilo> estilos;
 
-        return result;
-    }
+		estilos = this.estiloService.findAll();
+		result = new ModelAndView("estilo/list");
+		result.addObject("estilos", estilos);
 
-    /// Creado
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ModelAndView create() {
-        ModelAndView result;
-        Estilo estilo;
+		return result;
+	}
 
-        estilo = this.estiloService.create();
-        result = this.createEditModelAndView(estilo);
+	/// Creado
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		Estilo estilo;
 
-        return result;
+		estilo = this.estiloService.create();
+		result = this.createEditModelAndView(estilo);
 
-    }
+		return result;
 
-    /// Editar
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView edit(@RequestParam int estiloId) {
-        ModelAndView result;
-        Estilo estilo;
+	}
 
-        estilo = estiloService.findById(estiloId);
-        Assert.notNull(estilo);
-        result = createEditModelAndView(estilo);
+	/// Editar
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int estiloId) {
+		ModelAndView result;
+		Estilo estilo;
 
-        return result;
-    }
+		estilo = this.estiloService.findById(estiloId);
+		Assert.notNull(estilo);
+		result = this.createEditModelAndView(estilo);
 
-    /// Guardar
-    /// TODO: Cambiar
-    @RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
-    public ModelAndView save(@Valid Estilo estilo, BindingResult binding) {
-        ModelAndView result;
+		return result;
+	}
 
-        if (binding.hasErrors()) {
-            result = createEditModelAndView(estilo);
-        } else {
-            try {
-                estiloService.save(estilo);
-                result = new ModelAndView("redirect:list.do");
-            } catch (Throwable e) {
+	/// Guardar
+	/// TODO: Cambiar
+	@RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
+	public ModelAndView save(@Valid final Estilo estilo, final BindingResult binding) {
+		ModelAndView result;
 
-                result = createEditModelAndView(estilo, "estilo.commit.error");
-            }
-        }
-        return result;
-    }
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(estilo);
+		else
+			try {
+				this.estiloService.save(estilo);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable e) {
 
-    protected ModelAndView createEditModelAndView(final Estilo estilo) {
-        ModelAndView result;
+				result = this.createEditModelAndView(estilo, "estilo.commit.error");
+			}
+		return result;
+	}
 
-        result = new ModelAndView("estilo/edit");
+	@RequestMapping(value = "/delete", method = RequestMethod.GET, params = "delete")
+	public ModelAndView delete(@Valid final Estilo estilo, final BindingResult binding) {
+		ModelAndView result;
 
-        result.addObject("estilo", estilo);
+		try {
+			this.estiloService.delete(estilo);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable e) {
+			result = this.createEditModelAndView(estilo, "style.commit.error");
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    protected ModelAndView createEditModelAndView(final Estilo estilo, final String mensaje) {
-        ModelAndView result;
+	protected ModelAndView createEditModelAndView(final Estilo estilo) {
+		ModelAndView result;
 
-        result = new ModelAndView("estilo/edit");
+		result = new ModelAndView("estilo/edit");
 
-        result.addObject("estilo", estilo);
-        result.addObject("mensaje", mensaje);
+		result.addObject("estilo", estilo);
 
-        return result;
-    }
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Estilo estilo, final String mensaje) {
+		ModelAndView result;
+
+		result = new ModelAndView("estilo/edit");
+
+		result.addObject("estilo", estilo);
+		result.addObject("mensaje", mensaje);
+
+		return result;
+	}
 
 }

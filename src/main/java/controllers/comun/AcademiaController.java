@@ -17,7 +17,7 @@ import domain.actores.Academia;
 import services.AcademiaService;
 
 @Controller
-@RequestMapping("/academia")
+@RequestMapping("/academy")
 public class AcademiaController extends AbstractController {
 
 	/// Cargamos los servicios que emplea la vista
@@ -38,7 +38,7 @@ public class AcademiaController extends AbstractController {
 
 		academias = this.academiaService.findAll();
 
-		result = new ModelAndView("academia/list");
+		result = new ModelAndView("academy/list");
 		result.addObject("academias", academias);
 		return result;
 
@@ -51,7 +51,7 @@ public class AcademiaController extends AbstractController {
 
 		academia = this.academiaService.findByCursoId(curso.getId());
 
-		result = new ModelAndView("academia/list");
+		result = new ModelAndView("academy/list");
 		result.addObject("academia", academia);
 
 		return result;

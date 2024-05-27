@@ -1,3 +1,4 @@
+
 package controllers.comun;
 
 import java.util.Collection;
@@ -12,27 +13,28 @@ import domain.Estilo;
 import services.EstiloService;
 
 @Controller
-@RequestMapping("/Estilo")
+@RequestMapping("/style")
 public class EstiloController {
 
-    /// Cargamos el servicio
-    EstiloService estiloService;
+	/// Cargamos el servicio
+	EstiloService estiloService;
 
-    @Autowired
-    public EstiloController(EstiloService estiloService) {
-        this.estiloService = estiloService;
-    }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list() {
-        ModelAndView result;
-        Collection<Estilo> estilos;
+	@Autowired
+	public EstiloController(final EstiloService estiloService) {
+		this.estiloService = estiloService;
+	}
 
-        estilos = this.estiloService.findAll();
-        result = new ModelAndView();
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Estilo> estilos;
 
-        result.addObject("estilos", estilos);
+		estilos = this.estiloService.findAll();
+		result = new ModelAndView();
 
-        return result;
-    }
+		result.addObject("styles", estilos);
+
+		return result;
+	}
 }

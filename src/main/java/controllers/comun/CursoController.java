@@ -18,7 +18,7 @@ import domain.actores.Academia;
 import services.CursoService;
 
 @Controller
-@RequestMapping("/curso")
+@RequestMapping("/course")
 public class CursoController {
 
 	/// Cargamos el servicio
@@ -36,7 +36,7 @@ public class CursoController {
 		Collection<Curso> cursos;
 
 		cursos = this.cursoService.findAll();
-		result = new ModelAndView("curso/list");
+		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);
 
@@ -49,7 +49,7 @@ public class CursoController {
 		Collection<Curso> cursos;
 
 		cursos = this.cursoService.findAllByAcademiaId(academia.getId());
-		result = new ModelAndView("curso/list");
+		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);
 
@@ -62,7 +62,7 @@ public class CursoController {
 		Collection<Curso> cursos;
 
 		cursos = this.cursoService.findByString(busqueda);
-		result = new ModelAndView("curso/list");
+		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);
 
@@ -75,7 +75,7 @@ public class CursoController {
 		Collection<Curso> cursos;
 
 		cursos = this.cursoService.findAllByEstiloId(estilo.getId());
-		result = new ModelAndView("curso/list");
+		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);
 
