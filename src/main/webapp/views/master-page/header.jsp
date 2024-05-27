@@ -21,8 +21,8 @@
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<li><a class="fNiv" href="academy/list.do"><spring:message code="master.page.comun.action.1" /></a></li>
-		<li><a class="fNiv" href="course/login.do"><spring:message code="master.page.comun.action.2" /></a></li>
-		<li><a class="fNiv" href="style/login.do"><spring:message code="master.page.comun.action.3" /></a></li>
+		<li><a class="fNiv" href="course/list.do"><spring:message code="master.page.comun.action.2" /></a></li>
+		<li><a class="fNiv" href="style/list.do"><spring:message code="master.page.comun.action.3" /></a></li>
 		
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>

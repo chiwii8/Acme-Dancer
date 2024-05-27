@@ -50,6 +50,10 @@
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
+		
+		<security:intercept-url pattern="/academy/**" access="permitAll"/>
+		<security:intercept-url pattern="/course/**" access="permitAll"/>
+		<security:intercept-url pattern="/style/**" access="permitAll"/>
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
