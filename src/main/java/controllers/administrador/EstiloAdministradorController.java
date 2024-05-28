@@ -46,7 +46,6 @@ public class EstiloAdministradorController extends AbstractController {
 		estilos = this.estiloService.findAll();
 		result = new ModelAndView("style/list");
 		result.addObject("styles", estilos);
-		result.addObject("requestURI", "administrator/style/list.do");
 
 		return result;
 	}
@@ -69,7 +68,7 @@ public class EstiloAdministradorController extends AbstractController {
 	public ModelAndView edit(@RequestParam("styleId") final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
-		System.out.println("Entra dentro del controlador adecuado");
+
 		estilo = this.estiloService.findById(styleId);
 		Assert.notNull(estilo);
 		result = this.createEditModelAndView(estilo);
@@ -90,7 +89,7 @@ public class EstiloAdministradorController extends AbstractController {
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable e) {
 
-				result = this.createEditModelAndView(style, "estilo.commit.error");
+				result = this.createEditModelAndView(style, "style.commit.error");
 			}
 		return result;
 	}

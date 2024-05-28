@@ -3,7 +3,6 @@ package controllers.comun;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Curso;
-import domain.Estilo;
-import domain.actores.Academia;
 import services.CursoService;
 
 @Controller
@@ -39,7 +36,7 @@ public class CursoController extends AbstractController {
 		cursos = this.cursoService.findAll();
 		result = new ModelAndView("course/list");
 
-		result.addObject("cursos", cursos);
+		result.addObject("courses", cursos);
 
 		return result;
 	}
@@ -52,7 +49,7 @@ public class CursoController extends AbstractController {
 		cursos = this.cursoService.findAllByAcademiaId(id);
 		result = new ModelAndView("course/list");
 
-		result.addObject("cursos", cursos);
+		result.addObject("courses", cursos);
 
 		return result;
 	}
@@ -65,7 +62,7 @@ public class CursoController extends AbstractController {
 		cursos = this.cursoService.findByString(busqueda);
 		result = new ModelAndView("course/list");
 
-		result.addObject("cursos", cursos);
+		result.addObject("courses", cursos);
 
 		return result;
 	}
@@ -78,8 +75,22 @@ public class CursoController extends AbstractController {
 		cursos = this.cursoService.findAllByEstiloId(id);
 		result = new ModelAndView("course/list");
 
-		result.addObject("cursos", cursos);
+		result.addObject("courses", cursos);
 
 		return result;
+	}
+
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public ModelAndView view(@RequestParam("courseId") final int courseid) {
+		ModelAndView result;
+		Curso curso;
+
+		curso = this.cursoService.findById(courseid);
+
+		result = new ModelAndView("course/view");
+		result.addObject("course", curso);
+
+		return result;
+
 	}
 }

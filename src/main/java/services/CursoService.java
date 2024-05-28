@@ -48,6 +48,14 @@ public class CursoService {
 		return result;
 	}
 
+	public Curso create() {
+		Curso result;
+
+		result = new Curso();
+
+		return result;
+	}
+
 	public Curso save(final Curso curso) {
 		Assert.notNull(curso);
 		Curso result;
