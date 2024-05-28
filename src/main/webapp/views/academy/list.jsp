@@ -20,7 +20,7 @@
 	<display:column property="nombreComercial" title="${nombreComercialHeader}" sortable="true" />
 
 	<display:column>
-			<a href="course/list.do?academyId=${row.id}">
+			<a href="course/listByAcademiaId.do?academyId=${row.id}">
 				<spring:message	code="academy.see.course" />
 			</a>
 	</display:column>
