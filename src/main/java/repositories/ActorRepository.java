@@ -18,6 +18,9 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
     @Query("select a from Actor a where a.nombre=:nombre")
     public Collection<Actor> findByNombre(@Param("nombre") String nombre);
 
+    @Query("select a from Actor a where a.correo=:correo")
+    public Actor findByCorreo(@Param("correo") String correo);
+
     @Query("select a from Actor a where a.nombre=:nombre and a.apellidos=:apellidos")
     public Collection<Actor> findByNombreyApellidos(@Param("nombre") String nombre,
             @Param("apellidos") String apellidos);

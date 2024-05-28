@@ -90,6 +90,17 @@ public class ActorService {
         return result;
     }
 
+    public Actor findByCorreo(String correo) {
+        Assert.hasText(correo);
+        Actor result;
+
+        result = this.actorRepository.findByCorreo(correo);
+
+        Assert.notNull(result);
+
+        return result;
+    }
+
     public Collection<Actor> findByCodigoPostal(String codigoPostal) {
         Assert.hasText(codigoPostal);
 

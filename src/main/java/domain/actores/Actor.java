@@ -14,12 +14,17 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "correo")
+})
 public abstract class Actor extends DomainEntity {
 
     private String nombre;
