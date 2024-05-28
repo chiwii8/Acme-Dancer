@@ -62,9 +62,7 @@
 <jstl:choose>
 	<jstl:when test="${not empty style.videos}">
 		<jstl:forEach var="video" items="style.videos">
-	<iframe width="560" height="315" src="${video}" frameborder="0"
-		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-		allowfullscreen></iframe>
+	<iframe width="560" height="315" src="${video}"></iframe>
 	<br />
 </jstl:forEach>
 	</jstl:when>

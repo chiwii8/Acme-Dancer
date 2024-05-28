@@ -19,18 +19,14 @@ import repositories.CursoRepository;
 public class CursoService {
 
 	/// Repositorio propio
-	private final CursoRepository	cursoRepository;
+	private final CursoRepository cursoRepository;
 
 	/// Servicio de apoyo
-	private final EstiloService		estiloService;
-	private final AcademiaService	academiaService;
 
 
 	@Autowired
-	public CursoService(final CursoRepository cursoRepository, final EstiloService estiloService, final AcademiaService academiaService) {
+	public CursoService(final CursoRepository cursoRepository) {
 		this.cursoRepository = cursoRepository;
-		this.estiloService = estiloService;
-		this.academiaService = academiaService;
 	}
 
 	/// Metodos base
