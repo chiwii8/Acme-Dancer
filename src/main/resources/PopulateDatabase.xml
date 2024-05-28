@@ -164,7 +164,7 @@
     <!-- Cursos-->
     
     <bean id="curso1" class="domain.Curso">
-        <property name ="titulo" value="Barchata"/>
+        <property name ="titulo" value="Barchata para Principiantes"/>
         <property name ="fechaInicio" value="18/05/2024"/>
         <property name ="fechaFin" value="25/05/2024"/>
         <property name ="diaSemana" value="LUNES"/>

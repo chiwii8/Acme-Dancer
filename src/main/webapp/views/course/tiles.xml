@@ -16,11 +16,14 @@
        
 <tiles-definitions>
 
-	<definition name="master.page" template="/views/master-page/layout.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="header" value="/views/master-page/header.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/views/master-page/footer.jsp" />
+	<definition name="course/list" extends="master.page">
+		<put-attribute name="title" value="Course List" />
+		<put-attribute name="body" value="/views/course/list.jsp" />
+	</definition>
+
+	<definition name="academy/course/edit" extends="master.page">
+		<put-attribute name="title" value="Course Edit" />
+		<put-attribute name="body" value="/views/course/edit.jsp" />
 	</definition>
 
 </tiles-definitions>
