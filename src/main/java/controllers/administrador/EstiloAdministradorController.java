@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Curso;
 import domain.Estilo;
+import services.CursoService;
 import services.EstiloService;
 
 @Controller
@@ -23,12 +25,15 @@ import services.EstiloService;
 public class EstiloAdministradorController extends AbstractController {
 
 	/// Cargamos los servicios que emplea la vista
-	EstiloService estiloService;
+	EstiloService	estiloService;
+
+	CursoService	cursoService;
 
 
 	@Autowired
-	public EstiloAdministradorController(final EstiloService estiloService) {
+	public EstiloAdministradorController(final EstiloService estiloService, final CursoService cursoService) {
 		this.estiloService = estiloService;
+		this.cursoService = cursoService;
 
 	}
 
@@ -93,18 +98,23 @@ public class EstiloAdministradorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Estilo style, final BindingResult binding) {
 		ModelAndView result;
+		Collection<Curso> cursos;
 
-		try {
-			this.estiloService.delete(style);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable e) {
-			result = this.createEditModelAndView(style, "style.commit.error");
-		}
+		cursos = this.cursoService.findAllByEstiloId(style.getId());
+		if (cursos.isEmpty())
+			result = this.createEditModelAndView(style, "style.commit.error.courses");
+		else
+			try {
+				this.estiloService.delete(style);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable e) {
+				result = this.createEditModelAndView(style, "style.commit.error");
+			}
 
 		return result;
 	}
 
-	//// Métodos que controlan las imágenes
+	//// Métodos que controlan las imagenes
 	@RequestMapping(value = "/listImages", method = RequestMethod.GET)
 	public ModelAndView listImages(@RequestParam final int styleId) {
 		ModelAndView result;
