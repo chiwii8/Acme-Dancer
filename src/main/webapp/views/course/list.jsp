@@ -11,32 +11,49 @@
 
 <!-- Listing grid -->
 
-<display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="cursos" requestURI="curso/list.do" id="row">
-	
+<table>
+	<thead>
+		<tr>
+			<th><spring:message code="course.title"/></th>
+			<th><spring:message code="course.style"/></th>
+			<th><spring:message code="course.startdate"/></th>
+			<th><spring:message code="course.enddate"/></th>
+			<th><spring:message code="course.dayofweek"/></th>
+			<th><spring:message code="course.time"/></th>
+			<th><spring:message code="course.level"/></th>
+			<th><spring:message code="course.academy"/></th>
+
+			
+		</tr>
+	</thead>
+	<tbody>
+		<jstl:forEach items="${courses}" var="course">
+			<tr>
+				<td>
+          <tr>${course.titulo}</tr>
+          <tr>${course.estilo}</tr>
+          <tr>${course.fechaInicio}</tr>
+          <tr>${course.fechaFin}</tr>
+          <tr>${course.diaSemana}</tr>
+          <tr>${course.hora}:${course.minuto}</tr>
+          <tr>${course.nivel}</tr>
+          <tr>
+            <a href="academy/viewAcademyByCourse.do?courseId=${course.id}">
+              <spring:message code="course.academy.see"/>
+            </a>
+          </tr>
+          <security:authorize access="hasRole('ACADEMIA')">
+					<td>
+						<a href="academy/course/edit.do?courseId=${course.id}"> <spring:message
+						code="course.edit" />
+						</a>
+					</td>
+		
+				</security:authorize>
 
 
-	<spring:message code="course.name" var="nameHeader" />
-	<display:column property="name" title="${nameHeader}" sortable="true" />
-	
-  <spring:message code="course.style" var="styleHeader" />
-	<display:column property="style" title="${styleHeader}" sortable="true" />
-  
-  <spring:message code="course.style" var="styleHeader" />
-	<display:column property="style" title="${styleHeader}" sortable="true" />
-  
-  <spring:message code="course.style" var="styleHeader" />
-	<display:column property="style" title="${styleHeader}" sortable="true" />
-
-  <display:column>
-    <a href="academy"><spring:message code="course.academy.see"/></a>
-  </display:column>
-    	<!-- Attributes -->
-	<security:authorize access="hasRole('ACADEMIA')">
-    <display:column>
-      <a href="/academia/edit.do?estiloId=${row.id}">
-        <spring:message code="estilo.editar" />
-      </a>
-    </display:column>
-  </security:authorize>
-</display:table>
+        </td>
+			</tr>
+		</jstl:forEach>
+	</tbody>
+</table>
