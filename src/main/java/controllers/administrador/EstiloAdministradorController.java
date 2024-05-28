@@ -41,6 +41,7 @@ public class EstiloAdministradorController extends AbstractController {
 		estilos = this.estiloService.findAll();
 		result = new ModelAndView("style/list");
 		result.addObject("styles", estilos);
+		result.addObject("requestURI", "administrator/style/list.do");
 
 		return result;
 	}
@@ -60,11 +61,11 @@ public class EstiloAdministradorController extends AbstractController {
 
 	/// Editar
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int estiloId) {
+	public ModelAndView edit(@RequestParam("styleId") final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
-
-		estilo = this.estiloService.findById(estiloId);
+		System.out.println("Entra dentro del controlador adecuado");
+		estilo = this.estiloService.findById(styleId);
 		Assert.notNull(estilo);
 		result = this.createEditModelAndView(estilo);
 
@@ -72,32 +73,32 @@ public class EstiloAdministradorController extends AbstractController {
 	}
 
 	/// Guardar
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
-	public ModelAndView save(@Valid final Estilo estilo, final BindingResult binding) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final Estilo style, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(estilo);
+			result = this.createEditModelAndView(style);
 		else
 			try {
-				this.estiloService.save(estilo);
+				this.estiloService.save(style);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable e) {
 
-				result = this.createEditModelAndView(estilo, "estilo.commit.error");
+				result = this.createEditModelAndView(style, "estilo.commit.error");
 			}
 		return result;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET, params = "delete")
-	public ModelAndView delete(final Estilo estilo, final BindingResult binding) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final Estilo style, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			this.estiloService.delete(estilo);
+			this.estiloService.delete(style);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable e) {
-			result = this.createEditModelAndView(estilo, "style.commit.error");
+			result = this.createEditModelAndView(style, "style.commit.error");
 		}
 
 		return result;
@@ -105,13 +106,13 @@ public class EstiloAdministradorController extends AbstractController {
 
 	//// Métodos que controlan las imágenes
 	@RequestMapping(value = "/listImages", method = RequestMethod.GET)
-	public ModelAndView listImages(@RequestParam int id) {
+	public ModelAndView listImages(@RequestParam final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
 
 		Collection<String> images;
 
-		estilo = this.estiloService.findById(id);
+		estilo = this.estiloService.findById(styleId);
 		images = estilo.getImagenes();
 
 		result = new ModelAndView("style/listImages");
@@ -124,13 +125,13 @@ public class EstiloAdministradorController extends AbstractController {
 
 	//// Métodos que controlan las imágenes
 	@RequestMapping(value = "/listVideos", method = RequestMethod.GET)
-	public ModelAndView listVideos(@RequestParam int id) {
+	public ModelAndView listVideos(@RequestParam final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
 
 		Collection<String> videos;
 
-		estilo = this.estiloService.findById(id);
+		estilo = this.estiloService.findById(styleId);
 		videos = estilo.getVideos();
 
 		result = new ModelAndView("style/listVideos");

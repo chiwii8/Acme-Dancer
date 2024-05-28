@@ -36,20 +36,21 @@ public class EstiloController extends AbstractController {
 		result = new ModelAndView();
 
 		result.addObject("styles", estilos);
-
+		result.addObject("requestURI", "/style/list.do");
 		return result;
 	}
 
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam int id) {
+	public ModelAndView view(@RequestParam("styleId") final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
 
-		estilo = this.estiloService.findById(id);
-		result = new ModelAndView();
+		estilo = this.estiloService.findById(styleId);
+		result = new ModelAndView("style/view");
 
 		result.addObject("style", estilo);
 
+		System.out.println("Entra en el controlador");
 		return result;
 	}
 }
