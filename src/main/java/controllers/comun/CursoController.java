@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import domain.Curso;
 import domain.Estilo;
 import domain.actores.Academia;
@@ -19,7 +20,7 @@ import services.CursoService;
 
 @Controller
 @RequestMapping("/course")
-public class CursoController {
+public class CursoController extends AbstractController {
 
 	/// Cargamos el servicio
 	CursoService cursoService;
@@ -44,11 +45,11 @@ public class CursoController {
 	}
 
 	@RequestMapping(value = "/listByAcademia", method = RequestMethod.GET)
-	public ModelAndView list(@Valid final Academia academia) {
+	public ModelAndView listByAcademia(@RequestParam final int id) {
 		ModelAndView result;
 		Collection<Curso> cursos;
 
-		cursos = this.cursoService.findAllByAcademiaId(academia.getId());
+		cursos = this.cursoService.findAllByAcademiaId(id);
 		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);
@@ -57,7 +58,7 @@ public class CursoController {
 	}
 
 	@RequestMapping(value = "/listBySearch", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final String busqueda) {
+	public ModelAndView listBySearch(@RequestParam final String busqueda) {
 		ModelAndView result;
 		Collection<Curso> cursos;
 
@@ -69,12 +70,12 @@ public class CursoController {
 		return result;
 	}
 
-	@RequestMapping(value = "/listByCursoId", method = RequestMethod.GET)
-	public ModelAndView list(@Valid final Estilo estilo) {
+	@RequestMapping(value = "/listByEstiloId", method = RequestMethod.GET)
+	public ModelAndView listByEstiloId(@RequestParam final int id) {
 		ModelAndView result;
 		Collection<Curso> cursos;
 
-		cursos = this.cursoService.findAllByEstiloId(estilo.getId());
+		cursos = this.cursoService.findAllByEstiloId(id);
 		result = new ModelAndView("course/list");
 
 		result.addObject("cursos", cursos);

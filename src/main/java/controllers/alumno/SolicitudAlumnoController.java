@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import domain.Solicitud;
 import services.SolicitudService;
 
 @Controller
 @RequestMapping("alumno/solicitud")
-public class SolicitudAlumnoController {
+public class SolicitudAlumnoController extends AbstractController {
 
 	/// Servicios
 	SolicitudService solicitudService;

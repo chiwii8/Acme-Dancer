@@ -1,5 +1,10 @@
 package controllers.academia;
 
-public class TutorialesAcademiaController {
+import org.springframework.stereotype.Controller;
+
+import controllers.AbstractController;
+
+@Controller
+public class TutorialesAcademiaController extends AbstractController {
 
 }

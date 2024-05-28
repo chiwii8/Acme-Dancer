@@ -19,7 +19,7 @@ import domain.Estilo;
 import services.EstiloService;
 
 @Controller
-@RequestMapping("/administrador/estilo")
+@RequestMapping("/administrator/style")
 public class EstiloAdministradorController extends AbstractController {
 
 	/// Cargamos los servicios que emplea la vista
@@ -39,8 +39,8 @@ public class EstiloAdministradorController extends AbstractController {
 		Collection<Estilo> estilos;
 
 		estilos = this.estiloService.findAll();
-		result = new ModelAndView("estilo/list");
-		result.addObject("estilos", estilos);
+		result = new ModelAndView("style/list");
+		result.addObject("styles", estilos);
 
 		return result;
 	}
@@ -72,7 +72,6 @@ public class EstiloAdministradorController extends AbstractController {
 	}
 
 	/// Guardar
-	/// TODO: Cambiar
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
 	public ModelAndView save(@Valid final Estilo estilo, final BindingResult binding) {
 		ModelAndView result;
@@ -91,7 +90,7 @@ public class EstiloAdministradorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET, params = "delete")
-	public ModelAndView delete(@Valid final Estilo estilo, final BindingResult binding) {
+	public ModelAndView delete(final Estilo estilo, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -104,12 +103,49 @@ public class EstiloAdministradorController extends AbstractController {
 		return result;
 	}
 
+	//// Métodos que controlan las imágenes
+	@RequestMapping(value = "/listImages", method = RequestMethod.GET)
+	public ModelAndView listImages(@RequestParam int id) {
+		ModelAndView result;
+		Estilo estilo;
+
+		Collection<String> images;
+
+		estilo = this.estiloService.findById(id);
+		images = estilo.getImagenes();
+
+		result = new ModelAndView("style/listImages");
+
+		result.addObject("images", images);
+
+		return result;
+
+	}
+
+	//// Métodos que controlan las imágenes
+	@RequestMapping(value = "/listVideos", method = RequestMethod.GET)
+	public ModelAndView listVideos(@RequestParam int id) {
+		ModelAndView result;
+		Estilo estilo;
+
+		Collection<String> videos;
+
+		estilo = this.estiloService.findById(id);
+		videos = estilo.getVideos();
+
+		result = new ModelAndView("style/listVideos");
+
+		result.addObject("videos", videos);
+
+		return result;
+	}
+
 	protected ModelAndView createEditModelAndView(final Estilo estilo) {
 		ModelAndView result;
 
-		result = new ModelAndView("estilo/edit");
+		result = new ModelAndView("style/edit");
 
-		result.addObject("estilo", estilo);
+		result.addObject("style", estilo);
 
 		return result;
 	}
@@ -117,9 +153,9 @@ public class EstiloAdministradorController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Estilo estilo, final String mensaje) {
 		ModelAndView result;
 
-		result = new ModelAndView("estilo/edit");
+		result = new ModelAndView("style/edit");
 
-		result.addObject("estilo", estilo);
+		result.addObject("style", estilo);
 		result.addObject("mensaje", mensaje);
 
 		return result;
