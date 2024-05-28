@@ -224,8 +224,120 @@
 	<!-- Estilos -->
 	
 	<bean id="estilo1" class="domain.Estilo">
-		<property name ="nombre" value="Barchata"/>
+		<property name ="nombre" value="Bachata"/>
 		<property name ="descripcion" value="estilo romano"/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="estilo2" class="domain.Estilo">
+		<property name ="nombre" value="Salsa"/>
+		<property name ="descripcion" value="Baile social latino con raíces cubanas, conocido por sus movimientos rápidos y giros."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+    <bean id="estilo3" class="domain.Estilo">
+		<property name ="nombre" value="Mambo"/>
+		<property name ="descripcion" value="Baile cubano con ritmo rápido, similar a la salsa pero con pausas en el paso."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="estilo4" class="domain.Estilo">
+		<property name ="nombre" value="Pachanga"/>
+		<property name ="descripcion" value="Baile cubano festivo y alegre, con pasos rápidos y movimientos de cadera."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+    <bean id="estilo5" class="domain.Estilo">
+		<property name ="nombre" value="Pasodoble"/>
+		<property name ="descripcion" value="Baile español de influencia taurina, con pasos firmes y estilo dramático"/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+    <bean id="estilo6" class="domain.Estilo">
+		<property name ="nombre" value="Sevillana"/>
+		<property name ="descripcion" value="Baile folclórico andaluz, alegre y rítmico, con palmas y giros."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+    <bean id="estilo7" class="domain.Estilo">
+		<property name ="nombre" value="Tango"/>
+		<property name ="descripcion" value="Baile argentino apasionado y elegante, conocido por su abrazo cerrado y pasos precisos."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="estilo8" class="domain.Estilo">
+		<property name ="nombre" value="Chachachá"/>
+		<property name ="descripcion" value="Baile cubano animado con un ritmo sincopado distintivo y movimientos de cadera."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+    <bean id="estilo2" class="domain.Estilo">
+		<property name ="nombre" value="Rumba"/>
+		<property name ="descripcion" value="Baile afro-cubano lento y sensual, con énfasis en movimientos de cadera."/>
+		<property name ="imagenes">
+			<list>
+			</list>
+		</property>
+		<property name ="videos">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="estilo2" class="domain.Estilo">
+		<property name ="nombre" value="Kizomba"/>
+		<property name ="descripcion" value="Baile angoleño sensual y lento, caracterizado por un abrazo íntimo y movimientos suaves."/>
 		<property name ="imagenes">
 			<list>
 			</list>
