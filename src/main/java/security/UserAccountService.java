@@ -35,5 +35,11 @@ public class UserAccountService {
     }
 
     // Other business methods -------------------------------------------------
+    public UserAccount create() {
+        UserAccount result;
 
+        result = new UserAccount();
+
+        return result;
+    }
 }

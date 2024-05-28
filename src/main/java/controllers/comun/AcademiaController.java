@@ -39,7 +39,7 @@ public class AcademiaController extends AbstractController {
 		academias = this.academiaService.findAll();
 
 		result = new ModelAndView("academy/list");
-		result.addObject("academias", academias);
+		result.addObject("academies", academias);
 		return result;
 
 	}
@@ -52,7 +52,7 @@ public class AcademiaController extends AbstractController {
 		academia = this.academiaService.findByCursoId(curso.getId());
 
 		result = new ModelAndView("academy/list");
-		result.addObject("academia", academia);
+		result.addObject("academies", academia);
 
 		return result;
 	}

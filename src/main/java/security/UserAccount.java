@@ -45,7 +45,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	public UserAccount() {
 		super();
 
-		this.authorities = new ArrayList<Authority>();
+		this.authorities = new ArrayList<>();
 	}
 
 

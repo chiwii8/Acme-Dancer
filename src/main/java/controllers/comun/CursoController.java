@@ -41,8 +41,8 @@ public class CursoController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/listByAcademia", method = RequestMethod.GET)
-	public ModelAndView listByAcademia(@RequestParam final int id) {
+	@RequestMapping(value = "/listByAcademiaId", method = RequestMethod.GET)
+	public ModelAndView listByAcademia(@RequestParam("academyId") final int id) {
 		ModelAndView result;
 		Collection<Curso> cursos;
 
