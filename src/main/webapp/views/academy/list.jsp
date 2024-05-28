@@ -12,13 +12,16 @@
 <!-- Listing grid -->
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="academias" requestURI="academia/list.do" id="row">
+	name="academias" requestURI="academy/list.do" id="row">
 	
 	<!-- Attributes -->
 
-	<spring:message code="academy.comercialName" var="nombreComercialHeader" />
+	<spring:message code="academy.comercialname" var="nombreComercialHeader" />
 	<display:column property="nombreComercial" title="${nombreComercialHeader}" sortable="true" />
 
-    ////TODO: Añadir un botón que nos permita entrar dentro de la academia para ver los
-    /// datos y demás
+	<display:column>
+			<a href="course/list.do?academyId=${row.id}">
+				<spring:message	code="academy.see.course" />
+			</a>
+	</display:column>
 </display:table>

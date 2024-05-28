@@ -14,17 +14,29 @@
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="cursos" requestURI="curso/list.do" id="row">
 	
-	<!-- Attributes -->
+
+
+	<spring:message code="course.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+	
+  <spring:message code="course.style" var="styleHeader" />
+	<display:column property="style" title="${styleHeader}" sortable="true" />
+  
+  <spring:message code="course.style" var="styleHeader" />
+	<display:column property="style" title="${styleHeader}" sortable="true" />
+  
+  <spring:message code="course.style" var="styleHeader" />
+	<display:column property="style" title="${styleHeader}" sortable="true" />
+
+  <display:column>
+    <a href="academy"><spring:message code="course.academy.see"/></a>
+  </display:column>
+    	<!-- Attributes -->
 	<security:authorize access="hasRole('ACADEMIA')">
     <display:column>
-      <a href="estilo/academia/edit.do?estiloId=${row.id}">
+      <a href="/academia/edit.do?estiloId=${row.id}">
         <spring:message code="estilo.editar" />
       </a>
     </display:column>
   </security:authorize>
-	<spring:message code="course.Name" var="nameHeader" />
-	<display:column property="name" title="${nameHeader}" sortable="true" />
-
-    ////TODO: Anadir un boton que nos permita entrar dentro de la academia para ver los
-    /// datos y demas
 </display:table>

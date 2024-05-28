@@ -17,6 +17,5 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
-<p>Esta es la primera página en mostrarse</p>
 
 <p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 

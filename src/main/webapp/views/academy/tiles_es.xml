@@ -16,9 +16,9 @@
        
 <tiles-definitions>
 
-	<definition name="academia/list" extends="master.page">
+	<definition name="academy/list" extends="master.page">
 		<put-attribute name="title" value="Lista de Academias" />
-		<put-attribute name="body" value="/views/Academia/list.jsp" />
+		<put-attribute name="body" value="/views/academy/list.jsp" />
 	</definition>
 
 </tiles-definitions>
