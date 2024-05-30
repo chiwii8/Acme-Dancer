@@ -1,8 +1,8 @@
 /*
  * Authority.java
- * 
+ *
  * Copyright (C) 2018 Universidad de Sevilla
- * 
+ *
  * The use of this project is hereby constrained to the conditions of the
  * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
@@ -27,7 +27,7 @@ public class Authority implements GrantedAuthority {
 
 	// Constructors -----------------------------------------------------------
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 
 	public Authority() {
@@ -39,7 +39,7 @@ public class Authority implements GrantedAuthority {
 
 	public static final String	ADMIN		= "ADMIN";
 	public static final String	ACADEMIA	= "ACADEMIA";
-	public static final String	ALUMNO	= "ALUMNO";
+	public static final String	ALUMNO		= "ALUMNO";
 
 	// Attributes -------------------------------------------------------------
 
@@ -62,10 +62,6 @@ public class Authority implements GrantedAuthority {
 		Authority authority;
 
 		result = new ArrayList<Authority>();
-
-		authority = new Authority();
-		authority.setAuthority(Authority.ADMIN);
-		result.add(authority);
 
 		authority = new Authority();
 		authority.setAuthority(Authority.ACADEMIA);

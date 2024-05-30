@@ -1,3 +1,4 @@
+
 package security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,37 +10,47 @@ import org.springframework.util.Assert;
 @Transactional
 public class UserAccountService {
 
-    // Managed repository -----------------------------------------------------
+	// Managed repository -----------------------------------------------------
 
-    private UserAccountRepository userAccountRepository;
+	private final UserAccountRepository userAccountRepository;
 
-    // Supporting services ----------------------------------------------------
+	// Supporting services ----------------------------------------------------
 
-    // Constructors -----------------------------------------------------------
 
-    @Autowired
-    public UserAccountService(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
-    }
+	// Constructors -----------------------------------------------------------
 
-    // Simple CRUD methods ----------------------------------------------------
+	@Autowired
+	public UserAccountService(final UserAccountRepository userAccountRepository) {
+		this.userAccountRepository = userAccountRepository;
+	}
 
-    public UserAccount findByActor(final domain.actores.Actor actor) {
-        Assert.notNull(actor);
+	// Simple CRUD methods ----------------------------------------------------
 
-        UserAccount result;
+	public UserAccount findByActor(final domain.actores.Actor actor) {
+		Assert.notNull(actor);
 
-        result = this.userAccountRepository.findByActorId(actor.getId());
+		UserAccount result;
 
-        return result;
-    }
+		result = this.userAccountRepository.findByActorId(actor.getId());
 
-    // Other business methods -------------------------------------------------
-    public UserAccount create() {
-        UserAccount result;
+		return result;
+	}
 
-        result = new UserAccount();
+	// Other business methods -------------------------------------------------
+	public UserAccount create() {
+		UserAccount result;
 
-        return result;
-    }
+		result = new UserAccount();
+
+		return result;
+	}
+
+	public UserAccount findByuserName(final String username) {
+		Assert.hasText(username);
+		UserAccount result;
+
+		result = this.userAccountRepository.findByUsername(username);
+
+		return result;
+	}
 }

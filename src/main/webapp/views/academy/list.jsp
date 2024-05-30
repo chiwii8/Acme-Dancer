@@ -12,7 +12,7 @@
 <!-- Listing grid -->
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="academias" requestURI="academy/list.do" id="row">
+	name="academies" requestURI="academy/list.do" id="row">
 	
 	<!-- Attributes -->
 

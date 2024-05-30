@@ -10,7 +10,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id="courseForm" action="academy/course/edit.do" modelAttribute="userAccount">
+<form:form id="actorForm" action="actor/create.do" modelAttribute="userAccount" method="POST">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -29,21 +29,23 @@
 	<form:errors cssClass="error" path="password" />
 	<br />
 
-	
-
     <form:label path="authorities">
         <spring:message code="useraccount.type" />:
     </form:label>
-    <form:select id="authorities" multiple="false">
-        <form:options items="${authorities}" itemvalue="authority" itemlabel="authority"/>
+    <form:select id="authorities" path="authorities" multiple="false" >
+        <jstl:forEach items="${authoritiesElement}" var ="authority">
+        	<form:option value="${authority}" itemvalue="${authority}">${authority}</form:option>
+        </jstl:forEach>
     </form:select>
+    <form:errors path="authorities" cssClass="error"/>
 
-	<input type="submit" name="save"
-		value="<spring:message code="style.save" />" />&nbsp; 
+	<input type="submit" name="next"
+		value="<spring:message code="actor.next" />" />&nbsp; 
 	
 	<input type="button" name="cancel"
-		value="<spring:message code="course.cancel" />"
-		onclick="javascript: relativeRedir('administrator/style/list.do');" />
+		value="<spring:message code="actor.cancel" />"
+		onclick="javascript: relativeRedir('');" />
 	<br />
-
+	
+	
 </form:form>

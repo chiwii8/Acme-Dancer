@@ -10,7 +10,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id="courseForm" action="academy/course/edit.do" modelAttribute="Academy">
+<form:form id="courseForm" action="actor/createAcademy.do" modelAttribute="academy">
 <form:label path="nombre">
 		<spring:message code="actor.name" />:
 	</form:label>
@@ -51,6 +51,14 @@
 	</form:label>
 	<form:input path="nombreComercial" />
 	<form:errors cssClass="error" path="nombreComercial" />
+	<br />
+	
+	<input type="submit" name="save"
+		value="<spring:message code="actor.save" />" />&nbsp; 
+	
+	<input type="button" name="cancel"
+		value="<spring:message code="actor.cancel" />"
+		onclick="javascript: relativeRedir('');" />
 	<br />
 
     </form:form>
