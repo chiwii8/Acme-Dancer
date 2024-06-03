@@ -3,30 +3,31 @@ package controllers.comun;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
-import domain.Curso;
 import domain.actores.Academia;
 import services.AcademiaService;
+import services.CursoService;
 
 @Controller
 @RequestMapping("/academy")
 public class AcademiaController extends AbstractController {
 
 	/// Cargamos los servicios que emplea la vista
-	AcademiaService academiaService;
+	AcademiaService	academiaService;
+	CursoService	cursoService;
 
 
 	@Autowired
-	public AcademiaController(final AcademiaService academiaService) {
+	public AcademiaController(final AcademiaService academiaService, final CursoService cursoService) {
 		this.academiaService = academiaService;
+		this.cursoService = cursoService;
 	}
 
 	//Listar
@@ -44,12 +45,12 @@ public class AcademiaController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/listByCurso", method = RequestMethod.GET)
-	public ModelAndView listByCursoId(@Valid final Curso curso) {
+	@RequestMapping(value = "/listbycurso", method = RequestMethod.GET)
+	public ModelAndView listByCursoId(@RequestParam(value = "courseId") final int cursoId) {
 		ModelAndView result;
 		Academia academia;
 
-		academia = this.academiaService.findByCursoId(curso.getId());
+		academia = this.academiaService.findByCursoId(cursoId);
 
 		result = new ModelAndView("academy/list");
 		result.addObject("academies", academia);

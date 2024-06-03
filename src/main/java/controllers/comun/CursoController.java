@@ -3,7 +3,6 @@ package controllers.comun;
 
 import java.util.Collection;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +66,8 @@ public class CursoController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/listByEstiloId", method = RequestMethod.GET)
-	public ModelAndView listByEstiloId(@RequestParam final int id) {
+	@RequestMapping(value = "/listbyestiloid", method = RequestMethod.GET)
+	public ModelAndView listByEstiloId(@RequestParam(value = "styleId") final int id) {
 		ModelAndView result;
 		Collection<Curso> cursos;
 

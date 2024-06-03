@@ -39,8 +39,8 @@ public class SolicitudAlumnoController extends AbstractController {
 		Collection<Solicitud> solicitudes;
 
 		solicitudes = this.solicitudService.findAll();
-		result = new ModelAndView("solicitud/list");
-		result.addObject("solicitudes", solicitudes);
+		result = new ModelAndView("request/list");
+		result.addObject("requests", solicitudes);
 
 		return result;
 	}
@@ -89,9 +89,9 @@ public class SolicitudAlumnoController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Solicitud solicitud) {
 		ModelAndView result;
 
-		result = new ModelAndView("solicitud/edit");
+		result = new ModelAndView("request/edit");
 
-		result.addObject("solicitud", solicitud);
+		result.addObject("request", solicitud);
 
 		return result;
 	}
@@ -99,9 +99,9 @@ public class SolicitudAlumnoController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Solicitud solicitud, final String mensaje) {
 		ModelAndView result;
 
-		result = new ModelAndView("solicitud/edit");
+		result = new ModelAndView("request/edit");
 
-		result.addObject("solicitud", solicitud);
+		result.addObject("request", solicitud);
 		result.addObject("mensaje", mensaje);
 
 		return result;

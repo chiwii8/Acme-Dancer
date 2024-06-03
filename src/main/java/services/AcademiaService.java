@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -10,106 +11,113 @@ import org.springframework.util.Assert;
 import domain.actores.Academia;
 import repositories.AcademiaRepository;
 import repositories.CursoRepository;
+import security.UserAccount;
 
 @Service
 @Transactional
 public class AcademiaService {
 
-    // Repositorio propio
-    AcademiaRepository academiaRepository;
+	// Repositorio propio
+	AcademiaRepository	academiaRepository;
 
-    /// Repositorios de apoyo
-    CursoRepository cursoRepository;
+	/// Repositorios de apoyo
+	CursoRepository		cursoRepository;
 
-    @Autowired
-    public AcademiaService(AcademiaRepository academiaRepository, CursoRepository cursoRepository) {
-        this.academiaRepository = academiaRepository;
-        this.cursoRepository = cursoRepository;
-    }
 
-    /// Operaciones basicas
-    public Academia create() {
-        Academia result;
+	@Autowired
+	public AcademiaService(final AcademiaRepository academiaRepository, final CursoRepository cursoRepository) {
+		this.academiaRepository = academiaRepository;
+		this.cursoRepository = cursoRepository;
+	}
 
-        result = new Academia();
+	/// Operaciones basicas
+	public Academia create() {
+		Academia result;
 
-        return result;
-    }
+		result = new Academia();
 
-    public Collection<Academia> findAll() {
-        Collection<Academia> result;
+		return result;
+	}
 
-        result = academiaRepository.findAll();
-        Assert.notEmpty(result);
+	public Collection<Academia> findAll() {
+		Collection<Academia> result;
 
-        return result;
-    }
+		result = this.academiaRepository.findAll();
+		Assert.notEmpty(result);
 
-    public Academia findById(int id) {
-        Assert.isTrue(id != 0);
-        Assert.isTrue(academiaRepository.exists(id));
-        Academia result;
+		return result;
+	}
 
-        result = academiaRepository.findById(id);
+	public Academia findById(final int id) {
+		Assert.isTrue(id != 0);
+		Assert.isTrue(this.academiaRepository.exists(id));
+		Academia result;
 
-        return result;
-    }
+		result = this.academiaRepository.findById(id);
 
-    public Academia save(Academia academia) {
-        Assert.notNull(academia);
-        Academia result;
+		return result;
+	}
 
-        result = academiaRepository.save(academia);
+	public Academia save(final Academia academia) {
+		Assert.notNull(academia);
+		Academia result;
 
-        return result;
-    }
+		result = this.academiaRepository.save(academia);
 
-    public void delete(Academia academia) {
-        Assert.notNull(academia);
-        Assert.isTrue(academia.getId() != 0);
-        Assert.isTrue(academiaRepository.exists(academia.getId()));
+		return result;
+	}
 
-        academiaRepository.delete(academia);
-    }
+	public void delete(final Academia academia) {
+		Assert.notNull(academia);
+		Assert.isTrue(academia.getId() != 0);
+		Assert.isTrue(this.academiaRepository.exists(academia.getId()));
 
-    /// Otros
-    public Academia findByNombreComercial(String nombreComercial) {
-        Assert.hasLength(nombreComercial);
-        Academia result;
+		this.academiaRepository.delete(academia);
+	}
 
-        result = academiaRepository.findByNombreComercial(nombreComercial);
+	/// Otros
+	public Academia findByNombreComercial(final String nombreComercial) {
+		Assert.hasLength(nombreComercial);
+		Academia result;
 
-        return result;
-    }
+		result = this.academiaRepository.findByNombreComercial(nombreComercial);
 
-    public Collection<Academia> findByParcialNombreComercial(String nombreComercial) {
-        Assert.hasLength(nombreComercial);
-        Collection<Academia> result;
+		return result;
+	}
 
-        result = academiaRepository.findByParcialNombreComercial(nombreComercial);
+	public Collection<Academia> findByParcialNombreComercial(final String nombreComercial) {
+		Assert.hasLength(nombreComercial);
+		Collection<Academia> result;
 
-        return result;
-    }
+		result = this.academiaRepository.findByParcialNombreComercial(nombreComercial);
 
-    public Collection<Academia> findByNombre(String nombre) {
-        Assert.hasText(nombre);
-        Collection<Academia> result;
+		return result;
+	}
 
-        result = academiaRepository.findByNombre(nombre);
+	public Collection<Academia> findByNombre(final String nombre) {
+		Assert.hasText(nombre);
+		Collection<Academia> result;
 
-        return result;
-    }
+		result = this.academiaRepository.findByNombre(nombre);
 
-    public Academia findByCursoId(int id) {
-        Assert.isTrue(id != 0);
-        Assert.isTrue(this.cursoRepository.exists(id));
-        Academia result;
+		return result;
+	}
 
-        result = this.academiaRepository.findByCursoId(id);
+	public Academia findByCursoId(final int id) {
+		Assert.isTrue(id != 0);
+		Assert.isTrue(this.cursoRepository.exists(id));
+		Academia result;
 
-        Assert.notNull(result);
+		result = this.academiaRepository.findByCursoId(id);
 
-        return result;
-    }
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Academia findByUserAccount(final UserAccount userAccount) {
+		final Academia result = this.academiaRepository.findByUserAccount(userAccount);
+		return result;
+	}
 
 }

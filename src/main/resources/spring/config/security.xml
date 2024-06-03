@@ -44,7 +44,7 @@
 		<security:intercept-url pattern="/academy/**" access="permitAll"/>
 		<security:intercept-url pattern="/course/**" access="permitAll"/>
 		<security:intercept-url pattern="/style/**" access="permitAll"/>
-		<security:intercept-url pattern="/actor/**" access="permitAll"/>
+		<security:intercept-url pattern="/actor/**" access="isAnonymous()"/>
 		
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')"/>
 

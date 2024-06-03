@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -8,13 +9,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import domain.actores.Alumno;
+import security.UserAccount;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 
-    @Query("select a from Alumno a where a.id=:id")
-    public Alumno findById(@Param("id") int id);
+	@Query("select a from Alumno a where a.id=:id")
+	public Alumno findById(@Param("id") int id);
 
-    @Query("select a from Alumno a where a.nombre=:nombre")
-    public Collection<Alumno> findByNombre(@Param("nombre") String nombre);
+	@Query("select a from Alumno a where a.nombre=:nombre")
+	public Collection<Alumno> findByNombre(@Param("nombre") String nombre);
+
+	@Query("select a from Alumno a where a.userAccount=:userAccount")
+	public Alumno findByUserAccount(@Param("userAccount") UserAccount userAccount);
 }

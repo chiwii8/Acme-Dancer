@@ -10,13 +10,21 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-
-<table>
+<jstl:choose>
+	<jstl:when test="${not empty styles }">
+		<table>
 	<thead>
 		<tr>
 			<th><spring:message code="style.name"/></th>
 			<th><spring:message code="style.description"/></th>
 			<th><spring:message code="style.action"/></th>
+			<security:authorize access="hasRole('ADMIN')">
+					<th>
+						<spring:message code="style.action"/>
+					</th>
+		
+			</security:authorize>
+			
 			
 		</tr>
 	</thead>
@@ -25,6 +33,11 @@
 			<tr>
 				<td><a href="style/view.do?styleId=${style.id}">${style.nombre}</a></td>
 				<td>${style.descripcion}</td>
+				<td>
+					<a href="course/listbyestiloid.do?styleId=${style.id}">
+						<spring:message code="style.see.course"/>
+					</a>
+				</td>
 				<security:authorize access="hasRole('ADMIN')">
 					<td>
 						<a href="administrator/style/edit.do?styleId=${style.id}"> <spring:message
@@ -38,6 +51,12 @@
 		</jstl:forEach>
 	</tbody>
 </table>
+	</jstl:when>
+	<jstl:otherwise>
+		<spring:message code="style.notfound"/>
+	</jstl:otherwise>
+</jstl:choose>
+
 
 <!-- Action links -->
 

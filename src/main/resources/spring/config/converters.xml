@@ -32,6 +32,9 @@
 		<bean class="converters.TarjetaDeCreditoToStringConverter"/>
 		<bean class="converters.StringToTarjetaDeCreditoConverter"/>
 		
+		<bean class="converters.UserAccountToStringConverter"/>
+		<bean class="converters.StringToUserAccountConverter"/>
+		
 	</util:list>
 	
 </beans>

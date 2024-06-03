@@ -1,3 +1,4 @@
+
 package controllers.actor;
 
 import java.security.MessageDigest;
@@ -29,14 +30,14 @@ import services.AlumnoService;
 public class ActorController {
 
 	/// Servicios
-	private final UserAccountService userAccountService;
-	private final AlumnoService alumnoService;
-	private final AcademiaService academiaService;
-	private final ActorService actorService;
+	private final UserAccountService	userAccountService;
+	private final AlumnoService			alumnoService;
+	private final AcademiaService		academiaService;
+	private final ActorService			actorService;
+
 
 	@Autowired
-	public ActorController(final UserAccountService userAccountService, final ActorService actorService,
-			final AlumnoService alumnoService, final AcademiaService academiaService) {
+	public ActorController(final UserAccountService userAccountService, final ActorService actorService, final AlumnoService alumnoService, final AcademiaService academiaService) {
 		this.userAccountService = userAccountService;
 		this.actorService = actorService;
 		this.academiaService = academiaService;
@@ -70,7 +71,7 @@ public class ActorController {
 		}
 
 		try {
-			/// Verificamos que ninÃºn usuario mÃ¡s tenga ese usuario
+			///Verificamos que ninún usuario más tenga ese usuario
 			final UserAccount user = this.userAccountService.findByuserName(userAccount.getUsername());
 
 			if (user != null) {
@@ -99,7 +100,7 @@ public class ActorController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-			result = this.createUserAcademy(academia.getUserAccount(), "actor.commit.academy.comercialname");
+			result = this.createUserAcademy(academia.getUserAccount(), "actor.create.commit.error");
 			return result;
 		}
 		try {
@@ -124,6 +125,7 @@ public class ActorController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
+			System.out.println("Error en el binding");
 			binding.getAllErrors().forEach(error -> System.out.println(error.toString()));
 			result = this.createUserStudent(alumno.getUserAccount(), "actor.create.commit.error");
 			return result;
@@ -133,8 +135,10 @@ public class ActorController {
 			if (actor != null)
 				result = this.createUserStudent(alumno.getUserAccount(), "actor.create.error.correo");
 			else {
+				System.out.println("Error Al guardar 1");
 				final UserAccount userAccount = this.encryptedUser(alumno.getUserAccount());
 				alumno.setUserAccount(userAccount);
+				System.out.println("Error Al guardar");
 				this.alumnoService.save(alumno);
 				result = new ModelAndView("redirect:/");
 			}
@@ -168,7 +172,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createAcademy");
 
-		academia = new Academia();
+		academia = this.academiaService.create();
 		academia.setUserAccount(userAccount);
 
 		result.addObject("academy", academia);
@@ -182,7 +186,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createAcademy");
 
-		academia = new Academia();
+		academia = this.academiaService.create();
 		academia.setUserAccount(userAccount);
 
 		result.addObject("academy", academia);
@@ -197,7 +201,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createStudent");
 
-		alumno = new Alumno();
+		alumno = this.alumnoService.create();
 		alumno.setUserAccount(userAccount);
 
 		result.addObject("student", alumno);
@@ -211,7 +215,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createStudent");
 
-		alumno = new Alumno();
+		alumno = this.alumnoService.create();
 		alumno.setUserAccount(userAccount);
 
 		result.addObject("student", alumno);

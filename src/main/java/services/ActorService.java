@@ -1,4 +1,7 @@
+
 package services;
+
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.actores.Actor;
-
-import java.util.Collection;
-
 import repositories.ActorRepository;
 import security.UserAccount;
 import security.UserAccountService;
@@ -16,98 +16,98 @@ import security.UserAccountService;
 @Service
 @Transactional
 public class ActorService {
-    /// Repositorio propio
-    private ActorRepository actorRepository;
 
-    /// Servicios de apoyo
-    private UserAccountService userAccountService;
+	/// Repositorio propio
+	private final ActorRepository		actorRepository;
 
-    @Autowired
-    public ActorService(ActorRepository actorRepository, UserAccountService userAccountService) {
-        this.actorRepository = actorRepository;
-        this.userAccountService = userAccountService;
-    }
+	/// Servicios de apoyo
+	private final UserAccountService	userAccountService;
 
-    public Collection<Actor> findAll() {
-        Collection<Actor> result;
 
-        result = actorRepository.findAll();
-        Assert.notNull(result);
-        return result;
-    }
+	@Autowired
+	public ActorService(final ActorRepository actorRepository, final UserAccountService userAccountService) {
+		this.actorRepository = actorRepository;
+		this.userAccountService = userAccountService;
+	}
 
-    public Actor findById(int actorId) {
-        Assert.isTrue(actorId != 0);
+	public Collection<Actor> findAll() {
+		Collection<Actor> result;
 
-        Actor result;
+		result = this.actorRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
 
-        result = actorRepository.findById(actorId);
+	public Actor findById(final int actorId) {
+		Assert.isTrue(actorId != 0);
 
-        return result;
-    }
+		Actor result;
 
-    public Actor save(Actor actor) {
-        Assert.notNull(actor);
-        Actor result;
-        result = actorRepository.save(actor);
+		result = this.actorRepository.findById(actorId);
 
-        return result;
-    }
+		return result;
+	}
 
-    public void delete(Actor actor) {
-        Assert.notNull(actor);
-        Assert.isTrue(actor.getId() != 0);
-        Assert.isTrue(actorRepository.exists(actor.getId()));
+	public Actor save(final Actor actor) {
+		Assert.notNull(actor);
+		Actor result;
+		result = this.actorRepository.save(actor);
 
-        actorRepository.delete(actor);
-    }
+		return result;
+	}
 
-    // Otros métodos
+	public void delete(final Actor actor) {
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getId() != 0);
+		Assert.isTrue(this.actorRepository.exists(actor.getId()));
 
-    public UserAccount findUserAccount(Actor actor) {
-        Assert.notNull(actor);
-        UserAccount result;
+		this.actorRepository.delete(actor);
+	}
 
-        result = userAccountService.findByActor(actor);
+	// Otros métodos
 
-        return result;
-    }
+	public UserAccount findUserAccount(final Actor actor) {
+		Assert.notNull(actor);
+		UserAccount result;
 
-    public Collection<Actor> findByNombre(String nombre) {
-        Assert.hasText(nombre);
-        Collection<Actor> result = actorRepository.findByNombre(nombre);
-        Assert.notEmpty(result);
+		result = this.userAccountService.findByActor(actor);
 
-        return result;
-    }
+		return result;
+	}
 
-    public Collection<Actor> findByNombreyApellidos(String nombre, String apellidos) {
-        Assert.hasText(nombre);
-        Assert.hasText(apellidos);
+	public Collection<Actor> findByNombre(final String nombre) {
+		Assert.hasText(nombre);
+		final Collection<Actor> result = this.actorRepository.findByNombre(nombre);
+		Assert.notEmpty(result);
 
-        Collection<Actor> result = actorRepository.findByNombreyApellidos(nombre, apellidos);
-        Assert.notEmpty(result);
-        return result;
-    }
+		return result;
+	}
 
-    public Actor findByCorreo(String correo) {
-        Assert.hasText(correo);
-        Actor result;
+	public Collection<Actor> findByNombreyApellidos(final String nombre, final String apellidos) {
+		Assert.hasText(nombre);
+		Assert.hasText(apellidos);
 
-        result = this.actorRepository.findByCorreo(correo);
+		final Collection<Actor> result = this.actorRepository.findByNombreyApellidos(nombre, apellidos);
+		Assert.notEmpty(result);
+		return result;
+	}
 
-        Assert.notNull(result);
+	public Actor findByCorreo(final String correo) {
+		Assert.hasText(correo);
+		Actor result;
 
-        return result;
-    }
+		result = this.actorRepository.findByCorreo(correo);
 
-    public Collection<Actor> findByCodigoPostal(String codigoPostal) {
-        Assert.hasText(codigoPostal);
+		return result;
+	}
 
-        Collection<Actor> result = actorRepository.findByCodigoPostal(codigoPostal);
+	public Collection<Actor> findByCodigoPostal(final String codigoPostal) {
+		Assert.hasText(codigoPostal);
 
-        Assert.notEmpty(result);
-        return result;
-    }
+		final Collection<Actor> result = this.actorRepository.findByCodigoPostal(codigoPostal);
+
+		Assert.notEmpty(result);
+		return result;
+	}
 
 }

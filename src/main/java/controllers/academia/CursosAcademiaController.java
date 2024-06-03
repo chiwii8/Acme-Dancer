@@ -3,6 +3,7 @@ package controllers.academia;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -185,6 +186,47 @@ public class CursosAcademiaController extends AbstractController {
 		result.addObject("course", curso);
 		result.addObject("mensaje", mensaje);
 		return result;
+	}
+
+	/////Metodos que trabajan con las solicitudes
+	@RequestMapping(value = "/listactiverequest", method = RequestMethod.GET)
+	public ModelAndView listRequest(@RequestParam(value = "courseId") final int courseId) {
+		ModelAndView result;
+		final SolicitudEstado estado = SolicitudEstado.PENDIENTE;
+		Collection<Solicitud> solicitudes = this.solicitudService.findAllByCursoId(courseId);
+
+		solicitudes = solicitudes.stream().filter(element -> element.getEstado() == SolicitudEstado.PENDIENTE).collect(Collectors.toList());
+
+		result = new ModelAndView("request/list");
+		result.addObject("requests", solicitudes);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/acceptrequest", method = RequestMethod.GET)
+	public ModelAndView acceptRequest(@RequestParam(value = "requestId") final int id) {
+		ModelAndView result;
+
+		final Solicitud solicitud = this.solicitudService.findById(id);
+		solicitud.setEstado(SolicitudEstado.ACEPTADO);
+		this.solicitudService.save(solicitud);
+
+		result = new ModelAndView("redirect:courses/list");
+		return result;
+
+	}
+
+	@RequestMapping(value = "/rejectrequest", method = RequestMethod.GET)
+	public ModelAndView rejectRequest(@RequestParam(value = "requestId") final int id) {
+		ModelAndView result;
+
+		final Solicitud solicitud = this.solicitudService.findById(id);
+		solicitud.setEstado(SolicitudEstado.RECHAZADO);
+		this.solicitudService.save(solicitud);
+
+		result = new ModelAndView("redirect:courses/list");
+		return result;
+
 	}
 
 }

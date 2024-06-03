@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -9,70 +10,78 @@ import org.springframework.util.Assert;
 
 import domain.actores.Alumno;
 import repositories.AlumnoRepository;
+import security.UserAccount;
 
 @Service
 @Transactional
 public class AlumnoService {
 
-    AlumnoRepository alumnoRepository;
+	private final AlumnoRepository alumnoRepository;
 
-    /// Servicios de apoyo
 
-    @Autowired
-    public AlumnoService(AlumnoRepository alumnoRepository) {
-        this.alumnoRepository = alumnoRepository;
-    }
+	/// Servicios de apoyo
 
-    /// Métodos base
-    public Alumno create() {
-        Alumno result;
+	@Autowired
+	public AlumnoService(final AlumnoRepository alumnoRepository) {
+		this.alumnoRepository = alumnoRepository;
+	}
 
-        result = new Alumno();
+	/// Métodos base
+	public Alumno create() {
+		Alumno result;
 
-        return result;
-    }
+		result = new Alumno();
 
-    public Collection<Alumno> findAll() {
-        Collection<Alumno> result;
+		return result;
+	}
 
-        result = alumnoRepository.findAll();
-        Assert.notNull(result);
+	public Collection<Alumno> findAll() {
+		Collection<Alumno> result;
 
-        return result;
-    }
+		result = this.alumnoRepository.findAll();
+		Assert.notNull(result);
 
-    public Alumno findById(int id) {
-        Assert.isTrue(id != 0);
+		return result;
+	}
 
-        Alumno result = alumnoRepository.findById(id);
-        Assert.notNull(result);
+	public Alumno findById(final int id) {
+		Assert.isTrue(id != 0);
 
-        return result;
-    }
+		final Alumno result = this.alumnoRepository.findById(id);
+		Assert.notNull(result);
 
-    public Collection<Alumno> findByNombre(String nombre) {
-        Assert.hasText(nombre);
-        Collection<Alumno> result;
+		return result;
+	}
 
-        result = alumnoRepository.findByNombre(nombre);
+	public Collection<Alumno> findByNombre(final String nombre) {
+		Assert.hasText(nombre);
+		Collection<Alumno> result;
 
-        return result;
-    }
+		result = this.alumnoRepository.findByNombre(nombre);
 
-    public Alumno save(Alumno alumno) {
-        Assert.notNull(alumno);
-        Alumno result;
+		return result;
+	}
 
-        result = alumnoRepository.save(alumno);
+	public Alumno save(final Alumno alumno) {
+		Assert.notNull(alumno);
+		Alumno result;
 
-        return result;
-    }
+		result = this.alumnoRepository.save(alumno);
 
-    public void delete(Alumno alumno) {
-        Assert.notNull(alumno);
-        Assert.isTrue(alumno.getId() != 0);
-        Assert.isTrue(alumnoRepository.exists(alumno.getId()));
+		return result;
+	}
 
-        alumnoRepository.delete(alumno);
-    }
+	public void delete(final Alumno alumno) {
+		Assert.notNull(alumno);
+		Assert.isTrue(alumno.getId() != 0);
+		Assert.isTrue(this.alumnoRepository.exists(alumno.getId()));
+
+		this.alumnoRepository.delete(alumno);
+	}
+
+	public Alumno findByUserAccount(final UserAccount userAccount) {
+		Alumno result;
+		result = this.alumnoRepository.findByUserAccount(userAccount);
+		return result;
+	}
 }
