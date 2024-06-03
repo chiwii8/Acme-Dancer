@@ -15,5 +15,12 @@
 <jsp:useBean id="date" class="java.util.Date" />
 
 <hr />
+<a style="font-weight:bold;
+		  text-decoration:none;
+		  color:black;"
+	href="privacy/polite.do">
+		   <spring:message code="master.page.policy" />
+</a>
+<br/>
 
 <b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Dancer Co., Inc.</b>

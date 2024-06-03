@@ -24,4 +24,9 @@
 				<spring:message	code="academy.see.course" />
 			</a>
 	</display:column>
+		<display:column>
+			<a href="tutorials/listByAcademiaId.do?academyId=${row.id}">
+				<spring:message	code="academy.see.tutorial" />
+			</a>
+	</display:column>
 </display:table>

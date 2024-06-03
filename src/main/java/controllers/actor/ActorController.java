@@ -1,6 +1,7 @@
-
 package controllers.actor;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -27,22 +28,19 @@ import services.AlumnoService;
 @RequestMapping("/actor")
 public class ActorController {
 
-	ActorService		actorService;
-
-	UserAccountService	userAccountService;
-
-	AcademiaService		academiaService;
-
-	AlumnoService		alumnoService;
-
+	/// Servicios
+	private final UserAccountService userAccountService;
+	private final AlumnoService alumnoService;
+	private final AcademiaService academiaService;
+	private final ActorService actorService;
 
 	@Autowired
-	public ActorController(final ActorService actorService, final UserAccountService userAccountService, final AcademiaService academiaService, final AlumnoService alumnoService) {
-		this.actorService = actorService;
+	public ActorController(final UserAccountService userAccountService, final ActorService actorService,
+			final AlumnoService alumnoService, final AcademiaService academiaService) {
 		this.userAccountService = userAccountService;
+		this.actorService = actorService;
 		this.academiaService = academiaService;
 		this.alumnoService = alumnoService;
-
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -63,20 +61,35 @@ public class ActorController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "next")
-	public ModelAndView createUserAccount(@Valid final UserAccount userAccount) {
+	public ModelAndView createUserAccount(@Valid final UserAccount userAccount, final BindingResult binding) {
 		ModelAndView result;
-		final Iterator<Authority> ite = userAccount.getAuthorities().iterator();
 
-		///TODO: Hacer verificaci�n y devolver error en caso de ser necesario
-		//final UserAccount user = this.userAccountService.findByuserName(userAccount.getUsername());
+		if (binding.hasErrors()) {
+			result = this.createUserAccount(userAccount, "actor.create.commit.error");
+			return result;
+		}
 
-		final Authority authority = ite.next();
-		final String authorityname = authority.getAuthority();
+		try {
+			/// Verificamos que ninún usuario más tenga ese usuario
+			final UserAccount user = this.userAccountService.findByuserName(userAccount.getUsername());
 
-		if (Authority.ACADEMIA.equalsIgnoreCase(authorityname))
-			result = this.createUserAcademy(userAccount);
-		else
-			result = this.createUserStudent(userAccount);
+			if (user != null) {
+				result = this.createUserAccount(userAccount, "actor.create.commit.user.username");
+				return result;
+			}
+
+			final Iterator<Authority> ite = userAccount.getAuthorities().iterator();
+
+			final Authority authority = ite.next();
+			final String authorityname = authority.getAuthority();
+
+			if (Authority.ACADEMIA.equalsIgnoreCase(authorityname))
+				result = this.createUserAcademy(userAccount);
+			else
+				result = this.createUserStudent(userAccount);
+		} catch (final Exception e) {
+			result = this.createUserAccount(userAccount, "actor.create.commit.error");
+		}
 
 		return result;
 	}
@@ -84,19 +97,23 @@ public class ActorController {
 	@RequestMapping(value = "/createAcademy", method = RequestMethod.POST, params = "save")
 	public ModelAndView createAcademy(@Valid final Academia academia, final BindingResult binding) {
 		ModelAndView result;
-		Academia academia_aux;
 
 		if (binding.hasErrors()) {
 			result = this.createUserAcademy(academia.getUserAccount(), "actor.commit.academy.comercialname");
 			return result;
 		}
-
-		academia_aux = this.academiaService.findByNombreComercial(academia.getNombreComercial());
-		if (academia_aux != null)
-			result = this.createUserAcademy(academia.getUserAccount(), "actor.commit.same.academy");
-		else {
-			this.academiaService.save(academia);
-			result = new ModelAndView("redirect:/");
+		try {
+			final Actor actor = this.actorService.findByCorreo(academia.getCorreo());
+			if (actor != null)
+				result = this.createUserAcademy(academia.getUserAccount(), "actor.create.error.correo");
+			else {
+				final UserAccount userAccount = this.encryptedUser(academia.getUserAccount());
+				academia.setUserAccount(userAccount);
+				this.academiaService.save(academia);
+				result = new ModelAndView("redirect:/");
+			}
+		} catch (final Exception e) {
+			result = this.createUserAcademy(academia.getUserAccount(), "actor.create.commit.error");
 		}
 
 		return result;
@@ -105,25 +122,42 @@ public class ActorController {
 	@RequestMapping(value = "/createStudent", method = RequestMethod.POST, params = "save")
 	public ModelAndView createStudent(@Valid final Alumno alumno, final BindingResult binding) {
 		ModelAndView result;
-		final UserAccount user = alumno.getUserAccount();
-		System.out.println("Este es el usuario" + user.getUsername());
+
 		if (binding.hasErrors()) {
-			System.out.println("Tengo un error");
 			binding.getAllErrors().forEach(error -> System.out.println(error.toString()));
-			result = this.createUserStudent(alumno.getUserAccount(), "actor.commit.same.academy");
+			result = this.createUserStudent(alumno.getUserAccount(), "actor.create.commit.error");
 			return result;
 		}
-
-		final Actor actor = this.actorService.findByCorreo(alumno.getCorreo());
-		if (actor != null) {
-			System.out.println("Tengo un error Aqui");
-			result = this.createUserStudent(alumno.getUserAccount(), "actor.commit.same.academy");
-
-		} else {
-
-			this.alumnoService.save(alumno);
-			result = new ModelAndView("redirect:");
+		try {
+			final Actor actor = this.actorService.findByCorreo(alumno.getCorreo());
+			if (actor != null)
+				result = this.createUserStudent(alumno.getUserAccount(), "actor.create.error.correo");
+			else {
+				final UserAccount userAccount = this.encryptedUser(alumno.getUserAccount());
+				alumno.setUserAccount(userAccount);
+				this.alumnoService.save(alumno);
+				result = new ModelAndView("redirect:/");
+			}
+		} catch (final Exception e) {
+			result = this.createUserStudent(alumno.getUserAccount(), "actor.create.commit.error");
+			System.out.println(e.getMessage());
 		}
+
+		return result;
+	}
+
+	/// Metodos auxiliares
+	protected ModelAndView createUserAccount(final UserAccount userAccount, final String mensaje) {
+		final ModelAndView result;
+		final Collection<Authority> authorities;
+
+		authorities = Authority.listAuthorities();
+
+		result = new ModelAndView("actor/create");
+
+		result.addObject("userAccount", userAccount);
+		result.addObject("authoritiesElement", authorities);
+		result.addObject("mensaje", mensaje);
 
 		return result;
 	}
@@ -134,7 +168,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createAcademy");
 
-		academia = this.academiaService.create();
+		academia = new Academia();
 		academia.setUserAccount(userAccount);
 
 		result.addObject("academy", academia);
@@ -148,7 +182,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createAcademy");
 
-		academia = this.academiaService.create();
+		academia = new Academia();
 		academia.setUserAccount(userAccount);
 
 		result.addObject("academy", academia);
@@ -163,7 +197,7 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createStudent");
 
-		alumno = this.alumnoService.create();
+		alumno = new Alumno();
 		alumno.setUserAccount(userAccount);
 
 		result.addObject("student", alumno);
@@ -177,12 +211,45 @@ public class ActorController {
 
 		result = new ModelAndView("actor/createStudent");
 
-		alumno = this.alumnoService.create();
+		alumno = new Alumno();
 		alumno.setUserAccount(userAccount);
 
 		result.addObject("student", alumno);
 		result.addObject("mensaje", mensaje);
 		return result;
+	}
+
+	private UserAccount encryptedUser(final UserAccount userAccount) {
+		final String encodedPassword = this.encodePassword(userAccount.getPassword());
+
+		userAccount.setPassword(encodedPassword);
+
+		return userAccount;
+	}
+
+	private String encodePassword(final String password) {
+		try {
+
+			// Crear un objeto MessageDigest con el algoritmo MD5
+			final MessageDigest md = MessageDigest.getInstance("MD5");
+
+			// Obtener los bytes del password
+			final byte[] passwordBytes = password.getBytes();
+
+			// Calcular el hash MD5
+			final byte[] digest = md.digest(passwordBytes);
+
+			// Convertir el hash en una cadena hexadecimal
+			final StringBuilder hexString = new StringBuilder();
+			for (final byte b : digest)
+				hexString.append(String.format("%02x", b));
+			return hexString.toString();
+
+		} catch (final NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null; // Manejar el error apropiadamente en tu aplicación
+		}
+
 	}
 
 }

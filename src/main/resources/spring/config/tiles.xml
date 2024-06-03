@@ -33,6 +33,8 @@
 		<value>/views/style/tiles.xml</value>
 		<value>/views/actor/tiles.xml</value>
 		<value>/views/request/tiles.xml</value>
+
+		<value>/views/privacy/tiles.xml</value>
 	</util:list>
 
 </beans>

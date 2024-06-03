@@ -11,7 +11,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <form:form id="actorForm" action="actor/create.do" modelAttribute="userAccount" method="POST">
-
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 
@@ -39,6 +38,11 @@
     </form:select>
     <form:errors path="authorities" cssClass="error"/>
 
+	<jstl:if test="${not empty mensaje}">
+		<div class="error">
+			<spring:message code="${mensaje}"/>
+		</div>
+	</jstl:if>
 	<input type="submit" name="next"
 		value="<spring:message code="actor.next" />" />&nbsp; 
 	

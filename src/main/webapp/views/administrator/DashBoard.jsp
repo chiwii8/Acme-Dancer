@@ -16,13 +16,40 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="administrator.action.1" /></p>
-
-  <security:authorize access="hasRole('ADMIN')">
-    <display:column>
-      <a href="estilo/administrador/edit.do?announcementId=${row.id}">
-        <spring:message code="estilo.editar" />
-      </a>
-    </display:column>
-  </security:authorize>
-  
+<table>
+	<thead>
+		<tr>
+			<th>
+				<h3>
+					<spring:message code="administrator.statistics.header.1"/>
+				</h3>
+				
+			</th>
+			<th>
+				<h3>
+					<spring:message code="administrator.statistics.header.2"/>
+				</h3>
+				
+			</th>
+		</tr>
+		
+	</thead>
+	<tbody>
+		<jstl:forEach items="${statistics}" var="entry">
+			<tr>
+				
+				<th>
+					<h4>
+						<spring:message code="administrator.statistics.${entry.key}.title"/>
+					</h4>
+				</th>
+			</tr>
+			<jstl:forEach items="${entry.value}" var="value_entry">
+				<tr>
+					<td><spring:message code="administrator.statistics.${value_entry.key}"/></td>
+					<td>${value_entry.value}</td>
+				</tr>
+			</jstl:forEach>
+		</jstl:forEach>
+	</tbody>
+</table>

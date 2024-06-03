@@ -11,8 +11,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- Listing grid -->
-
-<table>
+<jstl:choose>
+	<jstl:when test="${not empty courses}">
+		<table>
 	<thead>
 		<tr>
 			<th><spring:message code="course.title" /></th>
@@ -39,7 +40,7 @@
 				<td>${course.nivel}</td>
 
 				<td>
-					<a href="academy/viewAcademyByCourse.do?courseId=${course.id}">
+					<a href="academy/listbycurso.do?courseId=${course.id}">
 						<spring:message code="course.academy.see" />
 					</a>
 				</td>
@@ -52,3 +53,8 @@
 		</jstl:forEach>
 	</tbody>
 </table>
+	</jstl:when>
+	<jstl:otherwise>
+		<spring:message code="course.notfound"/>
+	</jstl:otherwise>	
+</jstl:choose>

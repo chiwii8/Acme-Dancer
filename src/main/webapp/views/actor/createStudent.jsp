@@ -50,6 +50,19 @@
 	<form:input path="codigoPostal" />
 	<form:errors cssClass="error" path="codigoPostal" />
 	<br />
+	
+	<form:hidden path="tarjetaDeCredito.titular" />
+	<form:hidden path="tarjetaDeCredito.marca" />
+	<form:hidden path="tarjetaDeCredito.numero" />
+	<form:hidden path="tarjetaDeCredito.mesCaducidad" />
+	<form:hidden path="tarjetaDeCredito.anioCaducidad" />
+	<form:hidden path="tarjetaDeCredito.cvv" />
+
+	<jstl:if test="${not empty mensaje}">
+		<div class="error">
+			<spring:message code="${mensaje}"/>
+		</div>
+	</jstl:if>
 
 	<input type="submit" name="save"
 		value="<spring:message code="actor.save" />" />&nbsp; 

@@ -28,6 +28,9 @@
 		
 		<bean class="converters.EstiloToStringConverter"/>
 		<bean class="converters.StringToEstiloConverter"/>
+
+		<bean class="converters.TarjetaDeCreditoToStringConverter"/>
+		<bean class="converters.StringToTarjetaDeCreditoConverter"/>
 		
 	</util:list>
 	

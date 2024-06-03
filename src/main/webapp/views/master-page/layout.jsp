@@ -18,7 +18,8 @@ uri="http://tiles.apache.org/tags-tiles"%>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
     <link rel="shortcut icon" href="favicon.ico" />
-
+    
+    <script type="text/javascript" src="scripts/cookies.js"></script>
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.js"></script>
     <script type="text/javascript" src="scripts/jmenu.js"></script>
@@ -75,5 +76,20 @@ uri="http://tiles.apache.org/tags-tiles"%>
     <div>
       <tiles:insertAttribute name="footer" />
     </div>
+    <div id="CookiesBox" style="display: block;
+  box-shadow: 0px 0px 5px 5px #808080;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 0px;
+  position: fixed;
+  top: 0px;
+  width: 100%;">
+	<button onclick="acceptCookies()"><spring:message code="cookies.accept"/></button>
+	<button onclick="declineCookies()"><spring:message code="cookies.decline"/></button>
+	<p><spring:message code="cookies.message"/> <a href="privacy/polite.do"><spring:message code="cookies.web"/></a></p>
+</div>
   </body>
 </html>

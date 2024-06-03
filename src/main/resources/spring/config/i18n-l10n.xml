@@ -34,6 +34,7 @@
 		<value>/views/course/messages</value>
 		<value>/views/actor/messages</value>
 		<value>/views/request/messages</value>
+		<value>/views/privacy/messages</value>
 
 	</util:list>
 

@@ -1,6 +1,9 @@
 
 package converters;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.transaction.Transactional;
 
 import org.springframework.core.convert.converter.Converter;
@@ -16,10 +19,16 @@ class AuthorityToStringConverter implements Converter<Authority, String> {
 	public String convert(final Authority source) {
 		String result;
 
-		if (source == null)
+		if (source == null) {
 			result = null;
-		else
-			result = String.valueOf(source.getAuthority());
+			return result;
+		}
+
+		try {
+			result = URLEncoder.encode(source.getAuthority(), "UTF-8");
+		} catch (final UnsupportedEncodingException e) {
+			result = null;
+		}
 
 		return result;
 	}
