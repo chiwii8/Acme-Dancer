@@ -1,8 +1,8 @@
+
 package controllers.academia;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import domain.Curso;
 import domain.Solicitud;
 import domain.actores.Academia;
@@ -23,77 +24,77 @@ import services.SolicitudService;
 
 @Controller
 @RequestMapping("/academy/request")
-public class SolicitudAcademiaController {
+public class SolicitudAcademiaController extends AbstractController {
 
-    SolicitudService solicitudService;
-    CursoService cursoService;
-    AcademiaService academiaService;
+	SolicitudService	solicitudService;
+	CursoService		cursoService;
+	AcademiaService		academiaService;
 
-    @Autowired
-    public SolicitudAcademiaController(SolicitudService solicitudService, CursoService cursoService,
-            AcademiaService academiaService) {
-        this.solicitudService = solicitudService;
-        this.cursoService = cursoService;
-        this.academiaService = academiaService;
-    }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView list() {
-        ModelAndView result;
-        Collection<Solicitud> solicitudes = new ArrayList();
+	@Autowired
+	public SolicitudAcademiaController(final SolicitudService solicitudService, final CursoService cursoService, final AcademiaService academiaService) {
+		this.solicitudService = solicitudService;
+		this.cursoService = cursoService;
+		this.academiaService = academiaService;
+	}
 
-        try {
-            UserAccount user = LoginService.getPrincipal();
-            Academia academia = this.academiaService.findByUserAccount(user);
-            Collection<Curso> cursos = academia.getCursos();
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		final Collection<Solicitud> solicitudes = new ArrayList();
 
-            for (Curso curso : cursos) {
-                Collection<Solicitud> aux = this.solicitudService.findAllByCursoId(curso.getId());
-                solicitudes.addAll(aux);
-            }
+		try {
+			final UserAccount user = LoginService.getPrincipal();
+			final Academia academia = this.academiaService.findByUserAccount(user.getId());
+			final Collection<Curso> cursos = academia.getCursos();
 
-            result = new ModelAndView("request/list");
-            result.addObject("requests", solicitudes);
+			for (final Curso curso : cursos) {
+				final Collection<Solicitud> aux = this.solicitudService.findAllByCursoIdAndEstado(curso.getId(), SolicitudEstado.PENDIENTE);
+				solicitudes.addAll(aux);
+			}
 
-        } catch (Exception e) {
-            result = new ModelAndView("redirect:/");
-        }
-        return result;
-    }
+			result = new ModelAndView("academy/request/list");
+			result.addObject("requests", solicitudes);
 
-    @RequestMapping(value = "/acceptrequest", method = RequestMethod.GET)
-    public ModelAndView requestAccept(@RequestParam(value = "resquestId") int id) {
-        ModelAndView result;
-        Solicitud solicitud;
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:/");
+		}
+		return result;
+	}
 
-        try {
-            solicitud = this.solicitudService.findById(id);
-            solicitud.setEstado(SolicitudEstado.ACEPTADO);
-            this.solicitudService.save(solicitud);
-            result = new ModelAndView("redirect:/academy/request/list");
+	@RequestMapping(value = "/acceptrequest", method = RequestMethod.POST)
+	public ModelAndView requestAccept(@RequestParam(value = "resquestId") final int id) {
+		ModelAndView result;
+		Solicitud solicitud;
 
-        } catch (Exception e) {
-            result = new ModelAndView("redirect:/academy/request/list");
-        }
+		try {
+			solicitud = this.solicitudService.findById(id);
+			solicitud.setEstado(SolicitudEstado.ACEPTADO);
+			this.solicitudService.save(solicitud);
+			result = new ModelAndView("redirect:list.do");
 
-        return result;
-    }
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:list.do");
+		}
 
-    @RequestMapping(value = "/rejectrequest", method = RequestMethod.GET)
-    public ModelAndView rejectRequest(@RequestParam(value = "requestId") final int id) {
-        ModelAndView result;
-        Solicitud solicitud;
+		return result;
+	}
 
-        try {
-            solicitud = this.solicitudService.findById(id);
-            solicitud.setEstado(SolicitudEstado.RECHAZADO);
-            this.solicitudService.save(solicitud);
-            result = new ModelAndView("redirect:/academy/request/list");
+	@RequestMapping(value = "/rejectrequest", method = RequestMethod.POST)
+	public ModelAndView rejectRequest(@RequestParam(value = "resquestId") final int id) {
+		ModelAndView result;
+		Solicitud solicitud;
 
-        } catch (Exception e) {
-            result = new ModelAndView("redirect:/academy/request/list");
-        }
-        return result;
+		try {
+			solicitud = this.solicitudService.findById(id);
+			solicitud.setEstado(SolicitudEstado.RECHAZADO);
+			this.solicitudService.save(solicitud);
+			result = new ModelAndView("redirect:list.do");
 
-    }
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:list.do");
+		}
+		return result;
+
+	}
 }

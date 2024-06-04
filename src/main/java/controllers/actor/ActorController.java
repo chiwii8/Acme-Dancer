@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import domain.actores.Academia;
 import domain.actores.Actor;
 import domain.actores.Alumno;
@@ -27,7 +28,7 @@ import services.AlumnoService;
 
 @Controller
 @RequestMapping("/actor")
-public class ActorController {
+public class ActorController extends AbstractController {
 
 	/// Servicios
 	private final UserAccountService	userAccountService;
@@ -125,8 +126,6 @@ public class ActorController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-			System.out.println("Error en el binding");
-			binding.getAllErrors().forEach(error -> System.out.println(error.toString()));
 			result = this.createUserStudent(alumno.getUserAccount(), "actor.create.commit.error");
 			return result;
 		}

@@ -1,7 +1,11 @@
 
 package controllers.alumno;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -15,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Curso;
 import domain.Solicitud;
 import domain.actores.Alumno;
+import domain.enumeraciones.SolicitudEstado;
 import security.LoginService;
 import security.UserAccount;
 import services.AlumnoService;
+import services.CursoService;
 import services.SolicitudService;
 
 @Controller
@@ -27,14 +34,16 @@ import services.SolicitudService;
 public class SolicitudAlumnoController extends AbstractController {
 
 	/// Servicios
-	SolicitudService solicitudService;
-	AlumnoService alumnoService;
+	SolicitudService	solicitudService;
+	AlumnoService		alumnoService;
+	CursoService		cursoService;
 
 
 	@Autowired
-	public SolicitudAlumnoController(final SolicitudService solicitudService, AlumnoService alumnoService) {
+	public SolicitudAlumnoController(final SolicitudService solicitudService, final AlumnoService alumnoService, final CursoService cursoService) {
 		this.alumnoService = alumnoService;
 		this.solicitudService = solicitudService;
+		this.cursoService = cursoService;
 	}
 
 	/// Listar
@@ -42,17 +51,17 @@ public class SolicitudAlumnoController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Solicitud> solicitudes;
-		UserAccount user = LoginService.getPrincipal();
+		final UserAccount user = LoginService.getPrincipal();
 
 		try {
-			Alumno alumno = this.alumnoService.findByUserAccount(user);
+			final Alumno alumno = this.alumnoService.findByUserAccount(user.getId());
 			solicitudes = this.solicitudService.findAllByAlumnoId(alumno.getId());
 
-			result = new ModelAndView("request/list");
+			result = new ModelAndView("student/request/list");
 			result.addObject("requests", solicitudes);
 
-		} catch (Exception e) {
-			result = new ModelAndView("redirect:/academy/request/list");
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:/");
 		}
 
 		return result;
@@ -65,6 +74,59 @@ public class SolicitudAlumnoController extends AbstractController {
 
 		solicitud = this.solicitudService.create();
 		result = this.createEditModelAndView(solicitud);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/request", method = RequestMethod.GET)
+	public ModelAndView listRequest() {
+		ModelAndView result;
+		try {
+
+			final Collection<Curso> cursos;
+			final UserAccount user = LoginService.getPrincipal();
+			final Alumno alumno = this.alumnoService.findByUserAccount(user.getId());
+
+			cursos = this.cursoService.findAllCursosSinCursoByAlumno(alumno.getId());
+			result = new ModelAndView("student/request/request");
+			result.addObject("courses", cursos);
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:/");
+			System.out.println("Excepción: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/request", method = RequestMethod.POST)
+	public ModelAndView request(@RequestParam(value = "courseId") final int courseId) {
+		ModelAndView result;
+		Solicitud solicitud;
+
+		try {
+			final Curso curso = this.cursoService.findById(courseId);
+			solicitud = this.solicitudService.create();
+
+			final LocalDate fecha = LocalDate.now();
+			final ZoneId zone = ZoneId.systemDefault();
+			final Instant instant = fecha.atStartOfDay(zone).toInstant();
+			final Date fechaRealizacion = Date.from(instant);
+
+			final UserAccount user = LoginService.getPrincipal();
+			final Alumno alumno = this.alumnoService.findByUserAccount(user.getId());
+
+			solicitud.setCurso(curso);
+			solicitud.setAlumno(alumno);
+			solicitud.setFecha(fechaRealizacion);
+			solicitud.setEstado(SolicitudEstado.PENDIENTE);
+
+			solicitud = this.solicitudService.save(solicitud);
+			alumno.addSolicitud(solicitud);
+			this.alumnoService.save(alumno);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Exception e) {
+			result = new ModelAndView("student/request/request");
+		}
 
 		return result;
 	}

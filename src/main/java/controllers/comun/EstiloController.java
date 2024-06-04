@@ -50,7 +50,6 @@ public class EstiloController extends AbstractController {
 
 		result.addObject("style", estilo);
 
-		System.out.println("Entra en el controlador");
 		return result;
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import domain.actores.Academia;
 import domain.actores.Alumno;
 import security.Authority;
@@ -22,7 +23,7 @@ import services.AlumnoService;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController extends AbstractController {
 
 	AcademiaService	academiaService;
 	AlumnoService	alumnoService;
@@ -47,24 +48,27 @@ public class ProfileController {
 
 			if (authority.getAuthority().equalsIgnoreCase("ALUMNO")) {
 				result = new ModelAndView("profile/editdatastudent");
-				final Alumno alumno = this.alumnoService.findByUserAccount(user);
+				final Alumno alumno = this.alumnoService.findByUserAccount(user.getId());
 				result.addObject("student", alumno);
 			} else {
 				result = new ModelAndView("profile/editdataacademy");
-				final Academia academia = this.academiaService.findByUserAccount(user);
+				final Academia academia = this.academiaService.findByUserAccount(user.getId());
 				result.addObject("academy", academia);
 			}
 		} catch (final Exception e) {
 			result = new ModelAndView("redirect:/");
+			System.out.println(e.getMessage());
 		}
 
 		return result;
 
 	}
 
-	@RequestMapping(value = "editdatastudent", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/editstudent", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveStudent(@Valid final Alumno alumno, final BindingResult binding) {
 		ModelAndView result;
+		final UserAccount user = LoginService.getPrincipal();
+		alumno.setUserAccount(user);
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("profile/editdatastudent");
@@ -72,6 +76,7 @@ public class ProfileController {
 			result.addObject("mensaje", "profile.commit.error");
 			return result;
 		}
+
 		try {
 			this.alumnoService.save(alumno);
 			result = new ModelAndView("redirect:/");
@@ -87,6 +92,8 @@ public class ProfileController {
 	@RequestMapping(value = "/editacademy", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveAcademy(@Valid final Academia academia, final BindingResult binding) {
 		ModelAndView result;
+		final UserAccount user = LoginService.getPrincipal();
+		academia.setUserAccount(user);
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("profile/editdataacademy");

@@ -1,3 +1,4 @@
+
 package controllers.administrador;
 
 import java.util.Map;
@@ -8,29 +9,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import controllers.AbstractController;
 import services.AdministradorService;
 
 @Controller
 @RequestMapping("administrator/dashboard")
-public class DashBoardAdministradorController {
+public class DashBoardAdministradorController extends AbstractController {
 
-    //// Servicios
-    AdministradorService administradorService;
+	//// Servicios
+	AdministradorService administradorService;
 
-    @Autowired
-    public DashBoardAdministradorController(final AdministradorService administradorService) {
-        this.administradorService = administradorService;
-    }
 
-    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    public ModelAndView list() {
-        ModelAndView result;
-        final Map<String, Map<String, Double>> estadisticas = this.administradorService.calcularEstadisticas();
-        /// Cargamos los Objetos
+	@Autowired
+	public DashBoardAdministradorController(final AdministradorService administradorService) {
+		this.administradorService = administradorService;
+	}
 
-        result = new ModelAndView("administrator/dashboard/statistics");
-        result.addObject("statistics", estadisticas);
+	@RequestMapping(value = "/statistics", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		final Map<String, Map<String, Double>> estadisticas = this.administradorService.calcularEstadisticas();
+		/// Cargamos los Objetos
 
-        return result;
-    }
+		result = new ModelAndView("administrator/dashboard/statistics");
+		result.addObject("statistics", estadisticas);
+
+		return result;
+	}
 }
