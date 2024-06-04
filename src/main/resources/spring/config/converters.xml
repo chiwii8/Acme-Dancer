@@ -25,7 +25,7 @@
 		-->
 		<bean class="converters.AuthorityToStringConverter"/>
 		<bean class="converters.StringToAuthorityConverter"/>
-		
+		 
 		<bean class="converters.EstiloToStringConverter"/>
 		<bean class="converters.StringToEstiloConverter"/>
 
@@ -35,6 +35,12 @@
 		<bean class="converters.UserAccountToStringConverter"/>
 		<bean class="converters.StringToUserAccountConverter"/>
 		
+		<!-- 
+					<bean class="converters.StringToDateConverter"/>
+		<bean class="converters.DateToStringConverter"/>
+			
+		-->
+
 	</util:list>
 	
 </beans>
