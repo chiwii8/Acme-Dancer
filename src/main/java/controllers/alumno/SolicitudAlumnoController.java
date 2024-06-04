@@ -16,19 +16,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Solicitud;
+import domain.actores.Alumno;
+import security.LoginService;
+import security.UserAccount;
+import services.AlumnoService;
 import services.SolicitudService;
 
 @Controller
-@RequestMapping("alumno/solicitud")
+@RequestMapping("student/request")
 public class SolicitudAlumnoController extends AbstractController {
 
 	/// Servicios
 	SolicitudService solicitudService;
+	AlumnoService alumnoService;
 
 
 	@Autowired
-	public SolicitudAlumnoController(final SolicitudService solicitudService) {
-
+	public SolicitudAlumnoController(final SolicitudService solicitudService, AlumnoService alumnoService) {
+		this.alumnoService = alumnoService;
 		this.solicitudService = solicitudService;
 	}
 
@@ -37,10 +42,18 @@ public class SolicitudAlumnoController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Solicitud> solicitudes;
+		UserAccount user = LoginService.getPrincipal();
 
-		solicitudes = this.solicitudService.findAll();
-		result = new ModelAndView("request/list");
-		result.addObject("requests", solicitudes);
+		try {
+			Alumno alumno = this.alumnoService.findByUserAccount(user);
+			solicitudes = this.solicitudService.findAllByAlumnoId(alumno.getId());
+
+			result = new ModelAndView("request/list");
+			result.addObject("requests", solicitudes);
+
+		} catch (Exception e) {
+			result = new ModelAndView("redirect:/academy/request/list");
+		}
 
 		return result;
 	}

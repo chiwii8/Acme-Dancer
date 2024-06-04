@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import domain.Curso;
 import domain.Solicitud;
 import domain.actores.Alumno;
+import domain.enumeraciones.SolicitudEstado;
 import repositories.SolicitudRepository;
 
 @Service
@@ -94,5 +95,13 @@ public class SolicitudService {
 
         Assert.notNull(result);
         return result;
+    }
+
+    public Collection<Solicitud> findAllByCursoIdAndEstado(int id, SolicitudEstado estado) {
+        Collection<Solicitud> solicitud;
+
+        solicitud = this.solicitudRepository.findAllByCursoIdAndState(id, estado);
+
+        return solicitud;
     }
 }

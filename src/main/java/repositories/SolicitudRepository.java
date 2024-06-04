@@ -26,4 +26,8 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 
 	@Query("select c.solicitudes from Curso c where c.id=:id")
 	public Collection<Solicitud> findAllByCursoId(@Param("id") int id);
+
+	/// TODO: Revisar que funciona correctamente
+	@Query("select c.solicitudes from Curso c where c.id=:id AND c.solicitudes.estado = :estado")
+	public Collection<Solicitud> findAllByCursoIdAndState(@Param("id") int id, @Param("estado") SolicitudEstado estado);
 }
