@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import domain.actores.Alumno;
-import security.UserAccount;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
@@ -20,6 +19,6 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 	@Query("select a from Alumno a where a.nombre=:nombre")
 	public Collection<Alumno> findByNombre(@Param("nombre") String nombre);
 
-	@Query("select a from Alumno a where a.userAccount=:userAccount")
-	public Alumno findByUserAccount(@Param("userAccount") UserAccount userAccount);
+	@Query("select a from Alumno a join a.userAccount u where u.id=:userAccountId")
+	public Alumno findByUserAccountId(@Param("userAccountId") int userAccountId);
 }

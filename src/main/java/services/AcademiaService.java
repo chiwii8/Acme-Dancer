@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 import domain.actores.Academia;
 import repositories.AcademiaRepository;
 import repositories.CursoRepository;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -115,8 +114,8 @@ public class AcademiaService {
 		return result;
 	}
 
-	public Academia findByUserAccount(final UserAccount userAccount) {
-		final Academia result = this.academiaRepository.findByUserAccount(userAccount);
+	public Academia findByUserAccount(final int userAccount) {
+		final Academia result = this.academiaRepository.findByUserAccountId(userAccount);
 		return result;
 	}
 

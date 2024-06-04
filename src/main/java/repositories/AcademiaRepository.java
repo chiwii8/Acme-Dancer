@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import domain.actores.Academia;
-import security.UserAccount;
 
 @Repository
 public interface AcademiaRepository extends JpaRepository<Academia, Integer> {
@@ -29,6 +28,6 @@ public interface AcademiaRepository extends JpaRepository<Academia, Integer> {
 	@Query("select a from Academia a join a.cursos c where c.id=:id")
 	public Academia findByCursoId(@Param("id") int id);
 
-	@Query("select a from Academia a where a.userAccount=:userAccount")
-	public Academia findByUserAccount(@Param("userAccount") UserAccount userAccount);
+	@Query("select a from Academia a join a.userAccount u where u.id=:userAccountId")
+	public Academia findByUserAccountId(@Param("userAccountId") int userAccountId);
 }

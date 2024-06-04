@@ -32,7 +32,7 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
 	public Collection<Curso> findByNivel(@Param("nivel") CursoNivel nivel);
 
 	/// Extras
-	@Query("select distinct c from Academia a join a.cursos c where a.id=:id")
+	@Query("select distinct a.cursos from Academia a join a.cursos c where a.id=:id")
 	public Collection<Curso> findAllByAcademiaId(@Param("id") int id);
 
 	@Query("select c from Curso c where c.estilo.id=:id")
@@ -40,4 +40,7 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
 
 	@Query("select distinct c from Curso c where c.titulo like %:buscar% OR c.estilo.nombre like %:buscar% OR c.estilo.descripcion like %:buscar%")
 	public Collection<Curso> findByString(@Param("buscar") String buscar);
+
+	@Query("select c from Curso c where NOT EXISTS (SELECT s from Solicitud s where s.curso=c and s.alumno.id = :alumnoId)")
+	public Collection<Curso> findAllCursosSinCursoByAlumno(@Param("alumnoId") int alumnoId);
 }

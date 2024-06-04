@@ -123,7 +123,6 @@ public class CursoService {
 		Collection<Curso> result;
 
 		result = this.cursoRepository.findAllByAcademiaId(id);
-		Assert.notNull(result);
 
 		return result;
 	}
@@ -146,6 +145,14 @@ public class CursoService {
 
 		result = this.cursoRepository.findByString(buscar);
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Collection<Curso> findAllCursosSinCursoByAlumno(final int alumnoId) {
+		Collection<Curso> result;
+
+		result = this.cursoRepository.findAllCursosSinCursoByAlumno(alumnoId);
 
 		return result;
 	}

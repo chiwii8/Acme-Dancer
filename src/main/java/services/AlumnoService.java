@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 
 import domain.actores.Alumno;
 import repositories.AlumnoRepository;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -79,9 +78,9 @@ public class AlumnoService {
 		this.alumnoRepository.delete(alumno);
 	}
 
-	public Alumno findByUserAccount(final UserAccount userAccount) {
+	public Alumno findByUserAccount(final int userAccountId) {
 		Alumno result;
-		result = this.alumnoRepository.findByUserAccount(userAccount);
+		result = this.alumnoRepository.findByUserAccountId(userAccountId);
 		return result;
 	}
 }

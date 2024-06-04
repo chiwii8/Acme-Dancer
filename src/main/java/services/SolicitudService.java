@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -17,91 +18,92 @@ import repositories.SolicitudRepository;
 @Transactional
 public class SolicitudService {
 
-    /// Repositorio propio
-    SolicitudRepository solicitudRepository;
+	/// Repositorio propio
+	SolicitudRepository	solicitudRepository;
 
-    /// Servicios de apoyo
-    AlumnoService alumnoService;
-    CursoService cursoService;
+	/// Servicios de apoyo
+	AlumnoService		alumnoService;
+	CursoService		cursoService;
 
-    @Autowired
-    public SolicitudService(SolicitudRepository solicitudRepository, AlumnoService alumnoService,
-            CursoService cursoService) {
-        this.solicitudRepository = solicitudRepository;
-        this.alumnoService = alumnoService;
-        this.cursoService = cursoService;
-    }
 
-    /// Metodos base
-    public Collection<Solicitud> findAll() {
-        Collection<Solicitud> result;
+	@Autowired
+	public SolicitudService(final SolicitudRepository solicitudRepository, final AlumnoService alumnoService, final CursoService cursoService) {
+		this.solicitudRepository = solicitudRepository;
+		this.alumnoService = alumnoService;
+		this.cursoService = cursoService;
+	}
 
-        result = solicitudRepository.findAll();
-        Assert.notNull(result);
-        return result;
-    }
+	/// Metodos base
+	public Collection<Solicitud> findAll() {
+		Collection<Solicitud> result;
 
-    public Solicitud findById(int id) {
-        Assert.isTrue(id != 0);
+		result = this.solicitudRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
 
-        Solicitud result;
+	public Solicitud findById(final int id) {
+		Assert.isTrue(id != 0);
 
-        result = solicitudRepository.findById(id);
+		Solicitud result;
 
-        return result;
-    }
+		result = this.solicitudRepository.findById(id);
 
-    public Solicitud create() {
-        Solicitud result;
+		return result;
+	}
 
-        result = new Solicitud();
+	public Solicitud create() {
+		Solicitud result;
 
-        return result;
-    }
+		result = new Solicitud();
 
-    public Solicitud save(Solicitud solicitud) {
-        Assert.notNull(solicitud);
-        Solicitud result;
-        result = solicitudRepository.save(solicitud);
+		return result;
+	}
 
-        return result;
-    }
+	public Solicitud save(final Solicitud solicitud) {
+		Assert.notNull(solicitud);
+		Solicitud result;
+		result = this.solicitudRepository.save(solicitud);
 
-    public void delete(Solicitud solicitud) {
-        Assert.notNull(solicitud);
-        Assert.isTrue(solicitud.getId() != 0);
-        Assert.isTrue(solicitudRepository.exists(solicitud.getId()));
+		return result;
+	}
 
-        solicitudRepository.delete(solicitud);
-    }
+	public void delete(final Solicitud solicitud) {
+		Assert.notNull(solicitud);
+		Assert.isTrue(solicitud.getId() != 0);
+		Assert.isTrue(this.solicitudRepository.exists(solicitud.getId()));
 
-    /// Otros
-    public Collection<Solicitud> findAllByAlumnoId(int id) {
-        Alumno alumno = alumnoService.findById(id);
+		this.solicitudRepository.delete(solicitud);
+	}
 
-        Collection<Solicitud> result;
-        result = solicitudRepository.findAllByAlumnoId(alumno.getId());
+	/// Otros
+	public Collection<Solicitud> findAllByAlumnoId(final int id) {
+		final Alumno alumno = this.alumnoService.findById(id);
 
-        Assert.notNull(result);
+		Collection<Solicitud> result;
+		result = this.solicitudRepository.findAllByAlumnoId(alumno.getId());
 
-        return result;
-    }
+		Assert.notNull(result);
 
-    public Collection<Solicitud> findAllByCursoId(int id) {
-        Curso curso = cursoService.findById(id);
+		return result;
+	}
 
-        Collection<Solicitud> result;
-        result = solicitudRepository.findAllByCursoId(curso.getId());
+	public Collection<Solicitud> findAllByCursoId(final int id) {
+		final Curso curso = this.cursoService.findById(id);
 
-        Assert.notNull(result);
-        return result;
-    }
+		Collection<Solicitud> result;
+		result = this.solicitudRepository.findAllByCursoId(curso.getId());
 
-    public Collection<Solicitud> findAllByCursoIdAndEstado(int id, SolicitudEstado estado) {
-        Collection<Solicitud> solicitud;
+		Assert.notNull(result);
+		return result;
+	}
 
-        solicitud = this.solicitudRepository.findAllByCursoIdAndState(id, estado);
+	public Collection<Solicitud> findAllByCursoIdAndEstado(final int id, final SolicitudEstado estado) {
+		Collection<Solicitud> solicitud;
 
-        return solicitud;
-    }
+		solicitud = this.solicitudRepository.findAllByCursoIdAndState(id, estado);
+
+		return solicitud;
+	}
+
 }

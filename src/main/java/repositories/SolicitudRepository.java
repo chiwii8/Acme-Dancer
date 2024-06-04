@@ -21,13 +21,13 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 	public Collection<Solicitud> findByEstado(@Param("estado") SolicitudEstado estado);
 
 	/// Extra
-	@Query("select a.solicitudes from Alumno a where a.id=:id")
+	@Query("select s from Solicitud s where s.alumno.id=:id")
 	public Collection<Solicitud> findAllByAlumnoId(@Param("id") int id);
 
-	@Query("select c.solicitudes from Curso c where c.id=:id")
+	@Query("select s from Solicitud s where s.curso.id=:id")
 	public Collection<Solicitud> findAllByCursoId(@Param("id") int id);
 
 	/// TODO: Revisar que funciona correctamente
-	@Query("select c.solicitudes from Curso c where c.id=:id AND c.solicitudes.estado = :estado")
+	@Query("select c.solicitudes from Curso c join c.solicitudes s where c.id=:id AND s.estado = :estado")
 	public Collection<Solicitud> findAllByCursoIdAndState(@Param("id") int id, @Param("estado") SolicitudEstado estado);
 }
