@@ -24,6 +24,9 @@
 			<th><spring:message code="course.time" /></th>
 			<th><spring:message code="course.level" /></th>
 			<th><spring:message code="course.academy" /></th>
+			<security:authorize access="hasRole('ACADEMIA')">
+				<th><spring:message code="course.action" /></th>
+			</security:authorize>
 
 
 		</tr>
@@ -44,6 +47,11 @@
 						<spring:message code="course.academy.see" />
 					</a>
 				</td>
+				<security:authorize access="hasRole('ACADEMIA')">
+					<td><a href="academy/course/edit.do?courseId=${course.id}">
+						<spring:message code="course.edit" />
+					</a></td>
+				</security:authorize>
 			</tr>
 		</jstl:forEach>
 	</tbody>
@@ -54,3 +62,12 @@
 		<spring:message code="course.notfound"/>
 	</jstl:otherwise>	
 </jstl:choose>
+
+
+	<security:authorize access="hasRole('ACADEMIA')">
+	<div>
+		<a href="academy/course/create.do"> <spring:message
+				code="course.create" />
+		</a>
+	</div>
+</security:authorize>

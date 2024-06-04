@@ -10,9 +10,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id="courseForm" action="profile/edit.do"
+<form:form id="courseForm" action="profile/editstudent.do"
 	modelAttribute="student">
-
+	<form:hidden path="id"/>
+	<form:hidden path="version"/>
+	<form:hidden path="userAccount"/>
+	
 	<form:label path="nombre">
 		<spring:message code="actor.name" />:
 	</form:label>
@@ -48,11 +51,20 @@
 	<form:errors cssClass="error" path="codigoPostal" />
 	<br />
 	
+	<form:hidden path="tarjetaDeCredito.titular" />
+	<form:hidden path="tarjetaDeCredito.marca" />
+	<form:hidden path="tarjetaDeCredito.numero" />
+	<form:hidden path="tarjetaDeCredito.mesCaducidad" />
+	<form:hidden path="tarjetaDeCredito.anioCaducidad" />
+	<form:hidden path="tarjetaDeCredito.cvv" />
+	
 	<jstl:if test="${not empty mensaje}">
 		<div class="error">
 			<spring:message code="${mensaje}"/>
 		</div>
 	</jstl:if>
+	
+	
 
 	<input type="submit" name="save"
 		value="<spring:message code="actor.save" />" />&nbsp; 

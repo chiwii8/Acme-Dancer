@@ -16,7 +16,17 @@
       
 <tiles-definitions>
 
-	<definition name="request/list" extends="master.page">	
+	<definition name="student/request/list" extends="master.page">	
+		<put-attribute name="title" value="Lista de Solicitudes" />
+		<put-attribute name="body" value="/views/request/list.jsp" />
+	</definition>
+	
+		<definition name="student/request/request" extends="master.page">	
+		<put-attribute name="title" value="Lista de Cursos" />
+		<put-attribute name="body" value="/views/request/request.jsp" />
+	</definition>
+	
+	<definition name="academy/request/list" extends="master.page">	
 		<put-attribute name="title" value="Lista de Solicitudes" />
 		<put-attribute name="body" value="/views/request/list.jsp" />
 	</definition>

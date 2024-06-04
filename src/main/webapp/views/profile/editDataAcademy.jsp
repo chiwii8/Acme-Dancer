@@ -10,9 +10,13 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id="courseForm" action="profile/edit.do"
+<form:form id="courseForm" action="profile/editacademy.do"
 	modelAttribute="academy">
 
+	<form:hidden path="id"/>
+	<form:hidden path="version"/>
+	<form:hidden path="userAccount"/>
+	
 	<form:label path="nombre">
 		<spring:message code="actor.name" />:
 	</form:label>
@@ -46,6 +50,13 @@
 	</form:label>
 	<form:input path="codigoPostal" />
 	<form:errors cssClass="error" path="codigoPostal" />
+	<br />
+	
+		<form:label path="nombreComercial">
+		<spring:message code="academy.comercialname" />:
+	</form:label>
+	<form:input path="nombreComercial" />
+	<form:errors cssClass="error" path="nombreComercial" />
 	<br />
 	
 	<jstl:if test="${not empty mensaje}">

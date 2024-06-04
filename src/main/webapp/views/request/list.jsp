@@ -11,13 +11,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <jstl:choose>
-	<jstl:when test="${not empty request}">
+	<jstl:when test="${not empty requests}">
 		<table>
 	<thead>
 		<tr>
 			<th><spring:message code="request.course.name"/></th>
 			<th><spring:message code="request.date"/></th>
 			<th><spring:message code="request.student.name"/></th>
+			<th><spring:message code="request.state"/></th>
 			<security:authorize access="hasRole('ACADEMIA')">
 					<th>
 						<spring:message code="course.request.action"/>
@@ -31,17 +32,21 @@
 	<tbody>
 		<jstl:forEach items="${requests}" var="request">
 			<tr>
-				<td><a href="course/list.do?courseId=${request.curso.id}">${request.curso.nombre}</a></td>
+				<td><a href="course/list.do?courseId=${request.curso.id}">${request.curso.titulo}</a></td>
 				<td>${request.fecha}</td>
 				<td>${request.alumno.nombre}</td>
+				<td>${request.estado}</td>
 				<security:authorize access="hasRole('ACADEMIA')">
 					<td>
-						<a href="request/acceptrequest.do?requestId=${request.id}">
-                            <spring:message code="request.action.accept"/>
-                        </a>
-						<a href="request/rejectrequest.do?request.Id=${request.id}">
-                            <spring:message code="request.action.reject"/>
-                        </a>
+						<form action="academy/request/acceptrequest.do" method="POST">
+							<input type="hidden" name="resquestId" value="${request.id}">
+							<input type="submit" value='<spring:message code="request.action.accept"/>'/>
+						</form>
+						<form action="academy/request/rejectrequest.do" method="POST">
+							<input type="hidden" name="resquestId" value="${request.id}">
+							<input type="submit" value='<spring:message code="request.action.reject"/>'/>
+						</form>
+					
 					</td>
 		
 				</security:authorize>

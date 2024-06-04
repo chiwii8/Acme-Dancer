@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Acme Dancer Co., Inc." /></a>
+	<a href="#"><img src="images/logo.png" height="150px" alt="Acme Dancer Co., Inc." /></a>
 </div>
 
 <div>
@@ -28,8 +28,9 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
+					<li><a href="administrator/style/list.do"><spring:message code="master.page.administrator.action.1" /></a></li>
+					<li><a href="administrator/dashboard/statistics.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
+					<li><a href="administrator/tutorial/list.do"><spring:message code="master.page.administrator.action.3" /></a></li>			
 				</ul>
 			</li>
 		</security:authorize>
@@ -38,8 +39,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.academy"/></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="academy/action-1.do"><spring:message code="master.page.academy.action.1" /></a></li>
-					<li><a href="academy/action-2.do"><spring:message code="master.page.academy.action.2" /></a></li>					
+					<li><a href="academy/course/list.do"><spring:message code="master.page.academy.action.1" /></a></li>
+					<li><a href="academy/request/list.do"><spring:message code="master.page.academy.action.2" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
@@ -48,8 +49,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.student"/></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="student/action-1.do"><spring:message code="master.page.student.action.1" /></a></li>
-					<li><a href="student/action-2.do"><spring:message code="master.page.student.action.2" /></a></li>					
+					<li><a href="student/request/request.do"><spring:message code="master.page.student.action.1" /></a></li>
+					<li><a href="student/request/list.do"><spring:message code="master.page.student.action.2" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
