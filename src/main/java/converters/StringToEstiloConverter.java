@@ -37,5 +37,4 @@ public class StringToEstiloConverter implements Converter<String, Estilo> {
 
 		return result;
 	}
-
 }
