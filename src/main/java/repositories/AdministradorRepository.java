@@ -1,3 +1,4 @@
+
 package repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +11,12 @@ import domain.actores.Administrador;
 @Repository
 public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
 
-    @Query("select a from Administrador a where a.id=:id")
-    public Administrador findById(@Param("id") int id);
+	@Query("select a from Administrador a where a.id=:id")
+	public Administrador findById(@Param("id") int id);
 
-    @Query("select a from Administrador a where a.nombre=:nombre")
-    public Administrador findByNombre(@Param("nombre") String nombre);
+	@Query("select a from Administrador a where a.nombre=:nombre")
+	public Administrador findByNombre(@Param("nombre") String nombre);
+
+	@Query("select a from Administrador a join a.userAccount u where u.id=:userAccountId")
+	public Administrador findByUserAccountId(@Param("userAccountId") int userAccountId);
 }

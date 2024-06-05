@@ -99,17 +99,18 @@ public class EstiloAdministradorController extends AbstractController {
 		ModelAndView result;
 		Collection<Curso> cursos;
 
-		cursos = this.cursoService.findAllByEstiloId(style.getId());
-		if (cursos.isEmpty())
-			result = this.createEditModelAndView(style, "style.commit.error.courses");
-		else
-			try {
+		try {
+			cursos = this.cursoService.findAllByEstiloId(style.getId());
+			if (cursos.isEmpty()) {
 				this.estiloService.delete(style);
 				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable e) {
-				result = this.createEditModelAndView(style, "style.commit.error");
-			}
+			} else
+				result = this.createEditModelAndView(style, "style.commit.error.courses");
 
+		} catch (final Throwable e) {
+
+			result = this.createEditModelAndView(style, "style.commit.error");
+		}
 		return result;
 	}
 

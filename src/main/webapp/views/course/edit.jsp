@@ -96,7 +96,7 @@
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="course.cancel" />"
-		onclick="javascript: relativeRedir('administrator/style/list.do');" />
+		onclick="javascript: relativeRedir('course/list.do');" />
 	<br />
 
 </form:form>

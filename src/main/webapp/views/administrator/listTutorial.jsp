@@ -23,7 +23,7 @@
 	<tbody>
 		<jstl:forEach items="${tutorials}" var="tutorial">
 			<tr>
-				<td>${tutorial.tutorial}</td>
+				<td>${tutorial.nombre}</td>
 				<td>${tutorial.descripcion}</td>
 				<td>${tutorial.visualizaciones}</td>
 

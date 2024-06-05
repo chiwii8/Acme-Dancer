@@ -31,18 +31,19 @@ public class AdministradorService {
 		MAXIMO, MINIMO, MEDIA, DESVIACION_TIPICA
 	}
 
+
 	/// Repositorio propio
-	AdministradorRepository administradorRepository;
+	AdministradorRepository	administradorRepository;
 
 	/// Servicios de apoyo
-	AcademiaService academiaService;
-	CursoService cursoService;
-	TutorialService tutorialService;
-	ActorService actorService;
+	AcademiaService			academiaService;
+	CursoService			cursoService;
+	TutorialService			tutorialService;
+	ActorService			actorService;
+
 
 	@Autowired
-	public AdministradorService(AdministradorRepository administradorRepository, AcademiaService academiaService,
-			CursoService cursoService, TutorialService tutorialService, ActorService actorService) {
+	public AdministradorService(final AdministradorRepository administradorRepository, final AcademiaService academiaService, final CursoService cursoService, final TutorialService tutorialService, final ActorService actorService) {
 		this.administradorRepository = administradorRepository;
 		this.academiaService = academiaService;
 		this.cursoService = cursoService;
@@ -98,6 +99,10 @@ public class AdministradorService {
 		this.administradorRepository.delete(administrador);
 	}
 
+	public Administrador findByUserAccountId(final int userAccountId) {
+		return this.administradorRepository.findByUserAccountId(userAccountId);
+	}
+
 	/// METODOS EXTRAS
 
 	public Map<String, Map<String, Double>> calcularEstadisticas() {
@@ -111,9 +116,9 @@ public class AdministradorService {
 		result.put("TutorialesPorAcademia", this.calcularTutorialesPorAcademia());
 		result.put("TutorialesMostrados", this.calcularTutorialesMostrados());
 
-		/// Tier C
-		result.put("ComentariosPorActor", this.calcularNumeroMedioComentariosPorActor());
-		result.put("SuscriptoresPorActor", this.calcularNumeroMedioComentariosPorSuscriptor());
+		/// Tier A
+		//result.put("ComentariosPorActor", this.calcularNumeroMedioComentariosPorActor());
+		//result.put("SuscriptoresPorActor", this.calcularNumeroMedioComentariosPorSuscriptor());
 
 		return result;
 	}
