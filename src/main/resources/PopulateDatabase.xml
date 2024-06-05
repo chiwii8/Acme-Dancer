@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -11,7 +11,7 @@
 
 
 
-    <!-- UserAccount -->
+    <!-- USERACCOUNT -->
     <bean id="userAccount1" class="security.UserAccount">
         <property name ="username" value="admin"/>
         <property name ="password" value="21232f297a57a5a743894a0e4a801fc3"/>
@@ -24,9 +24,33 @@
 		</property>
     </bean>
 
-    <bean id="userAccount2" class="security.UserAccount">
-        <property name ="username" value="alumno1"/>
-        <property name ="password" value="ffbc4675f864e0e9aab8bdf7a0437010"/>
+	    <bean id="userAccount2" class="security.UserAccount">
+        <property name ="username" value="academia1"/>
+        <property name ="password" value="ce4c50f1b5f38d6888f89f33268f75a7"/>
+        <property name ="authorities">
+            <list>
+                <bean class="security.Authority">
+                    <property name ="authority" value="ACADEMIA"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="userAccount3" class="security.UserAccount">
+        <property name ="username" value="academia2"/>
+        <property name ="password" value="cc09f0bf5c14afa1f29a48121286ba25"/>
+        <property name ="authorities">
+            <list>
+                <bean class="security.Authority">
+                    <property name ="authority" value="ACADEMIA"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="userAccount4" class="security.UserAccount">
+        <property name ="username" value="alumno2"/>
+        <property name ="password" value="c0eecfa0c829380ba0f0ac67a8d0db7b"/>
         <property name ="authorities">
             <list>
                 <bean class="security.Authority">
@@ -36,19 +60,14 @@
     	</property>
     </bean>
 
-    <bean id="userAccount3" class="security.UserAccount">
-        <property name ="username" value="academia1"/>
-        <property name ="password" value="5ce4d191fd14ac85a1469fb8c29b7a7b"/>
-        <property name ="authorities">
-            <list>
-                <bean class="security.Authority">
-                    <property name ="authority" value="ACADEMIA"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
-    <!-- Administradores -->
+    
+
+    
+
+    <!-- ADMINISTRADORES -->
+    
+    
     <bean id="administrador1" class="domain.actores.Administrador">
         <!--Heredados-->
         <property name ="nombre" value="Antonio"/>
@@ -74,7 +93,9 @@
     </bean>
 
 
-    <!-- Academias -->
+    <!-- ACADEMIAS -->
+    
+    
     <bean id="academia1" class ="domain.actores.Academia">
         <!--Heredados-->
         <property name ="nombre" value="Fernando"/>
@@ -108,12 +129,52 @@
         <property name ="tutoriales">
             <list>
             	<ref bean ="tutorial1"/>
+		<ref bean ="tutorial2"/>
             </list>
         </property>
     </bean>
 
+	    <bean id="academia2" class ="domain.actores.Academia">
+        <!--Heredados-->
+        <property name ="nombre" value="Juan Alberto"/>
+        <property name ="apellidos" value="Perez"/>
+        <property name ="correo" value="Pepito@gmail.com"/>
+        <property name ="telefono" value="982354321"/>
+        <property name ="codigoPostal" value="20000"/>
+        <!--Relaciones-->
+        <property name ="userAccount" ref="userAccount3"/>
+        <property name ="comentarios">
+            <list>
+            </list>
+        </property>
+        <property name ="suscriptores">
+            <list>
+            </list>
+        </property>
+        <property name ="seguidores">
+            <list>
+            </list>
+        </property>
 
-    <!-- Alumnos-->
+        <!--Propios-->
+        <property name ="nombreComercial" value="los Pepos"/>
+        <!-- Relaciones-->
+        <property name ="cursos">
+            <list>
+				<ref bean ="curso2"/>
+				<ref bean ="curso3"/>
+            </list>
+        </property>
+        <property name ="tutoriales">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    
+
+    <!-- ALUMNOS -->
+
 
     <bean id="alumno1" class="domain.actores.Alumno">
         <!--Heredados-->
@@ -123,7 +184,7 @@
         <property name ="telefono" value="321456789"/>
         <property name ="codigoPostal" value="19200"/>
         <!--Relaciones-->
-        <property name ="userAccount" ref="userAccount3"/>
+        <property name ="userAccount" ref="userAccount4"/>
         <property name ="comentarios">
             <list>
             </list>
@@ -143,16 +204,15 @@
         <property name ="solicitudes">
             <list>
             	<ref bean ="solicitud1"/>
+				<ref bean ="solicitud2"/>
             </list>
         </property>
     </bean>
 
 
-
-
     <!-- Beans con relación con Actor -->
 
-    <!-- Comentarios -->
+    <!-- COMENTARIOS -->
     
     <bean id="comentario1" class="domain.Comentario">
         <property name ="fechaRealizacion" value ="15/05/2023 12:00"/>
@@ -161,12 +221,12 @@
 
     <!-- Beans con relación con Academia -->
 
-    <!-- Cursos-->
+    <!-- CURSOS -->
     
     <bean id="curso1" class="domain.Curso">
         <property name ="titulo" value="Barchata para Principiantes"/>
-        <property name ="fechaInicio" value="18/05/2024"/>
-        <property name ="fechaFin" value="25/05/2024"/>
+        <property name ="fechaInicio" value="10/04/2024"/>
+        <property name ="fechaFin" value="10/04/2025"/>
         <property name ="diaSemana" value="LUNES"/>
         <property name ="hora" value="12"/>
         <property name ="minuto" value="20"/>
@@ -182,12 +242,55 @@
 
     </bean>
 
+    <bean id="curso2" class="domain.Curso">
+        <property name ="titulo" value="Baile Avanzado"/>
+        <property name ="fechaInicio" value="10/04/2024"/>
+        <property name ="fechaFin" value="10/04/2025"/>
+        <property name ="diaSemana" value="MARTES"/>
+        <property name ="hora" value="12"/>
+        <property name ="minuto" value="20"/>
+        <property name ="nivel" value="AVANZADO"/>
+
+        <!-- Relaciones-->
+        <property name ="estilo" ref="estilo4"/>
+        <property name ="solicitudes">
+            <list>
+            </list>
+        </property>
+
+    </bean>
+    
+    <bean id="curso3" class="domain.Curso">
+        <property name ="titulo" value="Baile de Prueba"/>
+        <property name ="fechaInicio" value="10/04/2024"/>
+        <property name ="fechaFin" value="10/04/2025"/>
+        <property name ="diaSemana" value="MARTES"/>
+        <property name ="hora" value="12"/>
+        <property name ="minuto" value="20"/>
+        <property name ="nivel" value="INTERMEDIO"/>
+
+        <!-- Relaciones-->
+        <property name ="estilo" ref="estilo4"/>
+        <property name ="solicitudes">
+            <list>
+            </list>
+        </property>
+
+    </bean>
+
     <!-- Tutoriales-->
     
     <bean id="tutorial1" class="domain.Tutorial">
         <property name ="nombre" value="Aprender a bailar"/>
         <property name ="descripcion" value="tutorial que te muestra lo que debes saber para bailar"/>
         <property name ="visualizaciones" value="0"/>
+        <property name ="video" value="https://www.youtube.com/watch?v=lGCo8ILvauI"/>
+    </bean>
+
+    <bean id="tutorial2" class="domain.Tutorial">
+        <property name ="nombre" value="Aprender Chachacha con Juan"/>
+        <property name ="descripcion" value="tutorial que te muestra lo que debes saber para bailar"/>
+        <property name ="visualizaciones" value="50"/>
         <property name ="video" value="https://www.youtube.com/watch?v=lGCo8ILvauI"/>
     </bean>
 
@@ -219,6 +322,15 @@
         <property name ="curso" ref="curso1"/>
     </bean>
 
+    <bean id="solicitud2" class="domain.Solicitud">
+        <property name ="fecha" value="15/05/2023 16:23"/>
+        <property name ="estado" value="ACEPTADO"/>
+
+        <!-- Relaciones-->
+        <property name ="alumno" ref="alumno1"/>
+        <property name ="curso" ref="curso2"/>
+    </bean>
+
 	<!-- Beans con relación Curso -->
 	
 	<!-- Estilos -->
@@ -228,10 +340,12 @@
 		<property name ="descripcion" value="estilo romano"/>
 		<property name ="imagenes">
 			<list>
+				<value>https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png</value>
 			</list>
 		</property>
 		<property name ="videos">
 			<list>
+				<value>https://www.youtube.com/embed/K7b4DjtP_hI?si=wqZ7vt_yYSOr9vLP</value>
 			</list>
 		</property>
 	</bean>
@@ -241,6 +355,8 @@
 		<property name ="descripcion" value="Baile social latino con raíces cubanas, conocido por sus movimientos rápidos y giros."/>
 		<property name ="imagenes">
 			<list>
+				<value>https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png</value>
+				<value>https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png</value>
 			</list>
 		</property>
 		<property name ="videos">
@@ -253,10 +369,12 @@
 		<property name ="descripcion" value="Baile cubano con ritmo rápido, similar a la salsa pero con pausas en el paso."/>
 		<property name ="imagenes">
 			<list>
+				<value>https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png</value>
 			</list>
 		</property>
 		<property name ="videos">
 			<list>
+				<value>https://www.youtube.com/embed/K7b4DjtP_hI?si=wqZ7vt_yYSOr9vLP</value>
 			</list>
 		</property>
 	</bean>
@@ -322,7 +440,7 @@
 			</list>
 		</property>
 	</bean>
-    <bean id="estilo2" class="domain.Estilo">
+    <bean id="estilo9" class="domain.Estilo">
 		<property name ="nombre" value="Rumba"/>
 		<property name ="descripcion" value="Baile afro-cubano lento y sensual, con énfasis en movimientos de cadera."/>
 		<property name ="imagenes">
@@ -335,7 +453,7 @@
 		</property>
 	</bean>
 
-    <bean id="estilo2" class="domain.Estilo">
+    <bean id="estilo10" class="domain.Estilo">
 		<property name ="nombre" value="Kizomba"/>
 		<property name ="descripcion" value="Baile angoleño sensual y lento, caracterizado por un abrazo íntimo y movimientos suaves."/>
 		<property name ="imagenes">

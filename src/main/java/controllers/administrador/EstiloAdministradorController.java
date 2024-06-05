@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,10 +41,13 @@ public class EstiloAdministradorController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Estilo> estilos;
-
-		estilos = this.estiloService.findAll();
-		result = new ModelAndView("style/list");
-		result.addObject("styles", estilos);
+		try {
+			estilos = this.estiloService.findAll();
+			result = new ModelAndView("style/list");
+			result.addObject("styles", estilos);
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:/");
+		}
 
 		return result;
 	}
@@ -68,10 +70,13 @@ public class EstiloAdministradorController extends AbstractController {
 	public ModelAndView edit(@RequestParam("styleId") final int styleId) {
 		ModelAndView result;
 		Estilo estilo;
+		try {
+			estilo = this.estiloService.findById(styleId);
 
-		estilo = this.estiloService.findById(styleId);
-		Assert.notNull(estilo);
-		result = this.createEditModelAndView(estilo);
+			result = this.createEditModelAndView(estilo);
+		} catch (final Exception e) {
+			result = new ModelAndView("redirect:/");
+		}
 
 		return result;
 	}

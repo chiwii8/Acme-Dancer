@@ -14,28 +14,6 @@
 	<jstl:out value="${style.nombre}" />
 </h1>
 
-<div>
-	<ul id="jMenu">
-		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<li><a class="fNiv"
-			href="course/listByEstiloId.do?styleId=${style.id}"><spring:message
-					code="style.see.course" /></a></li>
-					
-		<!--<security:authorize access="hasRole('ADMIN')">-->
-		<!-- Actualmente no visible, en espera para realizar el resto del proyecto -->
-		<li class="fNiv"><a
-			href="administrator/style/edit.do?styleId=${style.id}"> <spring:message
-					code="estilo.edit" />
-		</a></li>
-		<li class="fNiv"><a
-			href="administrator/style/listImages.do?styleId=${style.id}"> <spring:message
-					code="style.administrator.list.images" />
-		</a></li>
-		<!--</security:authorize>-->
-	</ul>
-</div>
-
-<br />
 <br />
 
 <p>
@@ -47,7 +25,7 @@
 <h3>Imagenes</h3>
 <jstl:choose>
 	<jstl:when test="${not empty style.imagenes}">
-<jstl:forEach var="image" items="style.images">
+<jstl:forEach var="image" items="${style.imagenes}">
 	<img src="${image}">
 	<br />
 </jstl:forEach>
@@ -61,8 +39,8 @@
 <h3>Videos</h3>
 <jstl:choose>
 	<jstl:when test="${not empty style.videos}">
-		<jstl:forEach var="video" items="style.videos">
-	<iframe width="560" height="315" src="${video}"></iframe>
+		<jstl:forEach var="video" items="${style.videos}">
+	<iframe width="560" height="315" src="${video}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 	<br />
 </jstl:forEach>
 	</jstl:when>
@@ -70,14 +48,3 @@
 		<spring:message code="style.view.novideo"/>
 	</jstl:otherwise>
 </jstl:choose>
-
-
-<!-- Action links -->
-
-<security:authorize access="hasRole('ADMIN')">
-	<div>
-		<a href="style/administrator/create.do"> <spring:message
-				code="style.create" />
-		</a>
-	</div>
-</security:authorize>
