@@ -39,6 +39,7 @@ CREATE TABLE `academia` (
   `nombreComercial` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_r43hyh4v8a2gqh588skk25pyd` (`userAccount_id`),
+  UNIQUE KEY `UK_tnael3ucv5qccrrjf1xqhu9tx` (`correo`),
   CONSTRAINT `FK_r43hyh4v8a2gqh588skk25pyd` FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -124,6 +125,7 @@ CREATE TABLE `administrador` (
   `userAccount_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_gp8pvb6wijllmdmpqw9lx66wu` (`userAccount_id`),
+  UNIQUE KEY `UK_r2ftq2dbfnbciti0103d6clbo` (`correo`),
   CONSTRAINT `FK_gp8pvb6wijllmdmpqw9lx66wu` FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -152,6 +154,7 @@ CREATE TABLE `alumno` (
   `titular` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_dl831sy6dk64rw6nu6lysmgmv` (`userAccount_id`),
+  UNIQUE KEY `UK_llcfgnh5go5ekklhpqdambr4` (`correo`),
   CONSTRAINT `FK_dl831sy6dk64rw6nu6lysmgmv` FOREIGN KEY (`userAccount_id`) REFERENCES `useraccount` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -336,4 +339,4 @@ CREATE TABLE `useraccount_authorities` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-05  0:02:48
+-- Dump completed on 2024-06-05 13:51:39
